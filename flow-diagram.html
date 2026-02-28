@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>登录系统 - 用户流程图</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #1a1a2e; font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; padding: 40px; }
+
+.flow-title {
+  text-align: center;
+  color: #fff;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.flow-subtitle {
+  text-align: center;
+  color: #8892b0;
+  font-size: 14px;
+  margin-bottom: 40px;
+}
+
+.flow-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Flow nodes */
+.flow-node {
+  position: absolute;
+  border-radius: 12px;
+  padding: 14px 20px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.node-start {
+  background: linear-gradient(135deg, #e94560, #c23152);
+  color: #fff;
+  width: 160px;
+}
+
+.node-decision {
+  background: #ffd93d;
+  color: #1a1a2e;
+  width: 180px;
+  transform: rotate(0deg);
+  border-radius: 8px;
+  border: 2px dashed #e6c535;
+}
+
+.node-action {
+  background: rgba(78, 205, 196, 0.15);
+  border: 2px solid #4ecdc4;
+  color: #4ecdc4;
+  width: 160px;
+}
+
+.node-page {
+  background: rgba(100, 100, 255, 0.15);
+  border: 2px solid #6c63ff;
+  color: #c4c1ff;
+  width: 160px;
+}
+
+.node-end {
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  color: #fff;
+  width: 160px;
+}
+
+.node-error {
+  background: rgba(233, 69, 96, 0.15);
+  border: 2px solid #e94560;
+  color: #e94560;
+  width: 160px;
+}
+
+.node-sub {
+  font-size: 11px;
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+/* SVG arrows */
+svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.arrow-line {
+  stroke: #5a6080;
+  stroke-width: 2;
+  fill: none;
+  marker-end: url(#arrowhead);
+}
+
+.arrow-label {
+  fill: #8892b0;
+  font-size: 12px;
+  font-family: 'PingFang SC', sans-serif;
+}
+
+.arrow-yes {
+  stroke: #4ecdc4;
+}
+
+.arrow-no {
+  stroke: #e94560;
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #8892b0;
+  font-size: 13px;
+}
+
+.legend-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+</style>
+</head>
+<body>
+
+<div class="flow-title">📋 登录系统 — 完整用户流程图</div>
+<div class="flow-subtitle">覆盖静默登录、三种登录方式、异常处理、风控拦截</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:linear-gradient(135deg,#e94560,#c23152)"></div> 起点/触发</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#ffd93d"></div> 判断节点</div>
+  <div class="legend-item"><div class="legend-dot" style="background:rgba(78,205,196,0.15);border:2px solid #4ecdc4"></div> 系统动作</div>
+  <div class="legend-item"><div class="legend-dot" style="background:rgba(100,100,255,0.15);border:2px solid #6c63ff"></div> 页面/弹窗</div>
+  <div class="legend-item"><div class="legend-dot" style="background:linear-gradient(135deg,#2ecc71,#27ae60)"></div> 成功终点</div>
+  <div class="legend-item"><div class="legend-dot" style="background:rgba(233,69,96,0.15);border:2px solid #e94560"></div> 异常/失败</div>
+</div>
+
+<div class="flow-container" style="height:900px">
+  <svg viewBox="0 0 1200 900">
+    <defs>
+      <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+        <polygon points="0 0, 10 3.5, 0 7" fill="#5a6080"/>
+      </marker>
+      <marker id="arrowhead-green" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+        <polygon points="0 0, 10 3.5, 0 7" fill="#4ecdc4"/>
+      </marker>
+      <marker id="arrowhead-red" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+        <polygon points="0 0, 10 3.5, 0 7" fill="#e94560"/>
+      </marker>
+    </defs>
+
+    <!-- Row 1: 启动 → 检查Token -->
+    <line x1="600" y1="55" x2="600" y2="90" class="arrow-line"/>
+    
+    <!-- Token判断 → 有效/过期/无 -->
+    <line x1="600" y1="145" x2="300" y2="200" class="arrow-line arrow-yes" marker-end="url(#arrowhead-green)"/>
+    <text x="420" y="165" class="arrow-label" fill="#4ecdc4">有效</text>
+    
+    <line x1="600" y1="145" x2="600" y2="200" class="arrow-line"/>
+    <text x="615" y="180" class="arrow-label">过期</text>
+    
+    <line x1="600" y1="145" x2="900" y2="200" class="arrow-line arrow-no" marker-end="url(#arrowhead-red)"/>
+    <text x="780" y="165" class="arrow-label" fill="#e94560">无Token</text>
+
+    <!-- 静默登录 → 大厅 -->
+    <line x1="300" y1="245" x2="300" y2="780" class="arrow-line arrow-yes" marker-end="url(#arrowhead-green)"/>
+
+    <!-- Refresh → 成功/失败 -->
+    <line x1="520" y1="240" x2="380" y2="290" class="arrow-line arrow-yes" marker-end="url(#arrowhead-green)"/>
+    <text x="420" y="260" class="arrow-label" fill="#4ecdc4">成功</text>
+    
+    <line x1="680" y1="240" x2="900" y2="290" class="arrow-line arrow-no" marker-end="url(#arrowhead-red)"/>
+    <text x="770" y="260" class="arrow-label" fill="#e94560">失败</text>
+
+    <!-- 刷新成功 → 大厅 -->
+    <line x1="380" y1="335" x2="330" y2="780" class="arrow-line arrow-yes" marker-end="url(#arrowhead-green)"/>
+    
+    <!-- 无Token/刷新失败 → 登录页 -->
+    <line x1="900" y1="245" x2="900" y2="370" class="arrow-line"/>
+    <line x1="900" y1="335" x2="900" y2="370" class="arrow-line"/>
+
+    <!-- 登录页 → 三种方式 -->
+    <line x1="820" y1="410" x2="300" y2="480" class="arrow-line"/>
+    <text x="500" y="440" class="arrow-label">手机登录</text>
+    
+    <line x1="900" y1="440" x2="600" y2="480" class="arrow-line"/>
+    <text x="720" y="450" class="arrow-label">账密登录</text>
+    
+    <line x1="980" y1="410" x2="1050" y2="480" class="arrow-line"/>
+    <text x="1000" y="440" class="arrow-label">Google</text>
+
+    <!-- 手机 → 风控 -->
+    <line x1="300" y1="530" x2="300" y2="580" class="arrow-line"/>
+    <!-- 账密 → 风控 -->
+    <line x1="600" y1="530" x2="600" y2="580" class="arrow-line"/>
+    <!-- Google → 风控 -->
+    <line x1="1050" y1="530" x2="900" y2="580" class="arrow-line"/>
+
+    <!-- 风控 → 通过/拦截 -->
+    <line x1="300" y1="630" x2="300" y2="700" class="arrow-line arrow-yes" marker-end="url(#arrowhead-green)"/>
+    <line x1="600" y1="630" x2="600" y2="700" class="arrow-line arrow-yes" marker-end="url(#arrowhead-green)"/>
+    <line x1="900" y1="630" x2="900" y2="700" class="arrow-line arrow-yes" marker-end="url(#arrowhead-green)"/>
+
+    <!-- 签发Token → 大厅 -->
+    <line x1="300" y1="745" x2="300" y2="780" class="arrow-line arrow-yes" marker-end="url(#arrowhead-green)"/>
+    <line x1="600" y1="745" x2="530" y2="780" class="arrow-line arrow-yes" marker-end="url(#arrowhead-green)"/>
+    <line x1="900" y1="745" x2="600" y2="790" class="arrow-line arrow-yes" marker-end="url(#arrowhead-green)"/>
+
+    <!-- 风控拦截 -->
+    <line x1="380" y1="610" x2="500" y2="610" class="arrow-line arrow-no" style="stroke-dasharray:5,5" marker-end="url(#arrowhead-red)"/>
+    <line x1="680" y1="610" x2="800" y2="610" class="arrow-line arrow-no" style="stroke-dasharray:5,5" marker-end="url(#arrowhead-red)"/>
+    <line x1="980" y1="610" x2="1080" y2="610" class="arrow-line arrow-no" style="stroke-dasharray:5,5" marker-end="url(#arrowhead-red)"/>
+  </svg>
+
+  <!-- Nodes -->
+  <div class="flow-node node-start" style="left:520px;top:20px">
+    🚀 用户打开App
+  </div>
+
+  <div class="flow-node node-decision" style="left:510px;top:90px">
+    检查本地Token
+    <span class="node-sub">AccessToken状态？</span>
+  </div>
+
+  <div class="flow-node node-action" style="left:220px;top:200px">
+    ✅ 静默登录
+    <span class="node-sub">用户无感知</span>
+  </div>
+
+  <div class="flow-node node-decision" style="left:510px;top:200px">
+    尝试刷新Token
+    <span class="node-sub">Refresh Token</span>
+  </div>
+
+  <div class="flow-node node-action" style="left:300px;top:290px">
+    ✅ 刷新成功
+    <span class="node-sub">签发新Token</span>
+  </div>
+
+  <div class="flow-node node-error" style="left:820px;top:290px;width:120px">
+    ❌ 刷新失败
+  </div>
+
+  <div class="flow-node node-page" style="left:820px;top:370px">
+    📱 显示登录页
+    <span class="node-sub">三种登录方式</span>
+  </div>
+
+  <div class="flow-node node-page" style="left:220px;top:480px">
+    📱 手机验证码
+    <span class="node-sub">输入手机号+验证码</span>
+  </div>
+
+  <div class="flow-node node-page" style="left:520px;top:480px">
+    🔑 账号密码
+    <span class="node-sub">输入账号+密码</span>
+  </div>
+
+  <div class="flow-node node-page" style="left:970px;top:480px">
+    G Google登录
+    <span class="node-sub">OAuth授权</span>
+  </div>
+
+  <div class="flow-node node-decision" style="left:210px;top:580px;width:180px">
+    🛡️ 风控检测
+    <span class="node-sub">IP/设备/行为</span>
+  </div>
+
+  <div class="flow-node node-decision" style="left:510px;top:580px;width:180px">
+    🛡️ 风控检测
+    <span class="node-sub">密码+设备校验</span>
+  </div>
+
+  <div class="flow-node node-decision" style="left:810px;top:580px;width:180px">
+    🛡️ 风控检测
+    <span class="node-sub">Google Token验证</span>
+  </div>
+
+  <div class="flow-node node-error" style="left:500px;top:590px;width:auto;padding:6px 12px;font-size:11px;position:relative;left:500px;display:none">
+    拦截
+  </div>
+
+  <div class="flow-node node-action" style="left:220px;top:700px">
+    🎫 签发Token
+    <span class="node-sub">JWT + Refresh</span>
+  </div>
+
+  <div class="flow-node node-action" style="left:520px;top:700px">
+    🎫 签发Token
+    <span class="node-sub">JWT + Refresh</span>
+  </div>
+
+  <div class="flow-node node-action" style="left:820px;top:700px">
+    🎫 签发Token
+    <span class="node-sub">JWT + Refresh</span>
+  </div>
+
+  <div class="flow-node node-end" style="left:370px;top:780px;width:260px">
+    🎮 进入游戏大厅
+    <span class="node-sub">登录成功 · 首次弹协议确认</span>
+  </div>
+
+  <!-- 风控拦截标注 -->
+  <div class="flow-node node-error" style="left:500px;top:595px;width:auto;padding:4px 10px;font-size:11px">拦截→二次验证/封禁</div>
+  <div class="flow-node node-error" style="left:800px;top:595px;width:auto;padding:4px 10px;font-size:11px;display:none">拦截</div>
+  <div class="flow-node node-error" style="left:1080px;top:595px;width:auto;padding:4px 10px;font-size:11px">拦截→提示异常</div>
+</div>
+
+</body>
+</html>

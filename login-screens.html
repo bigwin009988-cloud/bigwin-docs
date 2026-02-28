@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>博弈游戏大厅 - 登录系统原型</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #1a1a2e; font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; padding: 40px; }
+
+.phone-frame {
+  width: 375px;
+  height: 812px;
+  background: #0f0f23;
+  border-radius: 40px;
+  border: 3px solid #333;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.status-bar {
+  height: 44px;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.screen-label {
+  text-align: center;
+  color: #e94560;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  padding: 8px;
+  background: rgba(233,69,96,0.1);
+  border-radius: 8px;
+}
+
+/* ===== 登录首页 ===== */
+.login-home {
+  background: linear-gradient(180deg, #0f0f23 0%, #16213e 50%, #0f3460 100%);
+}
+
+.logo-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 80px;
+  margin-bottom: 60px;
+}
+
+.logo-icon {
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, #e94560, #c23152);
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  margin-bottom: 16px;
+  box-shadow: 0 8px 32px rgba(233,69,96,0.4);
+}
+
+.logo-text {
+  color: #fff;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 4px;
+}
+
+.logo-sub {
+  color: #8892b0;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.btn-group {
+  padding: 0 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.btn-primary {
+  height: 54px;
+  background: linear-gradient(135deg, #e94560, #c23152);
+  border: none;
+  border-radius: 27px;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 4px 20px rgba(233,69,96,0.4);
+  cursor: pointer;
+}
+
+.btn-google {
+  height: 54px;
+  background: #fff;
+  border: none;
+  border-radius: 27px;
+  color: #333;
+  font-size: 17px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.btn-google .g-icon {
+  width: 24px;
+  height: 24px;
+  background: conic-gradient(from -45deg, #ea4335, #4285f4, #34a853, #fbbc05, #ea4335);
+  border-radius: 50%;
+  position: relative;
+}
+
+.btn-google .g-icon::after {
+  content: 'G';
+  position: absolute;
+  inset: 3px;
+  background: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: #4285f4;
+}
+
+.text-link {
+  text-align: center;
+  color: #8892b0;
+  font-size: 15px;
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+.text-link span {
+  color: #e94560;
+}
+
+.agreement {
+  position: absolute;
+  bottom: 60px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: #5a6080;
+  font-size: 12px;
+  padding: 0 40px;
+  line-height: 1.8;
+}
+
+.agreement a {
+  color: #e94560;
+  text-decoration: none;
+}
+
+/* ===== 手机登录页 ===== */
+.phone-login {
+  background: linear-gradient(180deg, #0f0f23 0%, #16213e 100%);
+}
+
+.nav-bar {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  color: #fff;
+}
+
+.nav-back {
+  font-size: 24px;
+  color: #8892b0;
+  width: 40px;
+  cursor: pointer;
+}
+
+.nav-title {
+  flex: 1;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 600;
+  margin-right: 40px;
+}
+
+.form-area {
+  padding: 40px 32px;
+}
+
+.form-label {
+  color: #8892b0;
+  font-size: 13px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.input-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.country-code {
+  width: 80px;
+  height: 52px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.country-code .arrow {
+  font-size: 10px;
+  color: #8892b0;
+}
+
+.input-field {
+  flex: 1;
+  height: 52px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  padding: 0 16px;
+  color: #fff;
+  font-size: 16px;
+  outline: none;
+  display: flex;
+  align-items: center;
+}
+
+.input-field.placeholder {
+  color: #5a6080;
+}
+
+.code-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.code-input {
+  flex: 1;
+  height: 52px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.code-box {
+  width: 36px;
+  height: 42px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.code-box.active {
+  border-color: #e94560;
+  box-shadow: 0 0 8px rgba(233,69,96,0.3);
+}
+
+.send-btn {
+  width: 110px;
+  height: 52px;
+  background: linear-gradient(135deg, #e94560, #c23152);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.send-btn.disabled {
+  background: rgba(255,255,255,0.1);
+  color: #5a6080;
+}
+
+.btn-login {
+  width: 100%;
+  height: 54px;
+  background: linear-gradient(135deg, #e94560, #c23152);
+  border: none;
+  border-radius: 27px;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(233,69,96,0.4);
+  cursor: pointer;
+}
+
+.btn-login.disabled {
+  background: rgba(255,255,255,0.1);
+  color: #5a6080;
+  box-shadow: none;
+}
+
+/* ===== 账密登录页 ===== */
+.pwd-login {
+  background: linear-gradient(180deg, #0f0f23 0%, #16213e 100%);
+}
+
+.full-input {
+  width: 100%;
+  height: 52px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  padding: 0 16px;
+  color: #fff;
+  font-size: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.full-input.placeholder { color: #5a6080; }
+
+.pwd-input {
+  position: relative;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #5a6080;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.options-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #8892b0;
+  font-size: 14px;
+}
+
+.checkbox {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #5a6080;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkbox.checked {
+  background: #e94560;
+  border-color: #e94560;
+}
+
+.checkbox.checked::after {
+  content: '✓';
+  color: #fff;
+  font-size: 12px;
+}
+
+.forgot-link {
+  color: #e94560;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* ===== 填充态 ===== */
+.input-filled {
+  color: #fff !important;
+}
+
+/* ===== 错误态 ===== */
+.input-error {
+  border-color: #e94560 !important;
+  animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+
+.error-text {
+  color: #e94560;
+  font-size: 13px;
+  margin-top: -12px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ===== Toast ===== */
+.toast {
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(233,69,96,0.95);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 24px;
+  font-size: 14px;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
+/* ===== Loading态 ===== */
+.btn-loading {
+  position: relative;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ===== 弹窗 ===== */
+.modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.modal-card {
+  width: 300px;
+  background: #1e2746;
+  border-radius: 16px;
+  padding: 28px 24px;
+  text-align: center;
+}
+
+.modal-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.modal-title {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.modal-desc {
+  color: #8892b0;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.modal-btn {
+  width: 100%;
+  height: 44px;
+  background: linear-gradient(135deg, #e94560, #c23152);
+  border-radius: 22px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.modal-btn-ghost {
+  width: 100%;
+  height: 44px;
+  color: #8892b0;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== 区号选择弹窗 ===== */
+.country-modal {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  background: #1e2746;
+  border-radius: 20px 20px 0 0;
+  z-index: 10;
+  padding: 20px;
+}
+
+.country-search {
+  width: 100%;
+  height: 40px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  padding: 0 12px;
+  color: #5a6080;
+  font-size: 14px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.country-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.country-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 12px;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 15px;
+}
+
+.country-item.active {
+  background: rgba(233,69,96,0.15);
+}
+
+.country-item .flag { font-size: 20px; margin-right: 12px; }
+.country-item .code { color: #8892b0; }
+
+/* ===== 协议弹窗 ===== */
+.agreement-modal .modal-card {
+  text-align: left;
+}
+
+.agreement-content {
+  max-height: 200px;
+  overflow-y: auto;
+  color: #8892b0;
+  font-size: 13px;
+  line-height: 1.8;
+  margin-bottom: 20px;
+  padding-right: 8px;
+}
+
+.agree-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  color: #fff;
+  font-size: 14px;
+}
+
+/* ===== 页面标题标签 ===== */
+.page-tag {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100%);
+  background: #e94560;
+  color: #fff;
+  padding: 6px 20px;
+  border-radius: 8px 8px 0 0;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.phone-wrapper {
+  position: relative;
+  padding-top: 40px;
+}
+
+.page-label {
+  text-align: center;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  padding: 6px 16px;
+  background: #e94560;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.page-desc {
+  text-align: center;
+  color: #8892b0;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+/* ===== 注解标注 ===== */
+.annotation {
+  position: absolute;
+  background: #ffd93d;
+  color: #1a1a2e;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  z-index: 5;
+}
+
+.annotation::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.annotation.left::after {
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 6px solid #ffd93d;
+}
+
+.annotation.right::after {
+  left: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-right: 6px solid #ffd93d;
+}
+
+.annotation.bottom::after {
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid #ffd93d;
+}
+
+/* ===== 大厅页简版 ===== */
+.lobby {
+  background: linear-gradient(180deg, #0f0f23 0%, #16213e 100%);
+}
+
+.lobby-header {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  gap: 12px;
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, #e94560, #c23152);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.user-info {
+  flex: 1;
+}
+
+.user-name {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.user-id {
+  color: #5a6080;
+  font-size: 12px;
+}
+
+.balance-card {
+  margin: 12px 20px;
+  background: linear-gradient(135deg, #16213e, #0f3460);
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.balance-label {
+  color: #8892b0;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.balance-amount {
+  color: #ffd93d;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 20px;
+}
+
+.game-card {
+  background: rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 16px 8px;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.game-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.game-name {
+  color: #fff;
+  font-size: 13px;
+}
+
+.game-players {
+  color: #5a6080;
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+/* Section titles */
+.section-wrapper {
+  width: 100%;
+  max-width: 1800px;
+  margin: 0 auto;
+}
+
+.section-title {
+  width: 100%;
+  text-align: center;
+  color: #e94560;
+  font-size: 24px;
+  font-weight: 700;
+  padding: 20px;
+  border-bottom: 2px solid #e94560;
+  margin-bottom: 30px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 60px;
+}
+</style>
+</head>
+<body>
+
+<!-- ========== 第一排：核心页面 ========== -->
+<div class="section-wrapper">
+<div class="section-title">📱 核心页面 — 登录系统三种方式 + 游戏大厅</div>
+<div class="row">
+
+<!-- 1. 登录首页 -->
+<div class="phone-wrapper">
+  <div style="text-align:center;margin-bottom:12px">
+    <span class="page-label">1-1 登录首页</span>
+    <div class="page-desc">用户打开App的第一个页面</div>
+  </div>
+  <div class="phone-frame login-home" style="position:relative">
+    <div class="status-bar">
+      <span>22:08</span>
+      <span>📶 🔋</span>
+    </div>
+    <div class="logo-area">
+      <div class="logo-icon">🎰</div>
+      <div class="logo-text">BIGWIN</div>
+      <div class="logo-sub">博弈游戏大厅</div>
+    </div>
+    <div class="btn-group">
+      <div class="btn-primary">📱 手机号快捷登录</div>
+      <div class="btn-google"><div class="g-icon"></div> Google 登录</div>
+      <div class="text-link">账号密码登录 <span>›</span></div>
+    </div>
+    <div class="agreement">
+      登录即表示同意<br>
+      <a href="#">《用户协议》</a>和<a href="#">《隐私政策》</a>
+    </div>
+    <!-- 注解 -->
+    <div class="annotation left" style="right:-140px; top:320px">主推入口·转化率最高</div>
+    <div class="annotation left" style="right:-120px; top:380px">海外用户主要入口</div>
+    <div class="annotation left" style="right:-100px; top:430px">弱化展示·老用户用</div>
+    <div class="annotation left" style="right:-130px; bottom:50px">合规必备·首次必勾</div>
+  </div>
+</div>
+
+<!-- 2. 手机验证码登录 -->
+<div class="phone-wrapper">
+  <div style="text-align:center;margin-bottom:12px">
+    <span class="page-label">1-2 手机验证码登录</span>
+    <div class="page-desc">主推登录方式·新用户自动注册</div>
+  </div>
+  <div class="phone-frame phone-login">
+    <div class="status-bar">
+      <span>22:08</span>
+      <span>📶 🔋</span>
+    </div>
+    <div class="nav-bar">
+      <div class="nav-back">‹</div>
+      <div class="nav-title">手机号登录</div>
+    </div>
+    <div class="form-area">
+      <div class="form-label">手机号码</div>
+      <div class="input-row">
+        <div class="country-code">🇻🇳 +84 <span class="arrow">▼</span></div>
+        <div class="input-field input-filled">912 345 678</div>
+      </div>
+      <div class="form-label">验证码</div>
+      <div class="code-row">
+        <div class="code-input">
+          <div class="code-box">3</div>
+          <div class="code-box">8</div>
+          <div class="code-box">5</div>
+          <div class="code-box active">_</div>
+          <div class="code-box"></div>
+          <div class="code-box"></div>
+        </div>
+        <div class="send-btn disabled">52s 后重发</div>
+      </div>
+      <div class="btn-login disabled">登 录</div>
+      <div style="text-align:center;margin-top:20px">
+        <span style="color:#5a6080;font-size:13px">首次登录将自动创建账号</span>
+      </div>
+    </div>
+    <!-- 注解 -->
+    <div class="annotation left" style="right:-150px; top:140px">根据IP自动匹配区号</div>
+    <div class="annotation left" style="right:-150px; top:230px">自动格式化·纯数字键盘</div>
+    <div class="annotation left" style="right:-165px; top:340px">6位分格·支持短信自动填充</div>
+    <div class="annotation left" style="right:-120px; top:390px">60秒冷却倒计时</div>
+    <div class="annotation left" style="right:-140px; top:460px">填完6位自动激活</div>
+  </div>
+</div>
+
+<!-- 3. 账号密码登录 -->
+<div class="phone-wrapper">
+  <div style="text-align:center;margin-bottom:12px">
+    <span class="page-label">1-3 账号密码登录</span>
+    <div class="page-desc">老用户入口·支持记住账号</div>
+  </div>
+  <div class="phone-frame pwd-login">
+    <div class="status-bar">
+      <span>22:08</span>
+      <span>📶 🔋</span>
+    </div>
+    <div class="nav-bar">
+      <div class="nav-back">‹</div>
+      <div class="nav-title">账号密码登录</div>
+    </div>
+    <div class="form-area">
+      <div class="form-label">账号</div>
+      <div class="full-input input-filled">player_zhangsan</div>
+      <div class="form-label">密码</div>
+      <div class="pwd-input">
+        <div class="full-input input-filled">••••••••••
+          <span class="eye-icon" style="position:relative;float:right">👁</span>
+        </div>
+      </div>
+      <div class="options-row">
+        <div class="checkbox-label">
+          <div class="checkbox checked"></div>
+          记住账号
+        </div>
+        <div class="forgot-link">忘记密码？</div>
+      </div>
+      <div class="btn-login">登 录</div>
+    </div>
+    <!-- 注解 -->
+    <div class="annotation left" style="right:-170px; top:190px">支持用户名或邮箱登录</div>
+    <div class="annotation left" style="right:-160px; top:290px">掩码显示·点击眼睛切换</div>
+    <div class="annotation left" style="right:-170px; top:350px">仅缓存账号·不存密码</div>
+    <div class="annotation left" style="right:-165px; top:375px">跳转密码重置流程</div>
+  </div>
+</div>
+
+<!-- 4. 游戏大厅（登录成功后） -->
+<div class="phone-wrapper">
+  <div style="text-align:center;margin-bottom:12px">
+    <span class="page-label">1-4 游戏大厅</span>
+    <div class="page-desc">登录成功后进入</div>
+  </div>
+  <div class="phone-frame lobby">
+    <div class="status-bar">
+      <span>22:08</span>
+      <span>📶 🔋</span>
+    </div>
+    <div class="lobby-header">
+      <div class="avatar">😎</div>
+      <div class="user-info">
+        <div class="user-name">玩家8812</div>
+        <div class="user-id">ID: U20250001</div>
+      </div>
+      <span style="font-size:20px;color:#8892b0">⚙️</span>
+    </div>
+    <div class="balance-card">
+      <div class="balance-label">账户余额</div>
+      <div class="balance-amount">₫ 1,250,000</div>
+      <div style="display:flex;gap:12px;margin-top:16px">
+        <div style="flex:1;height:36px;background:linear-gradient(135deg,#e94560,#c23152);border-radius:18px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600">充值</div>
+        <div style="flex:1;height:36px;background:rgba(255,255,255,0.1);border-radius:18px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px">提现</div>
+      </div>
+    </div>
+    <div style="padding:0 20px;color:#fff;font-size:16px;font-weight:600;margin-bottom:12px">🔥 热门游戏</div>
+    <div class="game-grid">
+      <div class="game-card"><div class="game-icon">🎰</div><div class="game-name">老虎机</div><div class="game-players">1,234人在玩</div></div>
+      <div class="game-card"><div class="game-icon">🃏</div><div class="game-name">德州扑克</div><div class="game-players">856人在玩</div></div>
+      <div class="game-card"><div class="game-icon">🎲</div><div class="game-name">骰宝</div><div class="game-players">623人在玩</div></div>
+      <div class="game-card"><div class="game-icon">🀄</div><div class="game-name">麻将</div><div class="game-players">445人在玩</div></div>
+      <div class="game-card"><div class="game-icon">🐟</div><div class="game-name">捕鱼</div><div class="game-players">1,102人在玩</div></div>
+      <div class="game-card"><div class="game-icon">🏆</div><div class="game-name">百家乐</div><div class="game-players">789人在玩</div></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- row -->
+</div>
+
+<!-- ========== 第二排：状态变化 ========== -->
+<div class="section-wrapper">
+<div class="section-title">🔄 状态变化 — 异常态 & 特殊场景</div>
+<div class="row">
+
+<!-- 5. 错误态 - 密码错误 -->
+<div class="phone-wrapper">
+  <div style="text-align:center;margin-bottom:12px">
+    <span class="page-label" style="background:#ff6b6b">2-1 密码错误态</span>
+    <div class="page-desc">连续输错密码的反馈</div>
+  </div>
+  <div class="phone-frame pwd-login">
+    <div class="status-bar"><span>22:08</span><span>📶 🔋</span></div>
+    <div class="nav-bar">
+      <div class="nav-back">‹</div>
+      <div class="nav-title">账号密码登录</div>
+    </div>
+    <div class="form-area">
+      <div class="form-label">账号</div>
+      <div class="full-input input-filled">player_zhangsan</div>
+      <div class="form-label">密码</div>
+      <div class="full-input input-error" style="color:#fff">••••••••</div>
+      <div class="error-text">⚠️ 账号或密码错误，还剩 2 次尝试机会</div>
+      <div class="options-row">
+        <div class="checkbox-label">
+          <div class="checkbox"></div>
+          记住账号
+        </div>
+        <div class="forgot-link">忘记密码？</div>
+      </div>
+      <div class="btn-login">登 录</div>
+    </div>
+    <div class="annotation left" style="right:-150px; top:280px">红色边框 + 抖动动效</div>
+    <div class="annotation left" style="right:-160px; top:330px">明确剩余次数·引导找回</div>
+  </div>
+</div>
+
+<!-- 6. 账号锁定弹窗 -->
+<div class="phone-wrapper">
+  <div style="text-align:center;margin-bottom:12px">
+    <span class="page-label" style="background:#ff6b6b">2-2 账号锁定</span>
+    <div class="page-desc">5次密码错误后触发</div>
+  </div>
+  <div class="phone-frame pwd-login">
+    <div class="status-bar"><span>22:08</span><span>📶 🔋</span></div>
+    <div class="nav-bar">
+      <div class="nav-back">‹</div>
+      <div class="nav-title">账号密码登录</div>
+    </div>
+    <div class="form-area" style="opacity:0.3">
+      <div class="form-label">账号</div>
+      <div class="full-input">player_zhangsan</div>
+      <div class="form-label">密码</div>
+      <div class="full-input">••••••••</div>
+    </div>
+    <div class="modal-overlay">
+      <div class="modal-card">
+        <div class="modal-icon">🔒</div>
+        <div class="modal-title">账号已锁定</div>
+        <div class="modal-desc">连续输错5次密码<br>请15分钟后再试</div>
+        <div class="modal-btn">找回密码</div>
+        <div class="modal-btn-ghost">联系客服</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 7. 验证码错误 -->
+<div class="phone-wrapper">
+  <div style="text-align:center;margin-bottom:12px">
+    <span class="page-label" style="background:#ff6b6b">2-3 验证码错误</span>
+    <div class="page-desc">输入错误验证码的反馈</div>
+  </div>
+  <div class="phone-frame phone-login" style="position:relative">
+    <div class="status-bar"><span>22:08</span><span>📶 🔋</span></div>
+    <div class="nav-bar">
+      <div class="nav-back">‹</div>
+      <div class="nav-title">手机号登录</div>
+    </div>
+    <div class="toast">验证码错误，请重新输入</div>
+    <div class="form-area">
+      <div class="form-label">手机号码</div>
+      <div class="input-row">
+        <div class="country-code">🇻🇳 +84 <span class="arrow">▼</span></div>
+        <div class="input-field input-filled">912 345 678</div>
+      </div>
+      <div class="form-label">验证码</div>
+      <div class="code-row">
+        <div class="code-input" style="border:1px solid #e94560;border-radius:12px">
+          <div class="code-box" style="color:#e94560;border-color:#e94560">1</div>
+          <div class="code-box" style="color:#e94560;border-color:#e94560">2</div>
+          <div class="code-box" style="color:#e94560;border-color:#e94560">3</div>
+          <div class="code-box" style="color:#e94560;border-color:#e94560">4</div>
+          <div class="code-box" style="color:#e94560;border-color:#e94560">5</div>
+          <div class="code-box" style="color:#e94560;border-color:#e94560">6</div>
+        </div>
+        <div class="send-btn">重新获取</div>
+      </div>
+      <div class="error-text">⚠️ 验证码错误，还可尝试 3 次</div>
+      <div class="btn-login">登 录</div>
+    </div>
+    <div class="annotation left" style="right:-120px; top:100px">顶部Toast提示</div>
+    <div class="annotation left" style="right:-130px; top:340px">红色边框强调错误</div>
+  </div>
+</div>
+
+<!-- 8. Loading态 -->
+<div class="phone-wrapper">
+  <div style="text-align:center;margin-bottom:12px">
+    <span class="page-label" style="background:#4ecdc4">2-4 登录中 Loading</span>
+    <div class="page-desc">点击登录后的等待态</div>
+  </div>
+  <div class="phone-frame phone-login">
+    <div class="status-bar"><span>22:08</span><span>📶 🔋</span></div>
+    <div class="nav-bar">
+      <div class="nav-back" style="opacity:0.3">‹</div>
+      <div class="nav-title">手机号登录</div>
+    </div>
+    <div class="form-area">
+      <div class="form-label">手机号码</div>
+      <div class="input-row">
+        <div class="country-code" style="opacity:0.5">🇻🇳 +84</div>
+        <div class="input-field input-filled" style="opacity:0.5">912 345 678</div>
+      </div>
+      <div class="form-label">验证码</div>
+      <div class="code-row">
+        <div class="code-input" style="opacity:0.5">
+          <div class="code-box">3</div>
+          <div class="code-box">8</div>
+          <div class="code-box">5</div>
+          <div class="code-box">2</div>
+          <div class="code-box">9</div>
+          <div class="code-box">1</div>
+        </div>
+        <div class="send-btn disabled" style="opacity:0.5">52s</div>
+      </div>
+      <div class="btn-login btn-loading">
+        <div class="spinner"></div>
+        登录中...
+      </div>
+      <div style="text-align:center;margin-top:20px;color:#5a6080;font-size:13px">
+        输入框禁用·防重复提交
+      </div>
+    </div>
+    <div class="annotation left" style="right:-140px; top:460px">按钮Loading + 禁用</div>
+    <div class="annotation left" style="right:-140px; top:220px">所有输入框变灰禁用</div>
+  </div>
+</div>
+
+</div><!-- row -->
+</div>
+
+<!-- ========== 第三排：弹窗 & 特殊组件 ========== -->
+<div class="section-wrapper">
+<div class="section-title">🧩 弹窗 & 组件 — 区号选择 · 协议确认 · 网络异常</div>
+<div class="row">
+
+<!-- 9. 区号选择 -->
+<div class="phone-wrapper">
+  <div style="text-align:center;margin-bottom:12px">
+    <span class="page-label" style="background:#4ecdc4">3-1 区号选择弹窗</span>
+    <div class="page-desc">点击区号触发·支持搜索</div>
+  </div>
+  <div class="phone-frame phone-login" style="position:relative">
+    <div class="status-bar"><span>22:08</span><span>📶 🔋</span></div>
+    <div class="nav-bar" style="opacity:0.3">
+      <div class="nav-back">‹</div>
+      <div class="nav-title">手机号登录</div>
+    </div>
+    <div class="modal-overlay" style="align-items:flex-end">
+      <div class="country-modal">
+        <div style="text-align:center;margin-bottom:16px">
+          <div style="width:40px;height:4px;background:#5a6080;border-radius:2px;margin:0 auto"></div>
+        </div>
+        <div class="country-search">🔍 搜索国家或地区</div>
+        <div class="country-list">
+          <div class="country-item active">
+            <span><span class="flag">🇻🇳</span>越南 Vietnam</span>
+            <span class="code">+84</span>
+          </div>
+          <div class="country-item">
+            <span><span class="flag">🇹🇭</span>泰国 Thailand</span>
+            <span class="code">+66</span>
+          </div>
+          <div class="country-item">
+            <span><span class="flag">🇵🇭</span>菲律宾 Philippines</span>
+            <span class="code">+63</span>
+          </div>
+          <div class="country-item">
+            <span><span class="flag">🇮🇩</span>印尼 Indonesia</span>
+            <span class="code">+62</span>
+          </div>
+          <div class="country-item">
+            <span><span class="flag">🇲🇾</span>马来西亚 Malaysia</span>
+            <span class="code">+60</span>
+          </div>
+          <div class="country-item">
+            <span><span class="flag">🇰🇭</span>柬埔寨 Cambodia</span>
+            <span class="code">+855</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 10. 首次登录协议确认 -->
+<div class="phone-wrapper">
+  <div style="text-align:center;margin-bottom:12px">
+    <span class="page-label" style="background:#4ecdc4">3-2 协议确认弹窗</span>
+    <div class="page-desc">首次登录成功后弹出</div>
+  </div>
+  <div class="phone-frame lobby" style="position:relative">
+    <div class="status-bar"><span>22:08</span><span>📶 🔋</span></div>
+    <div style="opacity:0.2">
+      <div class="lobby-header">
+        <div class="avatar">😎</div>
+        <div class="user-info">
+          <div class="user-name">玩家8812</div>
+          <div class="user-id">ID: U20250001</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-overlay agreement-modal">
+      <div class="modal-card">
+        <div class="modal-title" style="text-align:center">用户协议与隐私政策</div>
+        <div class="agreement-content">
+          欢迎使用 BIGWIN 游戏大厅。在您使用本服务前，请仔细阅读以下协议内容：<br><br>
+          1. 您必须年满18周岁方可使用本服务<br>
+          2. 您需对账号安全负责，不得转让或借用<br>
+          3. 平台有权对异常账号进行限制<br>
+          4. 游戏内虚拟货币不可兑换为法定货币<br>
+          5. 我们将按照隐私政策保护您的个人信息...<br><br>
+          如您对以上内容有疑问，请联系客服。
+        </div>
+        <div class="agree-row">
+          <div class="checkbox checked"></div>
+          我已阅读并同意以上协议
+        </div>
+        <div class="modal-btn">进入游戏</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 11. 网络异常 -->
+<div class="phone-wrapper">
+  <div style="text-align:center;margin-bottom:12px">
+    <span class="page-label" style="background:#ff6b6b">3-3 网络异常</span>
+    <div class="page-desc">断网/服务器超时的提示</div>
+  </div>
+  <div class="phone-frame login-home" style="position:relative">
+    <div class="status-bar"><span>22:08</span><span>❌ 🔋</span></div>
+    <div class="logo-area">
+      <div class="logo-icon" style="opacity:0.5">🎰</div>
+      <div class="logo-text" style="opacity:0.5">BIGWIN</div>
+    </div>
+    <div class="modal-overlay">
+      <div class="modal-card">
+        <div class="modal-icon">📡</div>
+        <div class="modal-title">网络连接失败</div>
+        <div class="modal-desc">请检查您的网络设置后重试</div>
+        <div class="modal-btn">重新连接</div>
+        <div class="modal-btn-ghost">切换网络</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 12. 账号封禁 -->
+<div class="phone-wrapper">
+  <div style="text-align:center;margin-bottom:12px">
+    <span class="page-label" style="background:#ff6b6b">3-4 账号封禁</span>
+    <div class="page-desc">登录被风控拦截</div>
+  </div>
+  <div class="phone-frame login-home" style="position:relative">
+    <div class="status-bar"><span>22:08</span><span>📶 🔋</span></div>
+    <div class="logo-area" style="opacity:0.3">
+      <div class="logo-icon">🎰</div>
+      <div class="logo-text">BIGWIN</div>
+    </div>
+    <div class="modal-overlay">
+      <div class="modal-card">
+        <div class="modal-icon">🚫</div>
+        <div class="modal-title">账号已被限制</div>
+        <div class="modal-desc">您的账号存在异常行为<br>已被暂时限制登录<br><br><span style="color:#5a6080;font-size:12px">封禁时间：2025-02-26<br>解封时间：2025-03-26</span></div>
+        <div class="modal-btn">联系客服</div>
+        <div class="modal-btn-ghost">我知道了</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- row -->
+</div>
+
+</body>
+</html>

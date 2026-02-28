@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>转盘游戏 — 市场竞品对比 & 设计方案</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f0f23; font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; padding: 40px; color: #fff; }
+
+.section-title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  padding: 16px;
+  margin-bottom: 32px;
+  border-bottom: 3px solid #e94560;
+  color: #fff;
+}
+
+.section-subtitle {
+  text-align: center;
+  color: #8892b0;
+  font-size: 14px;
+  margin-top: -24px;
+  margin-bottom: 32px;
+}
+
+.row { display: flex; flex-wrap: wrap; justify-content: center; gap: 32px; margin-bottom: 60px; }
+
+/* 竞品卡片 */
+.competitor-card {
+  width: 280px;
+  background: #16213e;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.comp-header {
+  padding: 20px;
+  text-align: center;
+  position: relative;
+}
+
+.comp-rank {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #e94560;
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.comp-wheel {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin: 0 auto 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.comp-name {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.comp-maker {
+  color: #8892b0;
+  font-size: 12px;
+}
+
+.comp-stars {
+  color: #ffd93d;
+  font-size: 16px;
+  margin-top: 4px;
+}
+
+.comp-body {
+  padding: 16px 20px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.comp-stat {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-size: 13px;
+}
+
+.comp-stat-label { color: #8892b0; }
+.comp-stat-value { color: #fff; font-weight: 600; }
+.comp-stat-value.hot { color: #e94560; }
+
+.comp-tag {
+  display: inline-block;
+  background: rgba(233,69,96,0.15);
+  color: #e94560;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  margin: 4px 2px;
+}
+
+.comp-tag.green {
+  background: rgba(78,205,196,0.15);
+  color: #4ecdc4;
+}
+
+/* 转盘原型 */
+.wheel-container {
+  position: relative;
+  width: 400px;
+  height: 400px;
+}
+
+.wheel-svg {
+  width: 400px;
+  height: 400px;
+  filter: drop-shadow(0 8px 32px rgba(233,69,96,0.3));
+}
+
+.wheel-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #e94560, #c23152);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(233,69,96,0.5);
+  border: 4px solid #ffd93d;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.wheel-pointer {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 16px solid transparent;
+  border-right: 16px solid transparent;
+  border-top: 28px solid #ffd93d;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+  z-index: 2;
+}
+
+/* 手机框架 - 最终方案展示 */
+.phone-frame {
+  width: 375px;
+  height: 750px;
+  background: linear-gradient(180deg, #0f0f23 0%, #16213e 100%);
+  border-radius: 40px;
+  border: 3px solid #333;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.status-bar {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  color: #fff;
+  font-size: 14px;
+}
+
+/* 赔率表卡片 */
+.odds-table {
+  width: 600px;
+  background: #16213e;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.odds-header {
+  background: linear-gradient(135deg, #e94560, #c23152);
+  padding: 16px 24px;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.odds-row {
+  display: flex;
+  align-items: center;
+  padding: 12px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.odds-row:last-child { border-bottom: none; }
+
+.odds-row.header {
+  background: rgba(255,255,255,0.05);
+  font-weight: 600;
+  color: #8892b0;
+  font-size: 13px;
+}
+
+.odds-row .col { flex: 1; text-align: center; }
+.odds-row .col:first-child { flex: 0.8; text-align: left; }
+
+.odds-emoji { font-size: 20px; margin-right: 8px; }
+
+.highlight-row {
+  background: rgba(233,69,96,0.08);
+}
+
+.jackpot-text {
+  color: #ffd93d;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+/* 规律卡片 */
+.rule-card {
+  width: 350px;
+  background: #16213e;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.rule-number {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #e94560, #c23152);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.rule-title {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.rule-desc {
+  color: #8892b0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.rule-example {
+  margin-top: 12px;
+  padding: 12px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 8px;
+  font-size: 13px;
+  color: #4ecdc4;
+}
+
+/* 对比条 */
+.compare-bar {
+  height: 24px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 12px;
+  margin: 4px 0;
+  overflow: hidden;
+}
+
+.compare-fill {
+  height: 100%;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  padding-left: 12px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* 方案对比 */
+.plan-card {
+  width: 320px;
+  background: #16213e;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.plan-card.recommended {
+  border: 2px solid #e94560;
+  box-shadow: 0 0 30px rgba(233,69,96,0.2);
+}
+
+.plan-badge {
+  background: #e94560;
+  color: #fff;
+  text-align: center;
+  padding: 6px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.plan-header {
+  padding: 20px;
+  text-align: center;
+}
+
+.plan-name {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.plan-ref {
+  color: #8892b0;
+  font-size: 13px;
+}
+
+.plan-body {
+  padding: 0 20px 20px;
+}
+
+.plan-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-size: 14px;
+}
+
+.plan-check { color: #4ecdc4; }
+.plan-cross { color: #e94560; }
+</style>
+</head>
+<body>
+
+<!-- ===== Section 1: 竞品对比 ===== -->
+<div class="section-title">🏆 市面爆款转盘产品对比</div>
+<div class="section-subtitle">按市场影响力排名的Top 5转盘游戏</div>
+
+<div class="row">
+  <!-- Crazy Time -->
+  <div class="competitor-card">
+    <div class="comp-header">
+      <div class="comp-rank">1</div>
+      <div class="comp-wheel" style="background:conic-gradient(#e94560 0deg 60deg, #ffd93d 60deg 120deg, #4ecdc4 120deg 180deg, #6c63ff 180deg 240deg, #ff6b6b 240deg 300deg, #2ecc71 300deg 360deg)"></div>
+      <div class="comp-name">Crazy Time</div>
+      <div class="comp-maker">Evolution Gaming</div>
+      <div class="comp-stars">⭐⭐⭐⭐⭐</div>
+    </div>
+    <div class="comp-body">
+      <div class="comp-stat"><span class="comp-stat-label">格数</span><span class="comp-stat-value">54格</span></div>
+      <div class="comp-stat"><span class="comp-stat-label">RTP</span><span class="comp-stat-value">94.4-96.1%</span></div>
+      <div class="comp-stat"><span class="comp-stat-label">最高赔率</span><span class="comp-stat-value hot">25,000x</span></div>
+      <div class="comp-stat"><span class="comp-stat-label">Bonus</span><span class="comp-stat-value">4个小游戏</span></div>
+      <div class="comp-stat"><span class="comp-stat-label">每局时长</span><span class="comp-stat-value">30-60秒</span></div>
+      <div style="padding-top:12px">
+        <span class="comp-tag">行业标杆</span>
+        <span class="comp-tag">Top Slot加乘</span>
+        <span class="comp-tag green">直播互动</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dream Catcher -->
+  <div class="competitor-card">
+    <div class="comp-header">
+      <div class="comp-rank">2</div>
+      <div class="comp-wheel" style="background:conic-gradient(#ffd93d 0deg 90deg, #e94560 90deg 180deg, #4ecdc4 180deg 270deg, #fff 270deg 360deg)"></div>
+      <div class="comp-name">Dream Catcher</div>
+      <div class="comp-maker">Evolution Gaming</div>
+      <div class="comp-stars">⭐⭐⭐⭐</div>
+    </div>
+    <div class="comp-body">
+      <div class="comp-stat"><span class="comp-stat-label">格数</span><span class="comp-stat-value">54格</span></div>
+      <div class="comp-stat"><span class="comp-stat-label">RTP</span><span class="comp-stat-value">90.6-96.6%</span></div>
+      <div class="comp-stat"><span class="comp-stat-label">最高赔率</span><span class="comp-stat-value hot">40x(可叠加)</span></div>
+      <div class="comp-stat"><span class="comp-stat-label">Bonus</span><span class="comp-stat-value">无(倍率格)</span></div>
+      <div class="comp-stat"><span class="comp-stat-label">每局时长</span><span class="comp-stat-value">15-20秒</span></div>
+      <div style="padding-top:12px">
+        <span class="comp-tag">经典鼻祖</span>
+        <span class="comp-tag">极致简洁</span>
+        <span class="comp-tag green">倍率连锁</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sweet Bonanza -->
+  <div class="competitor-card">
+    <div class="comp-header">
+      <div class="comp-rank">3</div>
+      <div class="comp-wheel" style="background:conic-gradient(#ff69b4 0deg 72deg, #ffd93d 72deg 144deg, #87ceeb 144deg 216deg, #ff6347 216deg 288deg, #98fb98 288deg 360deg)"></div>
+      <div class="comp-name">Sweet Bonanza CL</div>
+      <div class="comp-maker">Pragmatic Play</div>
+      <div class="comp-stars">⭐⭐⭐⭐</div>
+    </div>
+    <div class="comp-body">
+      <div class="comp-stat"><span class="comp-stat-label">格数</span><span class="comp-stat-value">~50格</span></div>
+      <div class="comp-stat"><span class="comp-stat-label">RTP</span><span class="comp-stat-value">~96.5%</span></div>
+      <div class="comp-stat"><span class="comp-stat-label">最高赔率</span><span class="comp-stat-value hot">数千x</span></div>
+      <div class="comp-stat"><span class="comp-stat-label">Bonus</span><span class="comp-stat-value">3个小游戏</span></div>
+      <div class="comp-stat"><span class="comp-stat-label">每局时长</span><span class="comp-stat-value">30-60秒</span></div>
+      <div style="padding-top:12px">
+        <span class="comp-tag">IP加持</span>
+        <span class="comp-tag">糖果主题</span>
+        <span class="comp-tag green">Sugar Bomb加倍</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Monopoly Live -->
+  <div class="competitor-card">
+    <div class="comp-header">
+      <div class="comp-rank">4</div>
+      <div class="comp-wheel" style="background:conic-gradient(#2ecc71 0deg 90deg, #fff 90deg 180deg, #e94560 180deg 270deg, #3498db 270deg 360deg)"></div>
+      <div class="comp-name">Monopoly Live</div>
+      <div class="comp-maker">Evolution Gaming</div>
+      <div class="comp-stars">⭐⭐⭐⭐</div>
+    </div>
+    <div class="comp-body">
+      <div class="comp-stat"><span class="comp-stat-label">格数</span><span class="comp-stat-value">54格</span></div>
+      <div class="comp-stat"><span class="comp-stat-label">RTP</span><span class="comp-stat-value">91.3-96.2%</span></div>
+      <div class="comp-stat"><span class="comp-stat-label">最高赔率</span><span class="comp-stat-value hot">理论无上限</span></div>
+      <div class="comp-stat"><span class="comp-stat-label">Bonus</span><span class="comp-stat-value">3D棋盘</span></div>
+      <div class="comp-stat"><span class="comp-stat-label">每局时长</span><span class="comp-stat-value">30-90秒</span></div>
+      <div style="padding-top:12px">
+        <span class="comp-tag">大富翁IP</span>
+        <span class="comp-tag">3D棋盘</span>
+        <span class="comp-tag green">全球认知</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 东南亚本地 -->
+  <div class="competitor-card">
+    <div class="comp-header">
+      <div class="comp-rank">5</div>
+      <div class="comp-wheel" style="background:conic-gradient(#ffd93d 0deg 120deg, #e94560 120deg 240deg, #ff8c00 240deg 360deg)"></div>
+      <div class="comp-name">东南亚本地转盘</div>
+      <div class="comp-maker">各家博弈App</div>
+      <div class="comp-stars">⭐⭐⭐</div>
+    </div>
+    <div class="comp-body">
+      <div class="comp-stat"><span class="comp-stat-label">格数</span><span class="comp-stat-value">8-12格</span></div>
+      <div class="comp-stat"><span class="comp-stat-label">RTP</span><span class="comp-stat-value">90-97%</span></div>
+      <div class="comp-stat"><span class="comp-stat-label">最高赔率</span><span class="comp-stat-value">10-100x</span></div>
+      <div class="comp-stat"><span class="comp-stat-label">Bonus</span><span class="comp-stat-value">通常无</span></div>
+      <div class="comp-stat"><span class="comp-stat-label">每局时长</span><span class="comp-stat-value hot">3-5秒</span></div>
+      <div style="padding-top:12px">
+        <span class="comp-tag">快节奏</span>
+        <span class="comp-tag">签到拉活</span>
+        <span class="comp-tag green">最贴近我们</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Section 2: 5条黄金规律 ===== -->
+<div class="section-title">🔑 爆款转盘的5条黄金规律</div>
+
+<div class="row">
+  <div class="rule-card">
+    <div class="rule-number">1</div>
+    <div class="rule-title">必须有"爆点时刻"</div>
+    <div class="rule-desc">纯数字转盘会疲劳。需要至少1个让玩家想截图发群的超级大奖。</div>
+    <div class="rule-example">💎 Crazy Time: 25,000x → 全场尖叫<br>💎 我们: 50x JACKPOT → 全服广播</div>
+  </div>
+
+  <div class="rule-card">
+    <div class="rule-number">2</div>
+    <div class="rule-title">高频小奖 + 低频大奖</div>
+    <div class="rule-desc">~60%格子是小奖（维持"没空转"感），~5%是大奖（制造爆发）。</div>
+    <div class="rule-example">
+      <div style="margin-bottom:4px">小奖(0.3-0.8x):</div>
+      <div class="compare-bar"><div class="compare-fill" style="width:74%;background:#4ecdc4">74% — 高频出现</div></div>
+      <div style="margin:4px 0">中奖(1.5-3x):</div>
+      <div class="compare-bar"><div class="compare-fill" style="width:25%;background:#ffd93d">25%</div></div>
+      <div style="margin:4px 0">大奖(8-50x):</div>
+      <div class="compare-bar"><div class="compare-fill" style="width:1%;background:#e94560;min-width:40px">~1%</div></div>
+    </div>
+  </div>
+
+  <div class="rule-card">
+    <div class="rule-number">3</div>
+    <div class="rule-title">倍率叠加 = 传说故事</div>
+    <div class="rule-desc">在基础奖励上叠加随机倍率，制造"某人中了7x×40=280x"的传说。</div>
+    <div class="rule-example">🎲 Dream Catcher: 2x→7x→40 = 560x<br>💡 V2可加"幸运加倍"前置机制</div>
+  </div>
+
+  <div class="rule-card">
+    <div class="rule-number">4</div>
+    <div class="rule-title">视觉音效是体验的一半</div>
+    <div class="rule-desc">大奖命中那一刻的屏幕震动、金币雨、全服广播，决定了玩家是否会上瘾。</div>
+    <div class="rule-example">🔊 转动滴答声越来越慢<br>✨ 经过JACKPOT时灯光闪烁<br>🎆 命中大奖全屏烟花</div>
+  </div>
+
+  <div class="rule-card">
+    <div class="rule-number">5</div>
+    <div class="rule-title">三档位满足所有玩家</div>
+    <div class="rule-desc">低档试水（拉新）、中档日常（主力营收）、高档刺激（大R冲击）。</div>
+    <div class="rule-example">🪙 100金币 — 新手/休闲<br>🪙 200金币 — 日常主力<br>🪙 500金币 — 大R追求</div>
+  </div>
+</div>
+
+<!-- ===== Section 3: BIGWIN推荐方案 ===== -->
+<div class="section-title">✅ BIGWIN推荐方案 — 赔率表（RTP 97%，百万次模拟验证）</div>
+
+<div class="row">
+  <div class="odds-table">
+    <div class="odds-header">12格转盘赔率分布 — 加权概率模型</div>
+    <div class="odds-row header">
+      <div class="col">格子</div>
+      <div class="col">赔率</div>
+      <div class="col">格数</div>
+      <div class="col">实际概率</div>
+      <div class="col">100金币档</div>
+      <div class="col">200金币档</div>
+      <div class="col">500金币档</div>
+    </div>
+    <div class="odds-row">
+      <div class="col"><span class="odds-emoji">🟢</span>安慰奖</div>
+      <div class="col">0.3x</div>
+      <div class="col">3格</div>
+      <div class="col">47.58%</div>
+      <div class="col">30</div>
+      <div class="col">60</div>
+      <div class="col">150</div>
+    </div>
+    <div class="odds-row">
+      <div class="col"><span class="odds-emoji">🔵</span>回本</div>
+      <div class="col">0.8x</div>
+      <div class="col">2格</div>
+      <div class="col">26.26%</div>
+      <div class="col">80</div>
+      <div class="col">160</div>
+      <div class="col">400</div>
+    </div>
+    <div class="odds-row">
+      <div class="col"><span class="odds-emoji">🟡</span>小赚</div>
+      <div class="col">1.5x</div>
+      <div class="col">2格</div>
+      <div class="col">17.51%</div>
+      <div class="col">150</div>
+      <div class="col">300</div>
+      <div class="col">750</div>
+    </div>
+    <div class="odds-row">
+      <div class="col"><span class="odds-emoji">🟠</span>中奖</div>
+      <div class="col">3x</div>
+      <div class="col">2格</div>
+      <div class="col">7.66%</div>
+      <div class="col">300</div>
+      <div class="col">600</div>
+      <div class="col">1,500</div>
+    </div>
+    <div class="odds-row">
+      <div class="col"><span class="odds-emoji">🔴</span>大奖</div>
+      <div class="col">8x</div>
+      <div class="col">1格</div>
+      <div class="col">0.88%</div>
+      <div class="col">800</div>
+      <div class="col">1,600</div>
+      <div class="col">4,000</div>
+    </div>
+    <div class="odds-row highlight-row">
+      <div class="col"><span class="odds-emoji">💎</span><span class="jackpot-text">JACKPOT</span></div>
+      <div class="col"><span class="jackpot-text">50x</span></div>
+      <div class="col">1格</div>
+      <div class="col" style="color:#ffd93d;font-weight:700">0.11%</div>
+      <div class="col"><span class="jackpot-text">5,000</span></div>
+      <div class="col"><span class="jackpot-text">10,000</span></div>
+      <div class="col"><span class="jackpot-text">25,000</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <!-- 关键数据卡 -->
+  <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center">
+    <div style="background:#16213e;border-radius:16px;padding:24px 32px;text-align:center;border:1px solid rgba(255,255,255,0.1);min-width:180px">
+      <div style="color:#8892b0;font-size:13px;margin-bottom:4px">RTP</div>
+      <div style="font-size:36px;font-weight:700;color:#4ecdc4">97.00%</div>
+      <div style="color:#5a6080;font-size:12px">精确·百万次验证</div>
+    </div>
+    <div style="background:#16213e;border-radius:16px;padding:24px 32px;text-align:center;border:1px solid rgba(255,255,255,0.1);min-width:180px">
+      <div style="color:#8892b0;font-size:13px;margin-bottom:4px">JACKPOT概率</div>
+      <div style="font-size:36px;font-weight:700;color:#ffd93d">1/909</div>
+      <div style="color:#5a6080;font-size:12px">约每909次出一次</div>
+    </div>
+    <div style="background:#16213e;border-radius:16px;padding:24px 32px;text-align:center;border:1px solid rgba(255,255,255,0.1);min-width:180px">
+      <div style="color:#8892b0;font-size:13px;margin-bottom:4px">回本+概率</div>
+      <div style="font-size:36px;font-weight:700;color:#e94560">52.4%</div>
+      <div style="color:#5a6080;font-size:12px">超半数不亏或赚</div>
+    </div>
+    <div style="background:#16213e;border-radius:16px;padding:24px 32px;text-align:center;border:1px solid rgba(255,255,255,0.1);min-width:180px">
+      <div style="color:#8892b0;font-size:13px;margin-bottom:4px">500档JACKPOT</div>
+      <div style="font-size:36px;font-weight:700;color:#ffd93d">25,000</div>
+      <div style="color:#5a6080;font-size:12px">金币·截图分享时刻</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Section 4: 需要确认的问题 ===== -->
+<div class="section-title">❓ 需要你确认的3个问题</div>
+
+<div class="row">
+  <div class="rule-card" style="border:2px solid #ffd93d">
+    <div style="color:#ffd93d;font-size:24px;margin-bottom:8px">Q1</div>
+    <div class="rule-title">50x JACKPOT够"爆"吗？</div>
+    <div class="rule-desc">
+      500档命中=25,000金币<br>
+      如果想更爆可以做100x（但概率会降到~1/5000）<br><br>
+      <strong>选项：</strong><br>
+      A. 50x（1/909概率）— 相对常见，体验稳定<br>
+      B. 100x（1/5000概率）— 更爆但更稀有<br>
+      C. 其他倍率？
+    </div>
+  </div>
+
+  <div class="rule-card" style="border:2px solid #ffd93d">
+    <div style="color:#ffd93d;font-size:24px;margin-bottom:8px">Q2</div>
+    <div class="rule-title">要不要"幸运加倍"机制？</div>
+    <div class="rule-desc">
+      每次转盘前有小概率触发2x/3x/5x全局加倍<br>
+      （参考Crazy Time的Top Slot）<br><br>
+      <strong>选项：</strong><br>
+      A. V1就做 — 更有趣但开发量+1周<br>
+      B. V2再做 — V1先上简洁版<br>
+      C. 不做 — 保持极简
+    </div>
+  </div>
+
+  <div class="rule-card" style="border:2px solid #ffd93d">
+    <div style="color:#ffd93d;font-size:24px;margin-bottom:8px">Q3</div>
+    <div class="rule-title">要不要兼做签到/留存？</div>
+    <div class="rule-desc">
+      每日免费转1次（只能转100档）<br>
+      拉日活+培养转盘习惯<br><br>
+      <strong>选项：</strong><br>
+      A. 要 — 免费1次+付费无限<br>
+      B. 不要 — 纯付费<br>
+      C. VIP专属免费次数
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
