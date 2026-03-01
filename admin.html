@@ -1,0 +1,1702 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>游戏大厅 V1 — 后台管理系统产品文档 v2.0</title>
+<style>
+:root{--c:#2196F3;--bg:#f5f6fa;--sw:260px;--t:#333;--bd:#e0e0e0;--g:#00c853;--r:#ff5252;--o:#ff9800;--dark:#1e293b;--card:#fff;--accent:#24EE89;--sidebar-bg:#0f172a;--sidebar-text:#94a3b8;--sidebar-active:#3b82f6}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--t);font-size:14px;line-height:1.6}
+
+/* === Doc Sidebar === */
+.S{position:fixed;left:0;top:0;width:var(--sw);height:100vh;background:#fff;border-right:1px solid var(--bd);overflow-y:auto;z-index:100;padding:12px 0}
+.S h2{padding:6px 14px;font-size:11px;color:#888;margin-top:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.S h2:first-child{margin-top:0}
+.S a{display:block;padding:4px 14px 4px 18px;color:var(--t);text-decoration:none;font-size:11.5px;border-left:3px solid transparent;transition:.15s;cursor:pointer}
+.S a:hover,.S a.on{background:#e3f2fd;color:var(--c);border-left-color:var(--c);font-weight:600}
+.S .v{padding:10px 14px;font-size:10px;color:#aaa;border-top:1px solid var(--bd);margin-top:10px}
+
+/* === Main === */
+.M{margin-left:var(--sw);padding:20px 28px;max-width:1200px}
+.P{display:none}.P.on{display:block}
+h1{font-size:20px;font-weight:700;margin-bottom:14px;padding-bottom:6px;border-bottom:2px solid var(--c)}
+h2{font-size:16px;font-weight:600;margin:20px 0 10px;color:var(--c)}
+h3{font-size:14px;font-weight:600;margin:14px 0 6px}
+
+/* === Tables === */
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12.5px}
+th{background:var(--c);color:#fff;padding:7px 10px;text-align:left;font-weight:600}
+td{padding:7px 10px;border-bottom:1px solid var(--bd);vertical-align:top}
+tr:hover td{background:#f0f7ff}
+
+/* === Info boxes === */
+.IB{padding:10px 14px;border-radius:6px;margin:10px 0;font-size:13px}
+.IB.b{background:#e3f2fd;border-left:4px solid var(--c)}
+.IB.r{background:#fce4ec;border-left:4px solid var(--r)}
+.IB.g{background:#e8f5e9;border-left:4px solid var(--g)}
+.IB.o{background:#fff3e0;border-left:4px solid var(--o)}
+.tag{display:inline-block;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:600}
+.tag.v1{background:#e3f2fd;color:var(--c)}.tag.new{background:#fce4ec;color:var(--r)}.tag.v2{background:#f3e5f5;color:#7b1fa2}
+
+/* === Annotation dots === */
+.ann{margin:8px 0;font-size:12px}
+.ann td:first-child{width:28px;text-align:center}
+.ann .num{display:inline-flex;width:18px;height:18px;border-radius:50%;background:var(--c);color:#fff;font-size:8px;font-weight:700;align-items:center;justify-content:center}
+.ann .num.r{background:var(--r)}.ann .num.g{background:var(--g)}.ann .num.o{background:var(--o)}
+
+/* === Admin UI Frame === */
+.AF{background:#fff;border:1px solid var(--bd);border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,.08);overflow:hidden;margin:14px 0}
+.AF-label{text-align:center;font-size:11px;font-weight:700;color:var(--c);margin-bottom:6px;background:#e3f2fd;padding:3px 8px;border-radius:4px;display:inline-block}
+/* topbar */
+.AT{background:var(--dark);padding:8px 16px;display:flex;align-items:center;justify-content:space-between}
+.AT .logo{color:#fff;font-size:14px;font-weight:800}.AT .logo span{color:var(--accent)}
+.AT .user{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.6);font-size:11px}
+.AT .av{width:28px;height:28px;border-radius:50%;background:var(--sidebar-active);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700}
+.AT .breadcrumb{color:rgba(255,255,255,.3);font-size:11px;margin-left:20px}
+/* sidebar */
+.AB{display:flex;min-height:420px}
+.AS{width:200px;background:#f8fafc;border-right:1px solid var(--bd);padding:8px 0;flex-shrink:0}
+.AS .grp{padding:4px 14px;font-size:9px;color:#94a3b8;text-transform:uppercase;font-weight:700;margin-top:8px;letter-spacing:.5px}
+.AS .it{display:flex;align-items:center;gap:8px;padding:8px 14px;font-size:11px;color:#64748b;cursor:pointer;border-left:3px solid transparent}
+.AS .it:hover{background:#e2e8f0}
+.AS .it.on{background:#eff6ff;color:var(--sidebar-active);font-weight:600;border-left-color:var(--sidebar-active)}
+.AS .it .ic{font-size:14px;width:20px;text-align:center}
+.AS .it .badge{margin-left:auto;background:var(--r);color:#fff;font-size:8px;padding:1px 5px;border-radius:8px;font-weight:700}
+/* main area */
+.AM{flex:1;padding:16px 20px;overflow:hidden}
+.AM .pt{font-size:16px;font-weight:700;color:#1e293b;margin-bottom:4px}
+.AM .ps{font-size:11px;color:#94a3b8;margin-bottom:14px}
+
+/* === Toolbar === */
+.toolbar{display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap}
+.search-box{padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:11px;color:#64748b;background:#f8fafc;min-width:220px;display:flex;align-items:center;gap:6px}
+.filter-btn{padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:11px;color:#64748b;background:#fff;cursor:pointer;display:flex;align-items:center;gap:4px}
+.filter-btn:hover{border-color:var(--c);color:var(--c)}
+.add-btn{padding:7px 16px;border-radius:8px;font-size:11px;font-weight:600;color:#fff;background:var(--sidebar-active);border:none;margin-left:auto;cursor:pointer;display:flex;align-items:center;gap:4px}
+.add-btn:hover{background:#2563eb}
+.batch-bar{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:8px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;font-size:11px;color:var(--sidebar-active)}
+.batch-bar .bb{padding:4px 10px;border-radius:5px;font-size:10px;font-weight:600;cursor:pointer}
+.batch-bar .bb.danger{background:#fee2e2;color:var(--r)}
+.batch-bar .bb.normal{background:#e0f2fe;color:var(--sidebar-active)}
+
+/* === Admin Table === */
+.AT2{width:100%;border-collapse:collapse;font-size:11px}
+.AT2 th{background:#f1f5f9;color:#475569;padding:9px 10px;font-weight:600;text-align:left;border-bottom:2px solid #e2e8f0;white-space:nowrap}
+.AT2 td{padding:9px 10px;border-bottom:1px solid #f1f5f9;color:#334155}
+.AT2 tr:hover td{background:#f8fafc}
+.AT2 .st{display:inline-block;padding:3px 10px;border-radius:12px;font-size:10px;font-weight:600}
+.AT2 .st.on{background:#dcfce7;color:#166534}.AT2 .st.off{background:#fee2e2;color:#991b1b}.AT2 .st.draft{background:#fef3c7;color:#92400e}
+.AT2 .acts{display:flex;gap:4px;flex-wrap:nowrap}
+.AT2 .acts span{padding:4px 8px;border-radius:5px;font-size:10px;cursor:pointer;font-weight:500;white-space:nowrap}
+.AT2 .acts .edit{background:#eff6ff;color:var(--sidebar-active)}
+.AT2 .acts .del{background:#fee2e2;color:var(--r)}
+.AT2 .acts .view{background:#f0fdf4;color:#166534}
+.AT2 .acts .copy{background:#faf5ff;color:#7c3aed}
+.AT2 .chk{width:16px;height:16px;border:2px solid #cbd5e1;border-radius:4px;display:inline-block;vertical-align:middle}
+.AT2 .chk.on{background:var(--sidebar-active);border-color:var(--sidebar-active);position:relative}
+.AT2 .chk.on::after{content:"✓";color:#fff;font-size:9px;position:absolute;top:-1px;left:2px}
+.AT2 .thumb{width:80px;height:40px;background:#f1f5f9;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px;overflow:hidden}
+.AT2 .drag{color:#cbd5e1;cursor:grab;font-size:14px}
+.pagi{display:flex;align-items:center;justify-content:space-between;margin-top:12px;font-size:11px;color:#94a3b8}
+.pagi .info{display:flex;align-items:center;gap:6px}
+.pagi .pgs{display:flex;gap:3px}
+.pagi .pg{padding:4px 9px;border:1px solid #e2e8f0;border-radius:5px;font-size:10px;color:#64748b;cursor:pointer}
+.pagi .pg.on{background:var(--sidebar-active);color:#fff;border-color:var(--sidebar-active)}
+.pagi .pg:hover{border-color:var(--sidebar-active)}
+
+/* === Modal / Dialog === */
+.modal-wrap{background:rgba(0,0,0,.08);border:2px solid var(--bd);border-radius:10px;padding:24px;margin:14px 0;position:relative}
+.modal-wrap::before{content:"模态弹窗 Modal";position:absolute;top:-10px;left:16px;background:var(--bg);padding:0 6px;font-size:9px;color:#94a3b8;font-weight:600}
+.modal-box{background:#fff;border-radius:12px;padding:0;max-width:560px;margin:0 auto;box-shadow:0 8px 30px rgba(0,0,0,.12);overflow:hidden}
+.modal-header{padding:16px 20px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between}
+.modal-header .mh-title{font-size:15px;font-weight:700;color:#1e293b}
+.modal-header .mh-close{width:28px;height:28px;border-radius:6px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#64748b;font-size:14px}
+.modal-body{padding:20px}
+.modal-footer{padding:14px 20px;border-top:1px solid #f1f5f9;display:flex;justify-content:flex-end;gap:8px;background:#fafafa}
+
+/* === Form fields === */
+.ff{margin-bottom:14px}
+.ff-label{font-size:11px;font-weight:600;color:#475569;margin-bottom:5px;display:flex;align-items:center;gap:4px}
+.ff-label .req{color:var(--r);font-weight:700}
+.ff-input{width:100%;padding:9px 12px;border:1px solid #e2e8f0;border-radius:8px;font-size:12px;background:#f8fafc;color:#1e293b;transition:.2s}
+.ff-input:focus,.ff-input.focus{border-color:var(--sidebar-active);box-shadow:0 0 0 3px rgba(59,130,246,.1);background:#fff}
+.ff-input.err{border-color:var(--r);box-shadow:0 0 0 3px rgba(255,82,82,.1)}
+.ff-hint{font-size:10px;color:#94a3b8;margin-top:3px}
+.ff-err{font-size:10px;color:var(--r);margin-top:3px;font-weight:500}
+.ff-select{width:100%;padding:9px 12px;border:1px solid #e2e8f0;border-radius:8px;font-size:12px;background:#f8fafc;color:#1e293b}
+.ff-upload{width:100%;height:100px;border:2px dashed #e2e8f0;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#94a3b8;font-size:11px;background:#fafafa;gap:4px;transition:.2s;cursor:pointer}
+.ff-upload:hover{border-color:var(--sidebar-active);background:#eff6ff}
+.ff-upload .up-icon{font-size:24px}
+.ff-upload-done{width:100%;height:100px;border:2px solid #dcfce7;border-radius:10px;display:flex;align-items:center;gap:12px;padding:12px;background:#f0fdf4}
+.ff-upload-done .preview{width:120px;height:60px;background:#e2e8f0;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.ff-upload-done .info{flex:1;font-size:10px;color:#64748b}
+.ff-upload-done .info .name{color:#1e293b;font-weight:600;font-size:11px}
+.ff-upload-done .remove{color:var(--r);font-size:10px;cursor:pointer;font-weight:600}
+.ff-row{display:flex;gap:12px}
+.ff-row .ff{flex:1}
+.ff-toggle{display:flex;align-items:center;gap:10px}
+.toggle{width:40px;height:22px;border-radius:11px;background:#cbd5e1;position:relative;cursor:pointer;transition:.2s;flex-shrink:0}
+.toggle.on{background:var(--g)}
+.toggle .dot{width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.toggle.on .dot{left:20px}
+.ff-toggle .tl{font-size:11px;color:#64748b}
+
+/* === Buttons === */
+.btn{padding:8px 18px;border-radius:8px;font-size:12px;font-weight:600;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:.15s}
+.btn.primary{background:var(--sidebar-active);color:#fff}.btn.primary:hover{background:#2563eb}
+.btn.danger{background:var(--r);color:#fff}
+.btn.cancel{background:#f1f5f9;color:#64748b}.btn.cancel:hover{background:#e2e8f0}
+.btn.success{background:var(--g);color:#fff}
+.btn.outline{background:#fff;border:1px solid var(--bd);color:#64748b}.btn.outline:hover{border-color:var(--c)}
+.btn.sm{padding:5px 10px;font-size:10px;border-radius:5px}
+.btn.disabled{opacity:.4;cursor:not-allowed}
+
+/* === Confirm Dialog === */
+.confirm-box{background:#fff;border-radius:12px;padding:24px;max-width:400px;margin:0 auto;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.confirm-box .cb-icon{font-size:40px;margin-bottom:8px}
+.confirm-box .cb-title{font-size:15px;font-weight:700;color:#1e293b;margin-bottom:4px}
+.confirm-box .cb-desc{font-size:12px;color:#64748b;margin-bottom:16px;line-height:1.5}
+.confirm-box .cb-btns{display:flex;gap:8px;justify-content:center}
+
+/* === Toast / Notification === */
+.toast-demo{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:8px;font-size:12px;font-weight:600;box-shadow:0 4px 12px rgba(0,0,0,.15);margin:6px}
+.toast-demo.success{background:#166534;color:#fff}
+.toast-demo.error{background:#991b1b;color:#fff}
+.toast-demo.warning{background:#92400e;color:#fff}
+
+/* === Stats Cards === */
+.stats-row{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0}
+.stat-card{flex:1;min-width:150px;background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:16px;position:relative;overflow:hidden}
+.stat-card .sc-val{font-size:26px;font-weight:800;margin-bottom:2px}
+.stat-card .sc-label{font-size:11px;color:#64748b}
+.stat-card .sc-trend{font-size:10px;margin-top:4px;font-weight:600}
+.stat-card .sc-trend.up{color:var(--g)}.stat-card .sc-trend.down{color:var(--r)}
+.stat-card .sc-bg{position:absolute;right:-8px;bottom:-8px;font-size:48px;opacity:.06}
+
+/* === Chart placeholder === */
+.chart-box{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:16px;margin:12px 0}
+.chart-box .ch-title{font-size:13px;font-weight:700;color:#1e293b;margin-bottom:4px;display:flex;align-items:center;justify-content:space-between}
+.chart-box .ch-title .ch-filter{display:flex;gap:4px}
+.chart-box .ch-title .ch-f{padding:3px 10px;border-radius:5px;font-size:10px;color:#64748b;background:#f1f5f9;cursor:pointer;font-weight:500}
+.chart-box .ch-title .ch-f.on{background:var(--sidebar-active);color:#fff}
+.chart-area{height:180px;display:flex;align-items:flex-end;gap:3px;padding:10px 0;border-bottom:1px solid #f1f5f9}
+.chart-area .bar{flex:1;background:linear-gradient(180deg,var(--sidebar-active),#93c5fd);border-radius:4px 4px 0 0;min-width:16px;position:relative;transition:.3s}
+.chart-area .bar .bl{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:8px;color:#94a3b8;white-space:nowrap}
+.chart-area .bar .bv{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:8px;color:#475569;font-weight:600;white-space:nowrap}
+.chart-line{height:160px;position:relative;border-bottom:1px solid #f1f5f9;margin:10px 0;background:linear-gradient(180deg,rgba(59,130,246,.05),transparent)}
+.chart-line .cl-dot{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--sidebar-active);border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.chart-line .cl-labels{display:flex;justify-content:space-between;font-size:8px;color:#94a3b8;margin-top:4px}
+.pie-chart{width:120px;height:120px;border-radius:50%;background:conic-gradient(var(--sidebar-active) 0% 62%,#93c5fd 62% 85%,#e2e8f0 85% 100%);margin:10px auto;position:relative}
+.pie-chart::after{content:"";position:absolute;inset:30px;border-radius:50%;background:#fff}
+.pie-legend{display:flex;gap:16px;justify-content:center;font-size:10px;color:#64748b;margin-top:8px}
+.pie-legend .pl-item{display:flex;align-items:center;gap:4px}
+.pie-legend .pl-dot{width:8px;height:8px;border-radius:2px}
+
+/* === Config Panel === */
+.cfg{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:20px;margin:14px 0}
+.cfg .cfg-title{font-size:14px;font-weight:700;color:#1e293b;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;gap:6px}
+.cfg-row{display:flex;align-items:flex-start;padding:10px 0;border-bottom:1px solid #f8fafc;gap:14px}
+.cfg-row:last-child{border-bottom:none}
+.cfg-row .cl{width:180px;font-size:11px;font-weight:600;color:#475569;flex-shrink:0;padding-top:2px}
+.cfg-row .cv{flex:1}
+.cfg-row .cv input,.cfg-row .cv select{padding:7px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:12px;background:#f8fafc}
+.cfg-row .cv .hint{font-size:10px;color:#94a3b8;margin-top:3px}
+
+/* === Flow === */
+.flow{display:flex;gap:0;align-items:center;flex-wrap:wrap;padding:12px;background:#fff;border-radius:8px;margin:10px 0;border:1px solid var(--bd);overflow-x:auto}
+.flow-node{padding:8px 14px;border-radius:8px;font-size:10px;font-weight:600;text-align:center;min-width:75px;white-space:nowrap;line-height:1.3}
+.flow-node.start{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.flow-node.action{background:linear-gradient(135deg,#3b82f6,#60a5fa);color:#fff}
+.flow-node.check{background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff}
+.flow-node.success{background:linear-gradient(135deg,#10b981,#34d399);color:#fff}
+.flow-node.error{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff}
+.flow-node.page{background:#f1f5f9;color:#475569}
+.flow-arrow{font-size:14px;color:#cbd5e1;padding:0 4px}
+</style>
+</head><body>
+
+<div class="S">
+<h2>📋 项目概述</h2>
+<a class="on" onclick="G('ov')">📊 后台概述+架构</a>
+<a onclick="G('role')">🔐 角色权限矩阵</a>
+<a onclick="G('login')">🔑 后台登录</a>
+
+<h2>📈 数据看板</h2>
+<a onclick="G('dash-main')">📊 主看板原型</a>
+<a onclick="G('dash-detail')">📉 详细数据页</a>
+
+<h2>🖼️ Banner管理</h2>
+<a onclick="G('banner-list')">📋 列表+批量操作</a>
+<a onclick="G('banner-add')">➕ 新增弹窗</a>
+<a onclick="G('banner-edit')">✏️ 编辑+预览</a>
+<a onclick="G('banner-del')">🗑️ 删除+上下架</a>
+<a onclick="G('banner-sort')">↕️ 拖拽排序</a>
+<a onclick="G('banner-spec')">📐 字段+规范</a>
+
+<h2>📢 公告管理</h2>
+<a onclick="G('ann-list')">📋 公告列表</a>
+<a onclick="G('ann-form')">✏️ 新增/编辑弹窗</a>
+<a onclick="G('ann-spec')">📐 规范</a>
+
+<h2>🎮 游戏管理</h2>
+<a onclick="G('game-list')">📋 游戏列表</a>
+<a onclick="G('game-form')">✏️ 新增/编辑弹窗</a>
+<a onclick="G('game-cat')">📁 分类管理</a>
+<a onclick="G('game-provider')">🏢 厂商管理</a>
+<a onclick="G('game-spec')">📐 排序+规范</a>
+
+<h2>👤 用户管理</h2>
+<a onclick="G('user-list')">📋 用户列表</a>
+<a onclick="G('user-detail')">👁️ 用户详情</a>
+<a onclick="G('user-ban')">🚫 封禁流程</a>
+
+<h2>📅 签到配置</h2>
+<a onclick="G('checkin-cfg')">⚙️ 规则配置</a>
+<a onclick="G('checkin-log')">📋 签到日志</a>
+
+<h2>💰 金币配置</h2>
+<a onclick="G('coin-cfg')">⚙️ 金币规则</a>
+<a onclick="G('coin-log')">📋 金币流水</a>
+
+<h2>🌐 运营配置</h2>
+<a onclick="G('site-cfg')">⚙️ 站点配置</a>
+<a onclick="G('community')">🔗 社区链接</a>
+<a onclick="G('lang')">🌏 多语言</a>
+
+<h2>📐 全局规范</h2>
+<a onclick="G('toast-spec')">💬 Toast+反馈规范</a>
+<a onclick="G('api-spec')">🔌 API设计规范</a>
+
+<div class="v">游戏大厅V1 后台管理<br>v2.0 · 2026-02-28</div>
+</div>
+
+<div class="M">
+
+<!-- ==================== 后台概述 ==================== -->
+<div class="P on" id="pg-ov">
+<h1>📊 后台管理系统概述 Admin System Overview</h1>
+
+<div class="IB b"><strong>定位：</strong>游戏大厅V1配套后台管理系统。Web端PC使用，最低支持1280×720分辨率。运营人员通过后台管理所有前台内容和配置。</div>
+
+<h2>V1后台模块清单 Module List</h2>
+<table>
+<tr><th>#</th><th>模块</th><th>核心功能</th><th>页面数</th><th>优先级</th></tr>
+<tr><td>1</td><td>📈 数据看板 Dashboard</td><td>核心指标+趋势图+游戏热度+留存</td><td>2</td><td><span class="tag v1">P0</span></td></tr>
+<tr><td>2</td><td>🖼️ Banner管理</td><td>列表/新增/编辑/删除/排序/定时/预览</td><td>3</td><td><span class="tag v1">P0</span></td></tr>
+<tr><td>3</td><td>📢 公告管理</td><td>跑马灯公告CRUD+多语言</td><td>2</td><td><span class="tag v1">P0</span></td></tr>
+<tr><td>4</td><td>🎮 游戏管理</td><td>游戏CRUD+分类+厂商+排序</td><td>4</td><td><span class="tag v1">P0</span></td></tr>
+<tr><td>5</td><td>👤 用户管理</td><td>列表/详情/封禁/解封</td><td>3</td><td><span class="tag v1">P0</span></td></tr>
+<tr><td>6</td><td>📅 签到配置</td><td>签到规则+签到日志+统计</td><td>2</td><td><span class="tag v1">P1</span></td></tr>
+<tr><td>7</td><td>💰 金币配置</td><td>金币规则+流水日志+统计</td><td>2</td><td><span class="tag v1">P1</span></td></tr>
+<tr><td>8</td><td>🌐 运营配置</td><td>站点信息/社区链接/多语言/功能开关</td><td>3</td><td><span class="tag v1">P1</span></td></tr>
+</table>
+
+<h2>后台页面结构原型 Layout Prototype</h2>
+<div class="AF">
+<div class="AT">
+<div style="display:flex;align-items:center;gap:12px">
+<div class="logo"><span>BDB</span>GAME Admin</div>
+<div class="breadcrumb">/ 数据看板 Dashboard</div>
+</div>
+<div class="user">
+<span>🔔</span>
+<div class="av">A</div>
+<span>Admin <span style="color:rgba(255,255,255,.3)">▾</span></span>
+</div>
+</div>
+<div class="AB">
+<div class="AS">
+<div class="grp">核心 Core</div>
+<div class="it on"><span class="ic">📊</span>数据看板<span class="badge">Live</span></div>
+<div class="grp">内容管理 Content</div>
+<div class="it"><span class="ic">🖼️</span>Banner管理</div>
+<div class="it"><span class="ic">📢</span>公告管理</div>
+<div class="it"><span class="ic">🎮</span>游戏管理</div>
+<div class="grp">用户 Users</div>
+<div class="it"><span class="ic">👤</span>用户管理</div>
+<div class="it"><span class="ic">🚫</span>封禁记录</div>
+<div class="grp">配置 Config</div>
+<div class="it"><span class="ic">📅</span>签到配置</div>
+<div class="it"><span class="ic">💰</span>金币配置</div>
+<div class="it"><span class="ic">🌐</span>运营配置</div>
+<div class="grp">系统 System</div>
+<div class="it"><span class="ic">🔐</span>权限管理</div>
+<div class="it"><span class="ic">📋</span>操作日志</div>
+</div>
+<div class="AM">
+<div class="pt">📊 数据看板 Dashboard</div>
+<div class="ps">实时运营数据概览 Real-time operation overview</div>
+<div class="stats-row">
+<div class="stat-card"><div class="sc-val" style="color:var(--sidebar-active)">3,102</div><div class="sc-label">注册用户 Total Users</div><div class="sc-trend up">↑ +156 今日</div><div class="sc-bg">👤</div></div>
+<div class="stat-card"><div class="sc-val" style="color:var(--g)">1,234</div><div class="sc-label">日活 DAU</div><div class="sc-trend up">↑ 39.8%</div><div class="sc-bg">📈</div></div>
+<div class="stat-card"><div class="sc-val" style="color:var(--o)">8.5K</div><div class="sc-label">今日局数 Rounds</div><div class="sc-trend up">↑ +12%</div><div class="sc-bg">🎮</div></div>
+<div class="stat-card"><div class="sc-val" style="color:#FFD700">1.2B</div><div class="sc-label">全站金币 Coins</div><div class="sc-trend down">↓ 净消耗65M</div><div class="sc-bg">🪙</div></div>
+</div>
+</div>
+</div>
+</div>
+
+<table class="ann">
+<tr><td><span class="num">1</span></td><td><strong>顶栏 Topbar</strong></td><td>固定：Logo + 面包屑路径 + 通知铃铛 + 用户头像下拉(个人信息/修改密码/退出)</td></tr>
+<tr><td><span class="num">2</span></td><td><strong>侧边栏 Sidebar</strong></td><td>固定200px，分组折叠。当前页高亮。可收起为64px图标模式。</td></tr>
+<tr><td><span class="num">3</span></td><td><strong>内容区 Content</strong></td><td>页面标题+描述+内容。支持面包屑导航。</td></tr>
+<tr><td><span class="num">4</span></td><td><strong>指标卡 Stats</strong></td><td>4个核心指标实时刷新(30s)。带趋势箭头和背景emoji。</td></tr>
+</table>
+</div>
+
+<!-- ==================== 角色权限 ==================== -->
+<div class="P" id="pg-role">
+<h1>🔐 角色权限矩阵 Role & Permission Matrix</h1>
+
+<h2>V1角色定义 Roles</h2>
+<table>
+<tr><th>角色</th><th>人数</th><th>说明</th><th>登录方式</th></tr>
+<tr><td><strong>🔴 超级管理员 Super Admin</strong></td><td>1-2人</td><td>系统最高权限。可管理其他账号、查看操作日志、修改所有配置</td><td>账号密码+2FA</td></tr>
+<tr><td><strong>🟡 运营 Operator</strong></td><td>3-5人</td><td>日常内容运营。管理Banner/公告/游戏/配置，查看数据看板</td><td>账号密码</td></tr>
+<tr><td><strong>🟢 客服 Support</strong></td><td>5-10人</td><td>处理用户问题。只能查看用户信息和金币流水，不能修改任何内容</td><td>账号密码</td></tr>
+</table>
+
+<h2>完整权限矩阵 Full Permission Matrix</h2>
+<table>
+<tr><th>功能模块</th><th>操作</th><th>🔴 超管</th><th>🟡 运营</th><th>🟢 客服</th></tr>
+<tr><td rowspan="4">🖼️ Banner</td><td>查看列表</td><td>✅</td><td>✅</td><td>❌</td></tr>
+<tr><td>新增/编辑</td><td>✅</td><td>✅</td><td>❌</td></tr>
+<tr><td>删除</td><td>✅</td><td>✅</td><td>❌</td></tr>
+<tr><td>上下架/排序</td><td>✅</td><td>✅</td><td>❌</td></tr>
+<tr><td rowspan="2">📢 公告</td><td>查看/新增/编辑</td><td>✅</td><td>✅</td><td>❌</td></tr>
+<tr><td>删除</td><td>✅</td><td>✅</td><td>❌</td></tr>
+<tr><td rowspan="3">🎮 游戏</td><td>查看列表</td><td>✅</td><td>✅</td><td>❌</td></tr>
+<tr><td>新增/编辑/排序</td><td>✅</td><td>✅</td><td>❌</td></tr>
+<tr><td>删除/上下架</td><td>✅</td><td>✅</td><td>❌</td></tr>
+<tr><td rowspan="3">👤 用户</td><td>查看列表</td><td>✅</td><td>✅</td><td>✅</td></tr>
+<tr><td>查看详情</td><td>✅</td><td>✅</td><td>✅</td></tr>
+<tr><td>封禁/解封</td><td>✅</td><td>❌</td><td>❌</td></tr>
+<tr><td rowspan="2">📅💰 签到/金币</td><td>查看日志</td><td>✅</td><td>✅</td><td>✅(只读)</td></tr>
+<tr><td>修改配置</td><td>✅</td><td>✅</td><td>❌</td></tr>
+<tr><td>📈 数据看板</td><td>查看</td><td>✅</td><td>✅</td><td>❌</td></tr>
+<tr><td>🌐 运营配置</td><td>修改</td><td>✅</td><td>✅</td><td>❌</td></tr>
+<tr><td rowspan="2">🔐 系统</td><td>权限管理</td><td>✅</td><td>❌</td><td>❌</td></tr>
+<tr><td>操作日志</td><td>✅</td><td>❌</td><td>❌</td></tr>
+</table>
+
+<div class="IB o"><strong>无权限时的UI表现：</strong>侧边栏不显示无权限的菜单项。如通过URL直接访问无权限页面 → 显示"无权限访问 Access Denied"提示页并自动跳转首页。</div>
+</div>
+
+<!-- ==================== 后台登录 ==================== -->
+<div class="P" id="pg-login">
+<h1>🔑 后台登录页 Admin Login</h1>
+
+<div class="modal-wrap">
+<div class="modal-box" style="max-width:400px">
+<div style="padding:40px 32px;text-align:center">
+<div style="font-size:24px;font-weight:800;color:#1e293b;margin-bottom:4px"><span style="color:var(--sidebar-active)">BDB</span>GAME</div>
+<div style="font-size:12px;color:#94a3b8;margin-bottom:24px">Admin Management System</div>
+<div class="ff"><div class="ff-label">📧 邮箱 Email</div><div class="ff-input">admin@bdbgame.com</div></div>
+<div class="ff"><div class="ff-label">🔒 密码 Password</div><div class="ff-input" style="display:flex;align-items:center;justify-content:space-between">••••••••<span style="color:#94a3b8;font-size:10px">👁</span></div></div>
+<div style="display:flex;align-items:center;gap:6px;margin-bottom:16px"><div class="toggle on" style="width:32px;height:18px"><div class="dot" style="width:14px;height:14px;left:16px"></div></div><span style="font-size:11px;color:#64748b">记住登录 Remember me</span></div>
+<div class="btn primary" style="width:100%;justify-content:center">登录 Login</div>
+<div style="font-size:10px;color:#94a3b8;margin-top:16px">忘记密码？联系超级管理员重置</div>
+</div>
+</div>
+</div>
+
+<h3>登录错误状态 Login Error States</h3>
+<div style="display:flex;gap:12px;flex-wrap:wrap">
+<div class="modal-wrap" style="flex:1;min-width:280px">
+<div style="text-align:center;padding:16px">
+<div class="ff"><div class="ff-label">📧 邮箱</div><div class="ff-input err">admin@bdbgame.com</div><div class="ff-err">❌ 邮箱或密码错误 Invalid email or password</div></div>
+<div class="btn primary disabled" style="width:100%;justify-content:center">登录 Login</div>
+<div style="font-size:10px;color:var(--r);margin-top:8px">连续错误5次将锁定账户30分钟</div>
+</div>
+</div>
+<div class="modal-wrap" style="flex:1;min-width:280px">
+<div style="text-align:center;padding:16px">
+<div style="font-size:32px;margin-bottom:8px">🔒</div>
+<div style="font-size:14px;font-weight:700;color:var(--r);margin-bottom:4px">账户已锁定 Account Locked</div>
+<div style="font-size:11px;color:#64748b;margin-bottom:12px">连续登录失败5次<br>请30分钟后重试或联系超级管理员</div>
+<div style="font-size:20px;font-weight:800;color:var(--r)">28:45</div>
+<div style="font-size:10px;color:#94a3b8">剩余锁定时间</div>
+</div>
+</div>
+</div>
+
+<h2>登录安全规范 Login Security</h2>
+<table>
+<tr><th>规则</th><th>值</th></tr>
+<tr><td>密码要求</td><td>8-32位，必须包含字母+数字</td></tr>
+<tr><td>登录失败锁定</td><td>连续5次错误 → 锁定30分钟</td></tr>
+<tr><td>Session超时</td><td>无操作2小时自动登出</td></tr>
+<tr><td>Token有效期</td><td>24小时（勾选"记住"延长至7天）</td></tr>
+<tr><td>超管2FA</td><td>V2增加Google Authenticator</td></tr>
+<tr><td>操作日志</td><td>所有登录/登出记录IP、设备、时间</td></tr>
+</table>
+</div>
+
+<!-- ==================== 数据看板主页 ==================== -->
+<div class="P" id="pg-dash-main">
+<h1>📊 数据看板原型 Dashboard Prototype</h1>
+
+<div class="AF">
+<div class="AT">
+<div style="display:flex;align-items:center;gap:12px"><div class="logo"><span>BDB</span>GAME Admin</div><div class="breadcrumb">/ 数据看板</div></div>
+<div class="user"><span>🔔</span><div class="av">A</div> Admin ▾</div>
+</div>
+<div class="AB">
+<div class="AS">
+<div class="grp">核心</div>
+<div class="it on"><span class="ic">📊</span>数据看板</div>
+<div class="grp">内容管理</div>
+<div class="it"><span class="ic">🖼️</span>Banner管理</div>
+<div class="it"><span class="ic">📢</span>公告管理</div>
+<div class="it"><span class="ic">🎮</span>游戏管理</div>
+<div class="grp">用户</div>
+<div class="it"><span class="ic">👤</span>用户管理</div>
+</div>
+<div class="AM">
+<div class="pt">📊 数据看板 Dashboard</div>
+<div class="ps">数据每30秒自动刷新 · 最后更新: 2026-02-28 11:30:00</div>
+
+<!-- 指标卡 -->
+<div class="stats-row">
+<div class="stat-card"><div class="sc-val" style="color:var(--sidebar-active)">3,102</div><div class="sc-label">注册用户 Users</div><div class="sc-trend up">↑ +156 今日</div><div class="sc-bg">👤</div></div>
+<div class="stat-card"><div class="sc-val" style="color:var(--g)">1,234</div><div class="sc-label">日活 DAU</div><div class="sc-trend up">↑ 39.8%</div><div class="sc-bg">📈</div></div>
+<div class="stat-card"><div class="sc-val" style="color:var(--o)">8,560</div><div class="sc-label">今日局数 Rounds</div><div class="sc-trend up">↑ +12%</div><div class="sc-bg">🎮</div></div>
+<div class="stat-card"><div class="sc-val" style="color:#FFD700">1.2B</div><div class="sc-label">全站金币 Coins</div><div class="sc-trend down">↓ -65M 净消耗</div><div class="sc-bg">🪙</div></div>
+</div>
+
+<!-- 趋势图 -->
+<div style="display:flex;gap:14px;flex-wrap:wrap">
+<div style="flex:1;min-width:300px">
+<div class="chart-box">
+<div class="ch-title">📈 注册趋势 Registration Trend<div class="ch-filter"><div class="ch-f">7天</div><div class="ch-f on">30天</div></div></div>
+<div class="chart-area">
+<div class="bar" style="height:45%"><div class="bl">02-22</div></div>
+<div class="bar" style="height:55%"></div>
+<div class="bar" style="height:48%"></div>
+<div class="bar" style="height:62%"></div>
+<div class="bar" style="height:70%"></div>
+<div class="bar" style="height:58%"><div class="bl">02-27</div></div>
+<div class="bar" style="height:85%;background:linear-gradient(180deg,var(--g),#86efac)"><div class="bv">156</div><div class="bl">今日</div></div>
+</div>
+</div>
+</div>
+<div style="flex:1;min-width:300px">
+<div class="chart-box">
+<div class="ch-title">🎮 游戏热度 Top 5 Games<div class="ch-filter"><div class="ch-f on">今日</div><div class="ch-f">本周</div></div></div>
+<div class="chart-area" style="height:140px">
+<div style="flex:1;text-align:center"><div class="bar" style="height:90%;width:80%;margin:0 auto"><div class="bv">2,340</div></div><div style="font-size:8px;color:#94a3b8;margin-top:4px">Aviator</div></div>
+<div style="flex:1;text-align:center"><div class="bar" style="height:72%;width:80%;margin:0 auto;background:linear-gradient(180deg,#f59e0b,#fcd34d)"><div class="bv">1,890</div></div><div style="font-size:8px;color:#94a3b8;margin-top:4px">Fortune</div></div>
+<div style="flex:1;text-align:center"><div class="bar" style="height:55%;width:80%;margin:0 auto;background:linear-gradient(180deg,#10b981,#6ee7b7)"><div class="bv">1,450</div></div><div style="font-size:8px;color:#94a3b8;margin-top:4px">7Up</div></div>
+<div style="flex:1;text-align:center"><div class="bar" style="height:38%;width:80%;margin:0 auto;background:linear-gradient(180deg,#8b5cf6,#c4b5fd)"><div class="bv">980</div></div><div style="font-size:8px;color:#94a3b8;margin-top:4px">Rummy</div></div>
+<div style="flex:1;text-align:center"><div class="bar" style="height:25%;width:80%;margin:0 auto;background:linear-gradient(180deg,#ec4899,#f9a8d4)"><div class="bv">650</div></div><div style="font-size:8px;color:#94a3b8;margin-top:4px">Chicken</div></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 签到+来源 -->
+<div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:6px">
+<div style="flex:1;min-width:250px">
+<div class="chart-box">
+<div class="ch-title">📅 今日签到 Check-in</div>
+<div style="display:flex;align-items:center;gap:16px;padding:10px 0">
+<div class="pie-chart" style="background:conic-gradient(var(--g) 0% 78%,#e2e8f0 78% 100%)"></div>
+<div><div style="font-size:24px;font-weight:800;color:var(--g)">78.5%</div><div style="font-size:10px;color:#64748b">签到率 Check-in Rate</div><div style="font-size:10px;color:#94a3b8;margin-top:4px">已签: 968 / 未签: 266</div></div>
+</div>
+</div>
+</div>
+<div style="flex:1;min-width:250px">
+<div class="chart-box">
+<div class="ch-title">📱 注册来源 Registration Source</div>
+<div style="display:flex;align-items:center;gap:16px;padding:10px 0">
+<div class="pie-chart" style="background:conic-gradient(var(--sidebar-active) 0% 62%,#f59e0b 62% 85%,#e2e8f0 85% 100%)"></div>
+<div>
+<div class="pie-legend" style="flex-direction:column;align-items:flex-start;gap:6px">
+<div class="pl-item"><div class="pl-dot" style="background:var(--sidebar-active)"></div> 📱 手机注册 62%</div>
+<div class="pl-item"><div class="pl-dot" style="background:#f59e0b"></div> 🔵 Google 23%</div>
+<div class="pl-item"><div class="pl-dot" style="background:#e2e8f0"></div> 📲 OTP 15%</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<table class="ann">
+<tr><td><span class="num">1</span></td><td><strong>指标卡 Stats Cards</strong></td><td>4个核心指标。实时(30s)自动刷新。数字变化时有countUp动画。趋势对比昨日同期。</td></tr>
+<tr><td><span class="num">2</span></td><td><strong>注册趋势 Trend</strong></td><td>柱状图。可切换7天/30天。hover显示具体数值。今日柱特殊颜色高亮。</td></tr>
+<tr><td><span class="num">3</span></td><td><strong>游戏热度 Top Games</strong></td><td>Top 5游戏按局数排序。可切换今日/本周/本月。</td></tr>
+<tr><td><span class="num o">4</span></td><td><strong>签到率 Check-in</strong></td><td>环形图。实时显示今日签到/未签到比例。</td></tr>
+<tr><td><span class="num o">5</span></td><td><strong>注册来源 Source</strong></td><td>饼图。手机/Google/OTP三种注册方式占比。</td></tr>
+</table>
+</div>
+
+<!-- ==================== 数据详情 ==================== -->
+<div class="P" id="pg-dash-detail">
+<h1>📉 详细数据页 Detailed Analytics</h1>
+
+<h2>用户留存表 Retention Table</h2>
+<div class="chart-box">
+<div class="ch-title">📊 用户留存率 User Retention</div>
+<table style="font-size:11px">
+<tr><th>注册周 Cohort</th><th>注册数</th><th>次日 D1</th><th>3日 D3</th><th>7日 D7</th><th>14日 D14</th><th>30日 D30</th></tr>
+<tr><td>02-22 ~ 02-28</td><td>892</td><td style="background:#dcfce7;font-weight:600">45.2%</td><td style="background:#ecfdf5">32.1%</td><td style="background:#f0fdf4">—</td><td>—</td><td>—</td></tr>
+<tr><td>02-15 ~ 02-21</td><td>756</td><td style="background:#dcfce7;font-weight:600">42.8%</td><td style="background:#ecfdf5">28.5%</td><td style="background:#f0fdf4">18.3%</td><td>—</td><td>—</td></tr>
+<tr><td>02-08 ~ 02-14</td><td>680</td><td style="background:#dcfce7;font-weight:600">40.1%</td><td style="background:#ecfdf5">26.2%</td><td style="background:#f0fdf4">15.8%</td><td style="background:#f7fee7">10.2%</td><td>—</td></tr>
+</table>
+</div>
+
+<h2>金币流通趋势 Coin Flow</h2>
+<div class="chart-box">
+<div class="ch-title">💰 金币发放 vs 消耗 Issue vs Spend<div class="ch-filter"><div class="ch-f on">7天</div><div class="ch-f">30天</div></div></div>
+<div style="height:150px;display:flex;align-items:flex-end;gap:6px;padding:10px 0;border-bottom:1px solid #f1f5f9">
+<div style="flex:1;display:flex;gap:2px;align-items:flex-end;justify-content:center">
+<div style="width:12px;height:70%;background:var(--g);border-radius:3px 3px 0 0"></div>
+<div style="width:12px;height:50%;background:var(--r);border-radius:3px 3px 0 0;opacity:.7"></div>
+<div style="font-size:7px;color:#94a3b8;position:absolute;bottom:-14px">22</div>
+</div>
+<div style="flex:1;display:flex;gap:2px;align-items:flex-end;justify-content:center">
+<div style="width:12px;height:75%;background:var(--g);border-radius:3px 3px 0 0"></div>
+<div style="width:12px;height:55%;background:var(--r);border-radius:3px 3px 0 0;opacity:.7"></div>
+</div>
+<div style="flex:1;display:flex;gap:2px;align-items:flex-end;justify-content:center">
+<div style="width:12px;height:65%;background:var(--g);border-radius:3px 3px 0 0"></div>
+<div style="width:12px;height:48%;background:var(--r);border-radius:3px 3px 0 0;opacity:.7"></div>
+</div>
+<div style="flex:1;display:flex;gap:2px;align-items:flex-end;justify-content:center">
+<div style="width:12px;height:80%;background:var(--g);border-radius:3px 3px 0 0"></div>
+<div style="width:12px;height:60%;background:var(--r);border-radius:3px 3px 0 0;opacity:.7"></div>
+</div>
+<div style="flex:1;display:flex;gap:2px;align-items:flex-end;justify-content:center">
+<div style="width:12px;height:72%;background:var(--g);border-radius:3px 3px 0 0"></div>
+<div style="width:12px;height:52%;background:var(--r);border-radius:3px 3px 0 0;opacity:.7"></div>
+</div>
+<div style="flex:1;display:flex;gap:2px;align-items:flex-end;justify-content:center">
+<div style="width:12px;height:68%;background:var(--g);border-radius:3px 3px 0 0"></div>
+<div style="width:12px;height:45%;background:var(--r);border-radius:3px 3px 0 0;opacity:.7"></div>
+</div>
+<div style="flex:1;display:flex;gap:2px;align-items:flex-end;justify-content:center">
+<div style="width:12px;height:90%;background:var(--g);border-radius:3px 3px 0 0"></div>
+<div style="width:12px;height:65%;background:var(--r);border-radius:3px 3px 0 0;opacity:.7"></div>
+</div>
+</div>
+<div class="pie-legend" style="margin-top:8px"><div class="pl-item"><div class="pl-dot" style="background:var(--g)"></div> 发放 Issued</div><div class="pl-item"><div class="pl-dot" style="background:var(--r)"></div> 消耗 Spent</div></div>
+</div>
+</div>
+
+<!-- ==================== Banner列表 ==================== -->
+<div class="P" id="pg-banner-list">
+<h1>🖼️ Banner列表+批量操作 Banner List</h1>
+
+<h2>标准列表视图 Standard List View</h2>
+<div class="AF">
+<div class="AT"><div style="display:flex;align-items:center;gap:12px"><div class="logo"><span>BDB</span>GAME Admin</div><div class="breadcrumb">/ 内容管理 / Banner管理</div></div><div class="user"><div class="av">A</div> Admin</div></div>
+<div class="AB">
+<div class="AS">
+<div class="grp">内容管理</div>
+<div class="it on"><span class="ic">🖼️</span>Banner管理</div>
+<div class="it"><span class="ic">📢</span>公告管理</div>
+<div class="it"><span class="ic">🎮</span>游戏管理</div>
+</div>
+<div class="AM">
+<div class="pt">🖼️ Banner管理</div>
+<div class="ps">管理首页轮播Banner · 共12条记录</div>
+<div class="toolbar">
+<div class="search-box">🔍 搜索Banner标题...</div>
+<div class="filter-btn">📊 状态 ▾</div>
+<div class="filter-btn">🌐 语言 ▾</div>
+<div class="filter-btn">📅 时间 ▾</div>
+<div class="add-btn">➕ 新增Banner</div>
+</div>
+<table class="AT2">
+<tr><th style="width:30px"><div class="chk"></div></th><th style="width:30px">↕️</th><th>预览</th><th>标题</th><th>跳转链接</th><th>语言</th><th>状态</th><th>展示时间</th><th>创建人</th><th>操作</th></tr>
+<tr><td><div class="chk"></div></td><td class="drag">⠿</td><td><div class="thumb">🎰</div></td><td style="font-weight:600">春节活动<br><span style="font-size:9px;color:#94a3b8">Spring Festival</span></td><td style="font-size:10px;color:var(--sidebar-active)">/event/spring</td><td>EN+HI</td><td><span class="st on">上架</span></td><td style="font-size:10px">02-01 00:00<br>~ 02-28 23:59</td><td style="font-size:10px;color:#94a3b8">admin</td><td><div class="acts"><span class="edit">编辑</span><span class="copy">复制</span><span class="del">下架</span></div></td></tr>
+<tr><td><div class="chk"></div></td><td class="drag">⠿</td><td><div class="thumb">💰</div></td><td style="font-weight:600">签到有礼<br><span style="font-size:9px;color:#94a3b8">Daily Check-in</span></td><td style="font-size:10px;color:var(--sidebar-active)">/checkin</td><td>ALL</td><td><span class="st on">上架</span></td><td style="font-size:10px">长期有效<br><span style="color:var(--g)">Permanent</span></td><td style="font-size:10px;color:#94a3b8">admin</td><td><div class="acts"><span class="edit">编辑</span><span class="copy">复制</span><span class="del">下架</span></div></td></tr>
+<tr style="opacity:.6"><td><div class="chk"></div></td><td class="drag">⠿</td><td><div class="thumb" style="opacity:.4">🎮</div></td><td style="font-weight:600">Aviator新游<br><span style="font-size:9px;color:#94a3b8">New Game</span></td><td style="font-size:10px">/game/aviator</td><td>EN</td><td><span class="st off">下架</span></td><td style="font-size:10px;color:var(--r)">已过期 Expired<br>01-15 ~ 01-31</td><td style="font-size:10px;color:#94a3b8">operator1</td><td><div class="acts"><span class="edit">编辑</span><span class="view">上架</span><span class="del">删除</span></div></td></tr>
+<tr style="opacity:.5"><td><div class="chk"></div></td><td class="drag">⠿</td><td><div class="thumb" style="opacity:.4">📢</div></td><td style="font-weight:600">欢迎Banner<br><span style="font-size:9px;color:#94a3b8">Welcome</span></td><td>—</td><td>EN</td><td><span class="st draft">草稿</span></td><td style="font-size:10px">未设置</td><td style="font-size:10px;color:#94a3b8">admin</td><td><div class="acts"><span class="edit">编辑</span><span class="view">上架</span><span class="del">删除</span></div></td></tr>
+</table>
+<div class="pagi"><div class="info">共12条 · 每页20条</div><div class="pgs"><span class="pg on">1</span></div></div>
+</div>
+</div>
+</div>
+
+<h2>批量操作状态 Batch Operation</h2>
+<div class="AF" style="margin-top:8px">
+<div class="AB" style="min-height:auto">
+<div class="AM" style="padding:14px 20px">
+<div class="batch-bar">
+<strong>已选择 3 项 Selected</strong>
+<span style="margin-left:auto"></span>
+<div class="bb normal">📤 批量上架</div>
+<div class="bb normal">📥 批量下架</div>
+<div class="bb danger">🗑️ 批量删除</div>
+<div class="bb" style="background:#f1f5f9;color:#64748b">✕ 取消选择</div>
+</div>
+<table class="AT2">
+<tr><th style="width:30px"><div class="chk on"></div></th><th>预览</th><th>标题</th><th>状态</th><th>操作</th></tr>
+<tr style="background:#eff6ff"><td><div class="chk on"></div></td><td><div class="thumb">🎰</div></td><td>春节活动</td><td><span class="st on">上架</span></td><td><div class="acts"><span class="edit">编辑</span></div></td></tr>
+<tr style="background:#eff6ff"><td><div class="chk on"></div></td><td><div class="thumb">💰</div></td><td>签到有礼</td><td><span class="st on">上架</span></td><td><div class="acts"><span class="edit">编辑</span></div></td></tr>
+<tr style="background:#eff6ff"><td><div class="chk on"></div></td><td><div class="thumb" style="opacity:.4">🎮</div></td><td>Aviator新游</td><td><span class="st off">下架</span></td><td><div class="acts"><span class="edit">编辑</span></div></td></tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== Banner新增弹窗 ==================== -->
+<div class="P" id="pg-banner-add">
+<h1>➕ 新增Banner弹窗 Create Banner Modal</h1>
+
+<h2>空态（初始打开）Empty State</h2>
+<div class="modal-wrap">
+<div class="modal-box">
+<div class="modal-header"><div class="mh-title">➕ 新增Banner Create Banner</div><div class="mh-close">✕</div></div>
+<div class="modal-body">
+<div class="ff"><div class="ff-label">Banner标题 Title <span class="req">*</span></div><div class="ff-input" style="color:#94a3b8">输入Banner标题（仅后台管理用）</div><div class="ff-hint">1-50字符，仅管理标识，不显示在前台</div></div>
+<div class="ff-row">
+<div class="ff"><div class="ff-label">展示语言 Language <span class="req">*</span></div><div class="ff-select">请选择 Select ▾</div></div>
+<div class="ff"><div class="ff-label">排序权重 Sort</div><div class="ff-input">0</div><div class="ff-hint">数字越小越靠前</div></div>
+</div>
+<div class="ff"><div class="ff-label">Banner图片 Image <span class="req">*</span></div>
+<div class="ff-upload"><div class="up-icon">📷</div>点击上传或拖拽图片<br><span style="color:#cbd5e1">750×320px · ≤500KB · JPG/PNG/WebP</span></div>
+</div>
+<div class="ff"><div class="ff-label">跳转链接 Link URL</div><div class="ff-input" style="color:#94a3b8">站内路径 /path 或 外部 https://...</div><div class="ff-hint">留空=点击无跳转</div></div>
+<div class="ff-row">
+<div class="ff"><div class="ff-label">开始时间 Start</div><div class="ff-input" style="color:#94a3b8">📅 选择开始时间（留空=立即）</div></div>
+<div class="ff"><div class="ff-label">结束时间 End</div><div class="ff-input" style="color:#94a3b8">📅 选择结束时间（留空=长期）</div></div>
+</div>
+<div class="ff"><div class="ff-toggle"><div class="toggle on"><div class="dot"></div></div><div class="tl"><strong>立即上架</strong> · 保存后前台立即可见<br>关闭=保存为草稿，手动上架</div></div></div>
+</div>
+<div class="modal-footer">
+<div class="btn cancel">取消 Cancel</div>
+<div class="btn primary disabled">保存 Save</div>
+</div>
+</div>
+</div>
+
+<h2>填写完成态 Filled State</h2>
+<div class="modal-wrap">
+<div class="modal-box">
+<div class="modal-header"><div class="mh-title">➕ 新增Banner</div><div class="mh-close">✕</div></div>
+<div class="modal-body">
+<div class="ff"><div class="ff-label">Banner标题 <span class="req">*</span></div><div class="ff-input focus">三月特惠活动 March Promotion</div></div>
+<div class="ff-row">
+<div class="ff"><div class="ff-label">展示语言 <span class="req">*</span></div><div class="ff-select" style="border-color:var(--sidebar-active)">🌐 全部 All</div></div>
+<div class="ff"><div class="ff-label">排序权重</div><div class="ff-input">1</div></div>
+</div>
+<div class="ff"><div class="ff-label">Banner图片 <span class="req">*</span></div>
+<div class="ff-upload-done"><div class="preview">🎉</div><div class="info"><div class="name">march-promo.jpg</div>750×320 · 342KB · JPG<br><span style="color:var(--g)">✅ 尺寸符合要求</span></div><div class="remove">🗑️ 移除</div></div>
+</div>
+<div class="ff"><div class="ff-label">跳转链接</div><div class="ff-input focus">/event/march-promotion</div></div>
+<div class="ff-row">
+<div class="ff"><div class="ff-label">开始时间</div><div class="ff-input">📅 2026-03-01 00:00</div></div>
+<div class="ff"><div class="ff-label">结束时间</div><div class="ff-input">📅 2026-03-31 23:59</div></div>
+</div>
+<div class="ff"><div class="ff-toggle"><div class="toggle on"><div class="dot"></div></div><div class="tl"><strong>立即上架</strong></div></div></div>
+</div>
+<div class="modal-footer">
+<div class="btn cancel">取消</div>
+<div class="btn primary">✅ 保存 Save</div>
+</div>
+</div>
+</div>
+
+<h2>校验错误态 Validation Error State</h2>
+<div class="modal-wrap">
+<div class="modal-box">
+<div class="modal-header"><div class="mh-title">➕ 新增Banner</div><div class="mh-close">✕</div></div>
+<div class="modal-body">
+<div class="ff"><div class="ff-label">Banner标题 <span class="req">*</span></div><div class="ff-input err"></div><div class="ff-err">❌ 标题不能为空 Title is required</div></div>
+<div class="ff"><div class="ff-label">Banner图片 <span class="req">*</span></div>
+<div class="ff-upload" style="border-color:var(--r);background:#fef2f2"><div class="up-icon">⚠️</div><span style="color:var(--r);font-weight:600">请上传Banner图片 Image required</span></div>
+</div>
+<div class="ff"><div class="ff-label">跳转链接</div><div class="ff-input err">htp://invalid-url</div><div class="ff-err">❌ 链接格式不正确 Invalid URL format</div></div>
+</div>
+<div class="modal-footer"><div class="btn cancel">取消</div><div class="btn primary disabled">保存</div></div>
+</div>
+</div>
+</div>
+
+<!-- ==================== Banner编辑+预览 ==================== -->
+<div class="P" id="pg-banner-edit">
+<h1>✏️ 编辑Banner+前台预览 Edit Banner + Preview</h1>
+
+<h2>编辑弹窗（与新增同结构，增加预览按钮）</h2>
+<div class="modal-wrap">
+<div class="modal-box">
+<div class="modal-header"><div class="mh-title">✏️ 编辑Banner Edit Banner</div><div class="mh-close">✕</div></div>
+<div class="modal-body">
+<div class="IB b" style="font-size:11px">当前状态: <span class="st on">上架中</span> · 创建于 2026-02-01 by admin · 最后编辑 2026-02-15 by operator1</div>
+<div class="ff"><div class="ff-label">Banner标题 <span class="req">*</span></div><div class="ff-input">春节活动 Spring Festival</div></div>
+<div class="ff"><div class="ff-label">Banner图片</div>
+<div class="ff-upload-done"><div class="preview">🎰</div><div class="info"><div class="name">spring-festival.jpg</div>750×320 · 428KB<br><span style="color:var(--g)">✅ 当前图片</span></div><div class="remove">🔄 更换</div></div>
+</div>
+<div class="ff"><div class="ff-label">跳转链接</div><div class="ff-input">/event/spring</div></div>
+</div>
+<div class="modal-footer">
+<div class="btn outline">👁️ 前台预览 Preview</div>
+<div class="btn cancel">取消</div>
+<div class="btn primary">✅ 保存修改 Save</div>
+</div>
+</div>
+</div>
+
+<h2>前台预览弹窗 Frontend Preview</h2>
+<div class="modal-wrap">
+<div style="max-width:320px;margin:0 auto">
+<div style="background:#1A2C1A;border-radius:22px;padding:12px;box-shadow:0 8px 30px rgba(0,0,0,.3)">
+<div style="background:#0D1117;border-radius:10px;padding:8px 10px;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+<div style="font-size:12px;font-weight:800;color:#fff"><span style="color:var(--accent)">BDB</span>GAME</div>
+<div style="font-size:9px;color:rgba(255,255,255,.4)">预览模式 Preview</div>
+</div>
+<div style="background:linear-gradient(135deg,#1a3a1a,#0d2e0d);border-radius:10px;height:90px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden">
+<div style="font-size:40px">🎰</div>
+<div style="position:absolute;bottom:4px;left:0;right:0;display:flex;justify-content:center;gap:3px">
+<div style="width:5px;height:5px;border-radius:50%;background:var(--accent)"></div>
+<div style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.2)"></div>
+<div style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.2)"></div>
+</div>
+</div>
+<div style="text-align:center;color:rgba(255,255,255,.3);font-size:9px;margin-top:6px">↑ 当前Banner在前台的展示效果</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== Banner删除+上下架 ==================== -->
+<div class="P" id="pg-banner-del">
+<h1>🗑️ 删除+上下架确认 Delete & Toggle Status</h1>
+
+<h2>下架确认弹窗 Unpublish Confirm</h2>
+<div class="modal-wrap">
+<div class="confirm-box">
+<div class="cb-icon">📥</div>
+<div class="cb-title">确定下架此Banner？Unpublish this banner?</div>
+<div class="cb-desc">下架后前台将不再展示此Banner<br>可随时重新上架<br><br><strong style="color:#1e293b">"春节活动 Spring Festival"</strong></div>
+<div class="cb-btns"><div class="btn cancel">取消 Cancel</div><div class="btn primary" style="background:var(--o)">📥 确认下架 Unpublish</div></div>
+</div>
+</div>
+
+<h2>上架确认弹窗 Publish Confirm</h2>
+<div class="modal-wrap">
+<div class="confirm-box">
+<div class="cb-icon">📤</div>
+<div class="cb-title">确定上架此Banner？Publish this banner?</div>
+<div class="cb-desc">上架后前台用户将立即可见<br><br><strong style="color:#1e293b">"Aviator新游 New Game"</strong><br><br><span style="color:var(--o);font-size:11px">⚠️ 当前已有5个Banner上架，上架后将有6个</span></div>
+<div class="cb-btns"><div class="btn cancel">取消</div><div class="btn success">📤 确认上架 Publish</div></div>
+</div>
+</div>
+
+<h2>删除确认弹窗 Delete Confirm</h2>
+<div class="modal-wrap">
+<div class="confirm-box">
+<div class="cb-icon">⚠️</div>
+<div class="cb-title" style="color:var(--r)">确定删除此Banner？Delete this banner?</div>
+<div class="cb-desc">删除后数据不可恢复（实际为软删除）<br><br><strong style="color:#1e293b">"欢迎Banner Welcome"</strong><br><span style="font-size:10px;color:#94a3b8">草稿状态 · 创建于 2026-02-20</span></div>
+<div class="cb-btns"><div class="btn cancel">取消 Cancel</div><div class="btn danger">🗑️ 确认删除 Delete</div></div>
+</div>
+</div>
+
+<h2>操作反馈 Toast Feedback</h2>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin:12px 0">
+<div class="toast-demo success">✅ Banner已上架 Published successfully</div>
+<div class="toast-demo success">✅ Banner已下架 Unpublished</div>
+<div class="toast-demo success">✅ Banner已删除 Deleted</div>
+<div class="toast-demo success">✅ Banner已保存 Saved</div>
+<div class="toast-demo error">❌ 保存失败，请重试 Save failed</div>
+<div class="toast-demo warning">⚠️ 同时上架Banner不超过8个 Max 8 active</div>
+</div>
+</div>
+
+<!-- ==================== Banner排序 ==================== -->
+<div class="P" id="pg-banner-sort">
+<h1>↕️ 拖拽排序 Drag & Drop Sort</h1>
+
+<h2>拖拽排序交互 Drag Sort Interaction</h2>
+<div class="AF">
+<div class="AB" style="min-height:auto">
+<div class="AM">
+<div class="IB o" style="font-size:11px">🔀 <strong>排序模式已开启</strong> — 拖拽 ⠿ 图标调整顺序，完成后点击"保存排序"</div>
+<table class="AT2">
+<tr><th>↕️</th><th>预览</th><th>标题</th><th>当前位置</th></tr>
+<tr style="background:#eff6ff;box-shadow:0 2px 8px rgba(59,130,246,.15)"><td class="drag" style="color:var(--sidebar-active);font-size:18px">⠿</td><td><div class="thumb">🎰</div></td><td>春节活动</td><td style="font-weight:700;color:var(--sidebar-active)">1 → <span style="color:var(--g)">1</span></td></tr>
+<tr style="border:2px dashed var(--sidebar-active);background:#f0f7ff"><td colspan="4" style="text-align:center;color:var(--sidebar-active);font-size:10px;padding:12px">↕ 拖拽到此位置 Drop here</td></tr>
+<tr><td class="drag">⠿</td><td><div class="thumb">💰</div></td><td>签到有礼</td><td>2 → <span style="color:var(--o)">3</span></td></tr>
+<tr><td class="drag">⠿</td><td><div class="thumb">🎮</div></td><td>Aviator新游</td><td>3 → <span style="color:var(--o)">2</span></td></tr>
+</table>
+<div style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px">
+<div class="btn cancel">取消排序 Cancel</div>
+<div class="btn primary">💾 保存排序 Save Order</div>
+</div>
+</div>
+</div>
+</div>
+
+<h2>排序规则 Sort Rules</h2>
+<table>
+<tr><th>规则</th><th>说明</th></tr>
+<tr><td>排序范围</td><td>仅对「上架」状态Banner排序，下架/草稿不参与</td></tr>
+<tr><td>拖拽交互</td><td>鼠标按住⠿图标拖拽，拖拽中行高亮+阴影，目标位置显示蓝色虚线</td></tr>
+<tr><td>保存时机</td><td>拖拽不自动保存，需点击"保存排序"按钮一次性提交</td></tr>
+<tr><td>前台生效</td><td>保存后前台实时生效（下次刷新可见）</td></tr>
+<tr><td>并发保护</td><td>如其他人同时修改排序，保存时提示冲突并刷新</td></tr>
+</table>
+</div>
+
+<!-- ==================== Banner规范 ==================== -->
+<div class="P" id="pg-banner-spec">
+<h1>📐 Banner字段+规范 Banner Specs</h1>
+
+<h2>数据库字段 Database Fields</h2>
+<table>
+<tr><th>字段名</th><th>类型</th><th>必填</th><th>默认值</th><th>说明</th></tr>
+<tr><td>id</td><td>bigint</td><td>✅</td><td>auto</td><td>主键自增</td></tr>
+<tr><td>title</td><td>varchar(50)</td><td>✅</td><td>—</td><td>管理标题，仅后台可见</td></tr>
+<tr><td>image_url</td><td>varchar(500)</td><td>✅</td><td>—</td><td>CDN图片URL</td></tr>
+<tr><td>link_url</td><td>varchar(500)</td><td>❌</td><td>null</td><td>跳转链接</td></tr>
+<tr><td>language</td><td>enum</td><td>✅</td><td>'all'</td><td>all / en / hi</td></tr>
+<tr><td>sort_order</td><td>int</td><td>❌</td><td>0</td><td>越小越靠前</td></tr>
+<tr><td>status</td><td>enum</td><td>✅</td><td>'draft'</td><td>draft / active / expired</td></tr>
+<tr><td>start_at</td><td>timestamp</td><td>❌</td><td>null</td><td>定时上架时间</td></tr>
+<tr><td>end_at</td><td>timestamp</td><td>❌</td><td>null</td><td>定时下架时间</td></tr>
+<tr><td>created_by</td><td>FK→admin</td><td>✅</td><td>current</td><td>创建人</td></tr>
+<tr><td>created_at</td><td>timestamp</td><td>✅</td><td>now()</td><td>创建时间</td></tr>
+<tr><td>updated_at</td><td>timestamp</td><td>✅</td><td>now()</td><td>最后修改时间</td></tr>
+<tr><td>deleted_at</td><td>timestamp</td><td>❌</td><td>null</td><td>软删除时间</td></tr>
+</table>
+
+<h2>图片规范 Image Specs</h2>
+<table>
+<tr><th>属性</th><th>要求</th></tr>
+<tr><td>推荐尺寸</td><td>750 × 320 px (比例 2.34:1)</td></tr>
+<tr><td>最小尺寸</td><td>640 × 270 px</td></tr>
+<tr><td>最大文件</td><td>500KB (上传时前端压缩)</td></tr>
+<tr><td>格式</td><td>JPG / PNG / WebP</td></tr>
+<tr><td>上传处理</td><td>① 压缩为WebP(quality:80) ② 生成缩略图200×85 ③ 上传CDN</td></tr>
+<tr><td>校验失败</td><td>尺寸不足→红色提示"图片尺寸不足" / 文件过大→"文件超过500KB"</td></tr>
+</table>
+
+<h2>前台展示规则 Frontend Display Rules</h2>
+<table>
+<tr><th>规则</th><th>详情</th></tr>
+<tr><td>轮播间隔</td><td>默认3s自动切换（站点配置可调1-10s）</td></tr>
+<tr><td>最大上架数</td><td>同时最多8个。超过8个→提示警告但不阻止</td></tr>
+<tr><td>语言匹配</td><td>用户EN→显示language=en或all。用户HI→显示language=hi或all</td></tr>
+<tr><td>排序</td><td>sort_order ASC → created_at DESC</td></tr>
+<tr><td>定时任务</td><td>cron每分钟检查start_at/end_at，自动切换状态</td></tr>
+<tr><td>无Banner</td><td>前台隐藏轮播区域(不显示空白)</td></tr>
+</table>
+
+<h2>操作流程图 Operation Flow</h2>
+<div class="flow">
+<div class="flow-node start">点击"新增"</div><div class="flow-arrow">→</div>
+<div class="flow-node action">弹出表单<br>填写信息</div><div class="flow-arrow">→</div>
+<div class="flow-node check">前端校验<br>通过？</div><div class="flow-arrow">→</div>
+<div class="flow-node action">提交API<br>POST /banners</div><div class="flow-arrow">→</div>
+<div class="flow-node check">后端校验<br>通过？</div><div class="flow-arrow">→</div>
+<div class="flow-node success">成功Toast<br>列表刷新</div>
+</div>
+<div class="flow">
+<div class="flow-node page" style="margin-left:200px">校验失败</div><div class="flow-arrow">→</div>
+<div class="flow-node error">字段标红<br>显示错误信息</div><div class="flow-arrow">→</div>
+<div class="flow-node page">用户修正<br>重新提交</div>
+</div>
+</div>
+
+<!-- ==================== 公告列表 ==================== -->
+<div class="P" id="pg-ann-list">
+<h1>📢 公告列表 Announcement List</h1>
+
+<div class="AF">
+<div class="AT"><div style="display:flex;align-items:center;gap:12px"><div class="logo"><span>BDB</span>GAME Admin</div><div class="breadcrumb">/ 内容管理 / 公告管理</div></div><div class="user"><div class="av">A</div> Admin</div></div>
+<div class="AB">
+<div class="AS">
+<div class="grp">内容管理</div>
+<div class="it"><span class="ic">🖼️</span>Banner管理</div>
+<div class="it on"><span class="ic">📢</span>公告管理</div>
+<div class="it"><span class="ic">🎮</span>游戏管理</div>
+</div>
+<div class="AM">
+<div class="pt">📢 公告管理 Announcement</div>
+<div class="ps">管理首页跑马灯公告 · 共6条</div>
+<div class="toolbar"><div class="search-box">🔍 搜索公告内容...</div><div class="filter-btn">状态 ▾</div><div class="add-btn">➕ 新增公告</div></div>
+<table class="AT2">
+<tr><th style="width:30px">↕️</th><th>English内容</th><th>हिन्दी内容</th><th>状态</th><th>时间</th><th>操作</th></tr>
+<tr><td class="drag">⠿</td><td style="max-width:240px">🎉 Welcome to BDBGAME! Register and get 50,000 free coins!</td><td style="max-width:200px;font-size:10px">🎉 BDBGAME में आपका स्वागत है!</td><td><span class="st on">上架</span></td><td style="font-size:10px">长期</td><td><div class="acts"><span class="edit">编辑</span><span class="del">下架</span></div></td></tr>
+<tr><td class="drag">⠿</td><td>🔥 New Game Alert: Aviator is now live!</td><td style="font-size:10px">🔥 नया गेम: Aviator अब लाइव!</td><td><span class="st on">上架</span></td><td style="font-size:10px">02-20~03-15</td><td><div class="acts"><span class="edit">编辑</span><span class="del">下架</span></div></td></tr>
+<tr style="opacity:.5"><td class="drag">⠿</td><td>📅 Don't forget to check in daily!</td><td style="font-size:10px;color:#94a3b8">—(未设置)</td><td><span class="st draft">草稿</span></td><td style="font-size:10px">—</td><td><div class="acts"><span class="edit">编辑</span><span class="view">上架</span><span class="del">删除</span></div></td></tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== 公告新增/编辑 ==================== -->
+<div class="P" id="pg-ann-form">
+<h1>✏️ 新增/编辑公告弹窗 Announcement Form</h1>
+
+<h2>新增公告弹窗 Create Announcement</h2>
+<div class="modal-wrap">
+<div class="modal-box">
+<div class="modal-header"><div class="mh-title">➕ 新增公告 Create Announcement</div><div class="mh-close">✕</div></div>
+<div class="modal-body">
+<div class="ff"><div class="ff-label">公告内容 English <span class="req">*</span></div><div class="ff-input" style="height:60px;color:#94a3b8">输入英文公告内容...</div><div class="ff-hint">建议50字以内，跑马灯循环展示效果最佳</div></div>
+<div class="ff"><div class="ff-label">公告内容 हिन्दी Hindi</div><div class="ff-input" style="height:60px;color:#94a3b8">输入印地语公告内容（留空则Hindi用户不展示此条）</div></div>
+<div class="ff-row">
+<div class="ff"><div class="ff-label">排序权重</div><div class="ff-input">0</div></div>
+<div class="ff"><div class="ff-label">状态</div><div class="ff-select">上架 Active ▾</div></div>
+</div>
+<div class="ff-row">
+<div class="ff"><div class="ff-label">开始时间</div><div class="ff-input" style="color:#94a3b8">📅 留空=立即</div></div>
+<div class="ff"><div class="ff-label">结束时间</div><div class="ff-input" style="color:#94a3b8">📅 留空=长期</div></div>
+</div>
+
+<div class="IB b" style="font-size:11px">📱 <strong>前台预览 Preview:</strong>
+<div style="background:#1A2C1A;border-radius:6px;padding:6px 10px;margin-top:6px;display:flex;align-items:center;gap:6px">
+<span style="color:var(--accent)">🔔</span>
+<span style="color:#fff;font-size:10px">🎉 Welcome to BDBGAME! Register and get 50,000 free coins!</span>
+<span style="color:rgba(255,255,255,.2);font-size:8px">← 滚动方向</span>
+</div>
+</div>
+</div>
+<div class="modal-footer"><div class="btn cancel">取消</div><div class="btn primary">✅ 保存</div></div>
+</div>
+</div>
+</div>
+
+<!-- ==================== 公告规范 ==================== -->
+<div class="P" id="pg-ann-spec">
+<h1>📐 公告规范 Announcement Specs</h1>
+<table>
+<tr><th>字段</th><th>类型</th><th>必填</th><th>校验</th></tr>
+<tr><td>content_en</td><td>varchar(200)</td><td>✅</td><td>1-200字符</td></tr>
+<tr><td>content_hi</td><td>varchar(200)</td><td>❌</td><td>1-200字符（留空=该语言不展示）</td></tr>
+<tr><td>sort_order</td><td>int</td><td>❌</td><td>默认0</td></tr>
+<tr><td>status</td><td>enum</td><td>✅</td><td>draft / active</td></tr>
+<tr><td>start_at / end_at</td><td>timestamp</td><td>❌</td><td>留空=立即/长期</td></tr>
+</table>
+<div class="IB b"><strong>前台展示规则：</strong>多条active公告按sort_order排列，循环滚动。跑马灯速度50px/s(站点配置可调)。🔔图标固定不随文字滚动。</div>
+</div>
+
+<!-- ==================== 游戏列表 ==================== -->
+<div class="P" id="pg-game-list">
+<h1>🎮 游戏列表 Game List</h1>
+
+<div class="AF">
+<div class="AT"><div style="display:flex;align-items:center;gap:12px"><div class="logo"><span>BDB</span>GAME Admin</div><div class="breadcrumb">/ 内容管理 / 游戏管理</div></div><div class="user"><div class="av">A</div> Admin</div></div>
+<div class="AB">
+<div class="AS">
+<div class="grp">内容管理</div>
+<div class="it"><span class="ic">🖼️</span>Banner管理</div>
+<div class="it"><span class="ic">📢</span>公告管理</div>
+<div class="it on"><span class="ic">🎮</span>游戏管理</div>
+<div style="padding:4px 14px;font-size:10px;color:#94a3b8;margin-left:28px">├ 游戏列表</div>
+<div style="padding:4px 14px;font-size:10px;color:#94a3b8;margin-left:28px">├ 分类管理</div>
+<div style="padding:4px 14px;font-size:10px;color:#94a3b8;margin-left:28px">└ 厂商管理</div>
+</div>
+<div class="AM">
+<div class="pt">🎮 游戏管理 Game Management</div>
+<div class="ps">管理所有接入游戏 · 共58款</div>
+<div class="toolbar">
+<div class="search-box">🔍 搜索游戏名称/代码...</div>
+<div class="filter-btn">📁 分类 ▾</div>
+<div class="filter-btn">🏢 厂商 ▾</div>
+<div class="filter-btn">📊 状态 ▾</div>
+<div class="filter-btn">🏷️ 标签 ▾</div>
+<div class="add-btn">➕ 新增游戏</div>
+</div>
+<table class="AT2">
+<tr><th><div class="chk"></div></th><th>↕️</th><th>图标</th><th>游戏名</th><th>代码</th><th>厂商</th><th>分类</th><th>标签</th><th>状态</th><th>操作</th></tr>
+<tr><td><div class="chk"></div></td><td class="drag">⠿</td><td><div class="thumb">✈️</div></td><td style="font-weight:600">Aviator</td><td style="font-size:10px;color:#94a3b8;font-family:monospace">aviator_spribe</td><td>Spribe</td><td><span style="background:#e3f2fd;color:var(--sidebar-active);padding:2px 6px;border-radius:4px;font-size:9px">Crash</span></td><td><span style="background:#fce4ec;color:var(--r);padding:2px 6px;border-radius:4px;font-size:9px">🔥 HOT</span></td><td><span class="st on">上架</span></td><td><div class="acts"><span class="edit">编辑</span><span class="del">下架</span></div></td></tr>
+<tr><td><div class="chk"></div></td><td class="drag">⠿</td><td><div class="thumb">🎰</div></td><td style="font-weight:600">Fortune Gems 3</td><td style="font-size:10px;color:#94a3b8;font-family:monospace">fortune3_jili</td><td>JILI</td><td><span style="background:#f3e5f5;color:#7b1fa2;padding:2px 6px;border-radius:4px;font-size:9px">Slots</span></td><td><span style="background:#e8f5e9;color:var(--g);padding:2px 6px;border-radius:4px;font-size:9px">⭐ NEW</span></td><td><span class="st on">上架</span></td><td><div class="acts"><span class="edit">编辑</span><span class="del">下架</span></div></td></tr>
+<tr><td><div class="chk"></div></td><td class="drag">⠿</td><td><div class="thumb">🎲</div></td><td style="font-weight:600">7 Up 7 Down</td><td style="font-size:10px;color:#94a3b8;font-family:monospace">7up_jili</td><td>JILI</td><td><span style="background:#fff3e0;color:var(--o);padding:2px 6px;border-radius:4px;font-size:9px">Table</span></td><td>—</td><td><span class="st on">上架</span></td><td><div class="acts"><span class="edit">编辑</span><span class="del">下架</span></div></td></tr>
+</table>
+<div class="pagi"><div class="info">共58条 · 每页20条</div><div class="pgs"><span class="pg on">1</span><span class="pg">2</span><span class="pg">3</span></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== 游戏新增/编辑弹窗 ==================== -->
+<div class="P" id="pg-game-form">
+<h1>✏️ 游戏新增/编辑弹窗 Game Form Modal</h1>
+
+<h2>新增游戏弹窗 Create Game</h2>
+<div class="modal-wrap">
+<div class="modal-box">
+<div class="modal-header"><div class="mh-title">➕ 新增游戏 Create Game</div><div class="mh-close">✕</div></div>
+<div class="modal-body">
+<div class="ff-row">
+<div class="ff"><div class="ff-label">游戏名称 Name <span class="req">*</span></div><div class="ff-input" style="color:#94a3b8">e.g. Aviator</div></div>
+<div class="ff"><div class="ff-label">游戏代码 Code <span class="req">*</span></div><div class="ff-input" style="color:#94a3b8">厂商API game_code</div><div class="ff-hint">从厂商文档获取，唯一标识</div></div>
+</div>
+<div class="ff-row">
+<div class="ff"><div class="ff-label">所属厂商 Provider <span class="req">*</span></div><div class="ff-select">选择厂商 ▾</div></div>
+<div class="ff"><div class="ff-label">游戏分类 Category <span class="req">*</span></div>
+<div class="ff-select">选择分类（可多选）▾</div>
+<div class="ff-hint">支持属于多个分类</div></div>
+</div>
+<div class="ff"><div class="ff-label">游戏图标 Icon <span class="req">*</span></div>
+<div class="ff-upload"><div class="up-icon">📷</div>200×200px正方形 · ≤200KB · PNG/WebP</div>
+</div>
+<div class="ff-row">
+<div class="ff"><div class="ff-label">排序权重 Sort</div><div class="ff-input">0</div></div>
+<div class="ff"><div class="ff-label">标签 Tags</div>
+<div style="display:flex;gap:4px;flex-wrap:wrap">
+<span style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:10px;cursor:pointer">无 None</span>
+<span style="padding:4px 10px;border:1px solid var(--r);border-radius:6px;font-size:10px;color:var(--r);background:#fef2f2;cursor:pointer">🔥 HOT</span>
+<span style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:10px;cursor:pointer">⭐ NEW</span>
+<span style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:10px;cursor:pointer">🎁 BONUS</span>
+</div></div>
+</div>
+<div class="ff"><div class="ff-toggle"><div class="toggle on"><div class="dot"></div></div><div class="tl"><strong>推荐到首页</strong> Featured — 首页Trending区域展示</div></div></div>
+<div class="ff"><div class="ff-toggle"><div class="toggle on"><div class="dot"></div></div><div class="tl"><strong>立即上架</strong> Active</div></div></div>
+</div>
+<div class="modal-footer"><div class="btn cancel">取消</div><div class="btn primary">✅ 保存</div></div>
+</div>
+</div>
+
+<h2>编辑游戏弹窗（已填充）Edit Game</h2>
+<div class="modal-wrap">
+<div class="modal-box">
+<div class="modal-header"><div class="mh-title">✏️ 编辑游戏 Edit Game</div><div class="mh-close">✕</div></div>
+<div class="modal-body">
+<div class="IB b" style="font-size:10px">游戏ID: <strong>G-001</strong> · 创建: 2026-01-15 · 总局数: 12,340 · 收藏数: 256</div>
+<div class="ff-row">
+<div class="ff"><div class="ff-label">游戏名称 <span class="req">*</span></div><div class="ff-input">Aviator</div></div>
+<div class="ff"><div class="ff-label">游戏代码 <span class="req">*</span></div><div class="ff-input" style="background:#f1f5f9;color:#94a3b8">aviator_spribe<span style="float:right;font-size:9px">🔒不可改</span></div></div>
+</div>
+<div class="ff-row">
+<div class="ff"><div class="ff-label">所属厂商</div><div class="ff-select">Spribe</div></div>
+<div class="ff"><div class="ff-label">游戏分类</div>
+<div style="display:flex;gap:4px;flex-wrap:wrap">
+<span style="padding:3px 8px;background:#e3f2fd;color:var(--sidebar-active);border-radius:5px;font-size:10px">Crash ✕</span>
+<span style="padding:3px 8px;background:#f3e5f5;color:#7b1fa2;border-radius:5px;font-size:10px">Popular ✕</span>
+<span style="padding:3px 8px;border:1px dashed #e2e8f0;border-radius:5px;font-size:10px;color:#94a3b8;cursor:pointer">+ 添加分类</span>
+</div></div>
+</div>
+<div class="ff"><div class="ff-label">游戏图标</div>
+<div class="ff-upload-done"><div class="preview">✈️</div><div class="info"><div class="name">aviator-icon.png</div>200×200 · 45KB · PNG</div><div class="remove">🔄 更换</div></div>
+</div>
+<div class="ff-row">
+<div class="ff"><div class="ff-label">排序权重</div><div class="ff-input">1</div></div>
+<div class="ff"><div class="ff-label">标签</div><span style="padding:4px 10px;border:2px solid var(--r);border-radius:6px;font-size:10px;color:var(--r);background:#fef2f2;font-weight:600">🔥 HOT ✓</span></div>
+</div>
+<div class="ff"><div class="ff-toggle"><div class="toggle on"><div class="dot"></div></div><div class="tl"><strong>推荐到首页</strong> ✅</div></div></div>
+</div>
+<div class="modal-footer"><div class="btn outline">👁️ 前台预览</div><div class="btn cancel">取消</div><div class="btn primary">✅ 保存修改</div></div>
+</div>
+</div>
+</div>
+
+<!-- ==================== 分类管理 ==================== -->
+<div class="P" id="pg-game-cat">
+<h1>📁 分类管理 Category Management</h1>
+
+<div class="AF">
+<div class="AB" style="min-height:auto">
+<div class="AM">
+<div class="pt">📁 分类管理 Categories</div>
+<div class="ps">管理游戏分类 · 拖拽排序决定首页区块顺序</div>
+<div class="toolbar"><div class="add-btn">➕ 新增分类</div></div>
+<table class="AT2">
+<tr><th>↕️</th><th>图标</th><th>分类名(EN)</th><th>分类名(HI)</th><th>游戏数</th><th>首页显示</th><th>状态</th><th>操作</th></tr>
+<tr><td class="drag">⠿</td><td>🃏</td><td style="font-weight:600">Table Game</td><td>टेबल गेम</td><td>12</td><td><div class="toggle on" style="width:32px;height:18px"><div class="dot" style="width:14px;height:14px;left:16px"></div></div></td><td><span class="st on">显示</span></td><td><div class="acts"><span class="edit">编辑</span></div></td></tr>
+<tr><td class="drag">⠿</td><td>💥</td><td style="font-weight:600">Crash</td><td>क्रैश</td><td>8</td><td><div class="toggle on" style="width:32px;height:18px"><div class="dot" style="width:14px;height:14px;left:16px"></div></div></td><td><span class="st on">显示</span></td><td><div class="acts"><span class="edit">编辑</span></div></td></tr>
+<tr><td class="drag">⠿</td><td>🎰</td><td style="font-weight:600">Slots</td><td>स्लॉट्स</td><td>25</td><td><div class="toggle on" style="width:32px;height:18px"><div class="dot" style="width:14px;height:14px;left:16px"></div></div></td><td><span class="st on">显示</span></td><td><div class="acts"><span class="edit">编辑</span></div></td></tr>
+<tr><td class="drag">⠿</td><td>🎥</td><td style="font-weight:600">Live</td><td>लाइव</td><td>10</td><td><div class="toggle on" style="width:32px;height:18px"><div class="dot" style="width:14px;height:14px;left:16px"></div></div></td><td><span class="st on">显示</span></td><td><div class="acts"><span class="edit">编辑</span></div></td></tr>
+<tr style="opacity:.5"><td class="drag">⠿</td><td>🎱</td><td>Lotto</td><td>लॉटो</td><td>3</td><td><div class="toggle" style="width:32px;height:18px"><div class="dot" style="width:14px;height:14px"></div></div></td><td><span class="st off">隐藏</span></td><td><div class="acts"><span class="edit">编辑</span></div></td></tr>
+</table>
+</div>
+</div>
+</div>
+
+<h2>新增/编辑分类弹窗 Category Form</h2>
+<div class="modal-wrap">
+<div class="modal-box" style="max-width:450px">
+<div class="modal-header"><div class="mh-title">➕ 新增分类</div><div class="mh-close">✕</div></div>
+<div class="modal-body">
+<div class="ff"><div class="ff-label">分类图标 Icon <span class="req">*</span></div><div class="ff-input" style="width:60px">🃏</div><div class="ff-hint">选择emoji或上传图标</div></div>
+<div class="ff-row">
+<div class="ff"><div class="ff-label">分类名(EN) <span class="req">*</span></div><div class="ff-input" style="color:#94a3b8">e.g. Table Game</div></div>
+<div class="ff"><div class="ff-label">分类名(HI) <span class="req">*</span></div><div class="ff-input" style="color:#94a3b8">e.g. टेबल गेम</div></div>
+</div>
+<div class="ff"><div class="ff-toggle"><div class="toggle on"><div class="dot"></div></div><div class="tl"><strong>首页显示</strong> Show on Homepage</div></div></div>
+</div>
+<div class="modal-footer"><div class="btn cancel">取消</div><div class="btn primary">✅ 保存</div></div>
+</div>
+</div>
+
+<div class="IB b"><strong>分类规则：</strong>拖拽排序决定首页纵向区块顺序。隐藏分类=前台不展示该区块，但游戏仍可搜索。每个游戏可属于多个分类。删除分类前需先移除所有关联游戏。</div>
+</div>
+
+<!-- ==================== 厂商管理 ==================== -->
+<div class="P" id="pg-game-provider">
+<h1>🏢 厂商管理 Provider Management</h1>
+
+<div class="AF">
+<div class="AB" style="min-height:auto">
+<div class="AM">
+<div class="pt">🏢 厂商管理 Providers</div>
+<div class="toolbar"><div class="search-box">🔍 搜索厂商...</div><div class="add-btn">➕ 新增厂商</div></div>
+<table class="AT2">
+<tr><th>↕️</th><th>Logo</th><th>厂商名</th><th>API状态</th><th>游戏数</th><th>标签</th><th>前台显示</th><th>操作</th></tr>
+<tr><td class="drag">⠿</td><td><div class="thumb" style="font-size:10px;font-weight:700">JILI</div></td><td style="font-weight:600">JILI Games</td><td><span class="st on">✅ 已接入</span></td><td>18</td><td>—</td><td><div class="toggle on" style="width:32px;height:18px"><div class="dot" style="width:14px;height:14px;left:16px"></div></div></td><td><div class="acts"><span class="edit">编辑</span></div></td></tr>
+<tr><td class="drag">⠿</td><td><div class="thumb" style="font-size:10px;font-weight:700">SPRIBE</div></td><td style="font-weight:600">Spribe</td><td><span class="st on">✅ 已接入</span></td><td>5</td><td>—</td><td><div class="toggle on" style="width:32px;height:18px"><div class="dot" style="width:14px;height:14px;left:16px"></div></div></td><td><div class="acts"><span class="edit">编辑</span></div></td></tr>
+<tr><td class="drag">⠿</td><td><div class="thumb" style="font-size:10px;font-weight:700;color:var(--sidebar-active);border:1px solid var(--sidebar-active)">NetEnt</div></td><td>NetEnt</td><td><span class="st draft">⏳ 接入中</span></td><td>0</td><td><span style="background:#e8f5e9;color:var(--g);padding:2px 6px;border-radius:4px;font-size:9px">NEW</span></td><td><div class="toggle" style="width:32px;height:18px"><div class="dot" style="width:14px;height:14px"></div></div></td><td><div class="acts"><span class="edit">编辑</span></div></td></tr>
+</table>
+</div>
+</div>
+</div>
+
+<h2>新增厂商弹窗 Provider Form</h2>
+<div class="modal-wrap">
+<div class="modal-box" style="max-width:500px">
+<div class="modal-header"><div class="mh-title">➕ 新增厂商</div><div class="mh-close">✕</div></div>
+<div class="modal-body">
+<div class="ff-row">
+<div class="ff"><div class="ff-label">厂商名称 <span class="req">*</span></div><div class="ff-input" style="color:#94a3b8">e.g. JILI Games</div></div>
+<div class="ff"><div class="ff-label">厂商代码 <span class="req">*</span></div><div class="ff-input" style="color:#94a3b8">e.g. jili</div></div>
+</div>
+<div class="ff"><div class="ff-label">Logo <span class="req">*</span></div><div class="ff-upload"><div class="up-icon">📷</div>100×40px · ≤50KB · PNG/SVG</div></div>
+<div class="ff"><div class="ff-label">API端点 Endpoint <span class="req">*</span></div><div class="ff-input" style="color:#94a3b8">https://api.provider.com/v1</div></div>
+<div class="ff"><div class="ff-label">API密钥 Key <span class="req">*</span></div><div class="ff-input" style="color:#94a3b8">sk_live_xxxxx (加密存储)</div><div class="ff-hint">⚠️ 仅超级管理员可查看/修改</div></div>
+<div class="ff"><div class="ff-toggle"><div class="toggle"><div class="dot"></div></div><div class="tl"><strong>NEW标签</strong> 前台厂商墙显示NEW角标</div></div></div>
+</div>
+<div class="modal-footer"><div class="btn cancel">取消</div><div class="btn primary">✅ 保存</div></div>
+</div>
+</div>
+</div>
+
+<!-- ==================== 游戏规范 ==================== -->
+<div class="P" id="pg-game-spec">
+<h1>📐 游戏排序+规范 Game Sort & Specs</h1>
+
+<h2>排序维度 Sort Dimensions</h2>
+<table>
+<tr><th>维度</th><th>影响位置</th><th>排序规则</th></tr>
+<tr><td>首页Trending区</td><td>首页顶部推荐</td><td>Featured=true → sort ASC → created_at DESC</td></tr>
+<tr><td>分类内</td><td>各分类横向列表</td><td>sort ASC → created_at DESC</td></tr>
+<tr><td>分类区块</td><td>首页纵向顺序</td><td>分类管理中的拖拽排序</td></tr>
+<tr><td>搜索结果</td><td>搜索页</td><td>匹配度 → 人气(局数) → sort</td></tr>
+<tr><td>厂商墙</td><td>首页Providers</td><td>厂商管理中的拖拽排序</td></tr>
+</table>
+
+<h2>游戏数据库字段 Game DB Fields</h2>
+<table>
+<tr><th>字段</th><th>类型</th><th>必填</th><th>说明</th></tr>
+<tr><td>id</td><td>bigint</td><td>✅</td><td>主键</td></tr>
+<tr><td>name</td><td>varchar(50)</td><td>✅</td><td>游戏名(唯一)</td></tr>
+<tr><td>game_code</td><td>varchar(100)</td><td>✅</td><td>厂商API code(唯一,创建后不可改)</td></tr>
+<tr><td>provider_id</td><td>FK</td><td>✅</td><td>关联厂商</td></tr>
+<tr><td>icon_url</td><td>varchar(500)</td><td>✅</td><td>图标CDN URL</td></tr>
+<tr><td>sort_order</td><td>int</td><td>❌</td><td>默认0</td></tr>
+<tr><td>tags</td><td>varchar[]</td><td>❌</td><td>HOT/NEW/BONUS</td></tr>
+<tr><td>is_featured</td><td>bool</td><td>❌</td><td>推荐到首页</td></tr>
+<tr><td>status</td><td>enum</td><td>✅</td><td>active/inactive</td></tr>
+<tr><td>total_rounds</td><td>bigint</td><td>—</td><td>自动统计,不可编辑</td></tr>
+<tr><td>favourite_count</td><td>int</td><td>—</td><td>自动统计</td></tr>
+</table>
+<p>多对多关联: game_categories (game_id, category_id)</p>
+</div>
+
+<!-- ==================== 用户列表 ==================== -->
+<div class="P" id="pg-user-list">
+<h1>👤 用户列表 User List</h1>
+
+<div class="AF">
+<div class="AT"><div style="display:flex;align-items:center;gap:12px"><div class="logo"><span>BDB</span>GAME Admin</div><div class="breadcrumb">/ 用户管理</div></div><div class="user"><div class="av">A</div> Admin</div></div>
+<div class="AB">
+<div class="AS">
+<div class="grp">用户</div>
+<div class="it on"><span class="ic">👤</span>用户管理</div>
+<div class="it"><span class="ic">🚫</span>封禁记录</div>
+</div>
+<div class="AM">
+<div class="pt">👤 用户管理</div>
+<div class="ps">共3,102名注册用户</div>
+<div class="toolbar">
+<div class="search-box">🔍 搜索UID / 手机号 / 昵称...</div>
+<div class="filter-btn">📱 注册方式 ▾</div>
+<div class="filter-btn">📊 状态 ▾</div>
+<div class="filter-btn">📅 注册时间 ▾</div>
+<div class="filter-btn">💰 余额范围 ▾</div>
+</div>
+<!-- 统计卡 -->
+<div class="stats-row" style="margin-bottom:12px">
+<div class="stat-card" style="padding:10px"><div class="sc-val" style="font-size:18px;color:var(--sidebar-active)">3,102</div><div class="sc-label">总用户</div></div>
+<div class="stat-card" style="padding:10px"><div class="sc-val" style="font-size:18px;color:var(--g)">+156</div><div class="sc-label">今日新增</div></div>
+<div class="stat-card" style="padding:10px"><div class="sc-val" style="font-size:18px;color:var(--o)">1,234</div><div class="sc-label">今日活跃</div></div>
+<div class="stat-card" style="padding:10px"><div class="sc-val" style="font-size:18px;color:var(--r)">12</div><div class="sc-label">封禁中</div></div>
+</div>
+<table class="AT2">
+<tr><th>UID</th><th>头像</th><th>昵称</th><th>手机号</th><th>注册方式</th><th>金币余额</th><th>注册时间</th><th>最后登录</th><th>状态</th><th>操作</th></tr>
+<tr><td style="font-family:monospace;font-size:10px">10023456</td><td><div style="width:28px;height:28px;border-radius:50%;background:#667eea;display:inline-flex;align-items:center;justify-content:center;font-size:12px">👤</div></td><td style="font-weight:600">Player_9876</td><td style="font-size:10px">+91 987****210</td><td><span style="background:#e3f2fd;padding:2px 6px;border-radius:4px;font-size:9px">📱 手机</span></td><td style="color:#f59e0b;font-weight:600">🪙 150,000</td><td style="font-size:10px">02-27 16:00</td><td style="font-size:10px">今天 09:15</td><td><span class="st on">正常</span></td><td><div class="acts"><span class="view">详情</span><span class="del">封禁</span></div></td></tr>
+<tr><td style="font-family:monospace;font-size:10px">10023457</td><td><div style="width:28px;height:28px;border-radius:50%;background:#f093fb;display:inline-flex;align-items:center;justify-content:center;font-size:12px">👩</div></td><td style="font-weight:600">Lucky_Star</td><td style="font-size:10px">+91 876****543</td><td><span style="background:#e3f2fd;padding:2px 6px;border-radius:4px;font-size:9px">📱 手机</span></td><td style="color:#f59e0b;font-weight:600">🪙 320,000</td><td style="font-size:10px">02-26 10:30</td><td style="font-size:10px">今天 10:28</td><td><span class="st on">正常</span></td><td><div class="acts"><span class="view">详情</span><span class="del">封禁</span></div></td></tr>
+<tr style="background:#fef2f2"><td style="font-family:monospace;font-size:10px">10023458</td><td><div style="width:28px;height:28px;border-radius:50%;background:#43e97b;display:inline-flex;align-items:center;justify-content:center;font-size:12px">🧑</div></td><td style="font-weight:600;color:var(--r)">GamerX 🚫</td><td style="font-size:10px">—</td><td><span style="background:#fff3e0;padding:2px 6px;border-radius:4px;font-size:9px">🔵 Google</span></td><td style="color:#94a3b8">🪙 0 (冻结)</td><td style="font-size:10px">02-25 22:15</td><td style="font-size:10px;color:var(--r)">已封禁</td><td><span class="st off">封禁</span></td><td><div class="acts"><span class="view">详情</span><span class="view">解封</span></div></td></tr>
+</table>
+<div class="pagi"><div class="info">共3,102条 · 每页20条</div><div class="pgs"><span class="pg on">1</span><span class="pg">2</span><span class="pg">...</span><span class="pg">156</span></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== 用户详情 ==================== -->
+<div class="P" id="pg-user-detail">
+<h1>👁️ 用户详情 User Detail</h1>
+
+<div class="AF">
+<div class="AB" style="min-height:auto">
+<div class="AM">
+<div class="pt" style="display:flex;align-items:center;gap:10px">
+<span style="color:#94a3b8;cursor:pointer">← 返回列表</span>
+<span>用户详情 UID: 10023456</span>
+<span class="st on" style="font-size:11px">正常</span>
+<span style="margin-left:auto"><div class="btn danger btn sm">🚫 封禁此用户</div></span>
+</div>
+
+<!-- 基本信息 -->
+<div class="cfg">
+<div class="cfg-title">👤 基本信息 Basic Info</div>
+<div style="display:flex;gap:20px">
+<div style="flex-shrink:0;text-align:center">
+<div style="width:64px;height:64px;border-radius:50%;background:#667eea;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 4px">👤</div>
+<div style="font-size:10px;color:#94a3b8">预设头像</div>
+</div>
+<div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div><div style="font-size:10px;color:#94a3b8">昵称</div><div style="font-weight:600">Player_9876</div></div>
+<div><div style="font-size:10px;color:#94a3b8">UID</div><div style="font-family:monospace">10023456</div></div>
+<div><div style="font-size:10px;color:#94a3b8">手机号</div><div>+91 9876543210</div></div>
+<div><div style="font-size:10px;color:#94a3b8">注册方式</div><div>📱 手机号+密码</div></div>
+<div><div style="font-size:10px;color:#94a3b8">注册时间</div><div>2026-02-27 16:00:32</div></div>
+<div><div style="font-size:10px;color:#94a3b8">最后登录</div><div>2026-02-28 09:15:44</div></div>
+<div><div style="font-size:10px;color:#94a3b8">性别</div><div>保密</div></div>
+<div><div style="font-size:10px;color:#94a3b8">语言</div><div>English</div></div>
+<div><div style="font-size:10px;color:#94a3b8">设备</div><div>iPhone 15 Pro · iOS 18</div></div>
+<div><div style="font-size:10px;color:#94a3b8">IP</div><div>103.xx.xx.xx (Mumbai)</div></div>
+</div>
+</div>
+</div>
+
+<!-- 金币信息 -->
+<div class="cfg">
+<div class="cfg-title">💰 金币信息 Coin Info</div>
+<div class="stats-row" style="margin:0">
+<div class="stat-card" style="padding:12px"><div class="sc-val" style="font-size:20px;color:#FFD700">150,000</div><div class="sc-label">当前余额 Balance</div></div>
+<div class="stat-card" style="padding:12px"><div class="sc-val" style="font-size:20px;color:var(--g)">350,000</div><div class="sc-label">累计获得 Earned</div></div>
+<div class="stat-card" style="padding:12px"><div class="sc-val" style="font-size:20px;color:var(--r)">200,000</div><div class="sc-label">累计消耗 Spent</div></div>
+<div class="stat-card" style="padding:12px"><div class="sc-val" style="font-size:20px;color:var(--sidebar-active)">3天</div><div class="sc-label">连续签到 Streak</div></div>
+</div>
+</div>
+
+<!-- 最近金币流水 -->
+<div class="cfg">
+<div class="cfg-title">📋 最近金币流水 Recent Transactions <span style="margin-left:auto;font-size:10px;color:var(--sidebar-active);font-weight:500;cursor:pointer">查看全部 →</span></div>
+<table class="AT2">
+<tr><th>时间</th><th>类型</th><th>变动</th><th>余额</th><th>关联</th></tr>
+<tr><td style="font-size:10px">02-28 10:32</td><td>📅 签到</td><td style="color:var(--g);font-weight:600">+100,000</td><td>150,000</td><td>Day 3</td></tr>
+<tr><td style="font-size:10px">02-28 09:15</td><td>🎰 投注</td><td style="color:var(--r);font-weight:600">-10,000</td><td>50,000</td><td>Aviator</td></tr>
+<tr><td style="font-size:10px">02-28 09:15</td><td>🏆 赢取</td><td style="color:var(--g);font-weight:600">+25,000</td><td>75,000</td><td>Aviator x2.5</td></tr>
+</table>
+</div>
+
+<!-- 游戏统计 -->
+<div class="cfg">
+<div class="cfg-title">🎮 游戏统计 Game Stats</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+<div><div style="font-size:10px;color:#94a3b8">总局数</div><div style="font-weight:600">35局</div></div>
+<div><div style="font-size:10px;color:#94a3b8">最常玩</div><div style="font-weight:600">✈️ Aviator (20局)</div></div>
+<div><div style="font-size:10px;color:#94a3b8">收藏</div><div style="font-weight:600">3款游戏</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="IB o"><strong>用户详情为只读页面。</strong>不支持直接修改用户信息。封禁操作在详情页右上角。客服角色看不到封禁按钮。</div>
+</div>
+
+<!-- ==================== 封禁流程 ==================== -->
+<div class="P" id="pg-user-ban">
+<h1>🚫 封禁完整流程 Ban Flow</h1>
+
+<h2>封禁操作流程 Ban Flow</h2>
+<div class="flow">
+<div class="flow-node start">点击"封禁"</div><div class="flow-arrow">→</div>
+<div class="flow-node action">弹出封禁弹窗<br>填写原因+时长</div><div class="flow-arrow">→</div>
+<div class="flow-node check">二次确认<br>"确定封禁？"</div><div class="flow-arrow">→</div>
+<div class="flow-node action">API提交<br>POST /users/ban</div><div class="flow-arrow">→</div>
+<div class="flow-node success">封禁成功<br>用户被踢下线</div>
+</div>
+
+<h2>封禁弹窗 Ban Dialog</h2>
+<div class="modal-wrap">
+<div class="modal-box" style="max-width:480px">
+<div class="modal-header"><div class="mh-title" style="color:var(--r)">🚫 封禁用户 Ban User</div><div class="mh-close">✕</div></div>
+<div class="modal-body">
+<div class="IB r" style="font-size:11px">即将封禁: <strong>UID 10023458 · GamerX</strong><br>注册: 2026-02-25 · 余额: 🪙 0 · 总局数: 35</div>
+<div class="ff"><div class="ff-label">封禁原因 Reason <span class="req">*</span></div>
+<div class="ff-select">请选择封禁原因 ▾</div>
+<div class="ff-hint">选项: 异常操作 / 使用外挂 / 恶意注册(批量) / 辱骂他人 / 其他(需填写)</div>
+</div>
+<div class="ff"><div class="ff-label">封禁时长 Duration <span class="req">*</span></div>
+<div style="display:flex;gap:6px;flex-wrap:wrap">
+<span style="padding:6px 14px;border:2px solid #e2e8f0;border-radius:8px;font-size:11px;cursor:pointer">1天</span>
+<span style="padding:6px 14px;border:2px solid #e2e8f0;border-radius:8px;font-size:11px;cursor:pointer">7天</span>
+<span style="padding:6px 14px;border:2px solid #e2e8f0;border-radius:8px;font-size:11px;cursor:pointer">30天</span>
+<span style="padding:6px 14px;border:2px solid var(--r);border-radius:8px;font-size:11px;color:var(--r);font-weight:600;background:#fef2f2">永久</span>
+</div></div>
+<div class="ff"><div class="ff-label">补充说明 Note</div><div class="ff-input" style="height:60px;color:#94a3b8">可选：补充封禁原因详情...</div></div>
+</div>
+<div class="modal-footer"><div class="btn cancel">取消</div><div class="btn danger">🚫 确认封禁</div></div>
+</div>
+</div>
+
+<h2>二次确认弹窗 Double Confirm</h2>
+<div class="modal-wrap">
+<div class="confirm-box">
+<div class="cb-icon">⚠️</div>
+<div class="cb-title" style="color:var(--r)">再次确认：封禁此用户？</div>
+<div class="cb-desc">
+<strong>GamerX (UID: 10023458)</strong><br>
+原因: 异常操作 · 时长: 永久<br><br>
+封禁后：<br>
+• 用户立即被强制下线<br>
+• 无法登录，提示"账户已被封禁"<br>
+• 金币余额冻结（解封后恢复）<br>
+• 此操作将记录在操作日志中
+</div>
+<div class="cb-btns"><div class="btn cancel">我再想想</div><div class="btn danger">🚫 确认封禁</div></div>
+</div>
+</div>
+
+<h2>解封弹窗 Unban Dialog</h2>
+<div class="modal-wrap">
+<div class="confirm-box">
+<div class="cb-icon">🔓</div>
+<div class="cb-title" style="color:var(--g)">解封此用户？Unban this user?</div>
+<div class="cb-desc">
+<strong>GamerX (UID: 10023458)</strong><br>
+封禁原因: 异常操作 · 封禁人: admin<br>
+封禁时间: 2026-02-28 08:30<br><br>
+解封后用户可正常登录，金币余额恢复。
+</div>
+<div class="cb-btns"><div class="btn cancel">取消</div><div class="btn success">🔓 确认解封 Unban</div></div>
+</div>
+</div>
+
+<h2>封禁日志 Ban Log</h2>
+<div class="cfg">
+<div class="cfg-title">📋 封禁/解封日志</div>
+<table class="AT2">
+<tr><th>时间</th><th>用户</th><th>操作人</th><th>类型</th><th>原因</th><th>时长</th><th>备注</th></tr>
+<tr><td style="font-size:10px">02-28 08:30</td><td>GamerX (10023458)</td><td>admin</td><td><span class="st off">封禁</span></td><td>异常操作</td><td>永久</td><td>多设备批量刷号</td></tr>
+<tr><td style="font-size:10px">02-27 14:20</td><td>TestBot (10023400)</td><td>admin</td><td><span class="st on">解封</span></td><td>误封</td><td>—</td><td>确认为正常用户</td></tr>
+<tr><td style="font-size:10px">02-27 10:05</td><td>TestBot (10023400)</td><td>admin</td><td><span class="st off">封禁</span></td><td>恶意注册</td><td>7天</td><td>—</td></tr>
+</table>
+</div>
+</div>
+
+<!-- ==================== 签到配置 ==================== -->
+<div class="P" id="pg-checkin-cfg">
+<h1>⚙️ 签到规则配置 Check-in Config</h1>
+
+<div class="AF">
+<div class="AB" style="min-height:auto">
+<div class="AM">
+<div class="pt">⚙️ 签到规则配置</div>
+<div class="ps">修改后新的签到操作立即使用新值</div>
+
+<div class="cfg">
+<div class="cfg-title">📅 签到规则 Check-in Rules</div>
+<div class="cfg-row"><div class="cl">每日签到奖励 Daily Reward</div><div class="cv"><input value="100000" style="width:120px;padding:7px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:12px"> 金币<div class="hint">前台显示为 100,000。修改后立即生效</div></div></div>
+<div class="cfg-row"><div class="cl">签到周期 Cycle</div><div class="cv"><select style="padding:7px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:12px"><option selected>7天 7 Days</option><option>14天</option><option>30天</option></select><div class="hint">每轮签到天数，满周期后自动重置</div></div></div>
+<div class="cfg-row"><div class="cl">重置时间 Reset Time</div><div class="cv"><input value="00:00" type="time" style="width:100px;padding:7px;border:1px solid #e2e8f0;border-radius:6px;font-size:12px"> <select style="padding:7px;border:1px solid #e2e8f0;border-radius:6px;font-size:12px"><option selected>UTC+5:30 (India)</option><option>UTC+7 (Indonesia)</option></select><div class="hint">⚠️ 按站点时区配置，非UTC</div></div></div>
+<div class="cfg-row"><div class="cl">自动弹窗 Auto Popup</div><div class="cv"><div class="ff-toggle"><div class="toggle on"><div class="dot"></div></div><div class="tl">每日首次登录自动弹出签到弹窗</div></div></div></div>
+<div class="cfg-row"><div class="cl">补签功能 Catch-up</div><div class="cv"><div class="ff-toggle"><div class="toggle"><div class="dot"></div></div><div class="tl" style="color:#94a3b8">V1关闭 · V2可开启</div></div></div></div>
+<div class="cfg-row"><div class="cl">连续签到奖励 Streak Bonus</div><div class="cv"><div class="ff-toggle"><div class="toggle"><div class="dot"></div></div><div class="tl" style="color:#94a3b8">V1关闭 · V2支持7天满签额外奖励</div></div></div></div>
+</div>
+
+<div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px"><div class="btn cancel">重置 Reset</div><div class="btn primary">💾 保存配置 Save</div></div>
+</div>
+</div>
+</div>
+
+<h2>保存确认弹窗 Save Confirm</h2>
+<div class="modal-wrap">
+<div class="confirm-box">
+<div class="cb-icon">⚙️</div>
+<div class="cb-title">确认修改签到配置？</div>
+<div class="cb-desc">变更内容：<br><strong style="color:var(--r)">每日奖励: 100,000 → 150,000</strong><br><br>修改后新的签到操作将使用新值<br>已签到的历史记录不受影响</div>
+<div class="cb-btns"><div class="btn cancel">取消</div><div class="btn primary">✅ 确认保存</div></div>
+</div>
+</div>
+</div>
+
+<!-- ==================== 签到日志 ==================== -->
+<div class="P" id="pg-checkin-log">
+<h1>📋 签到日志 Check-in Log</h1>
+
+<div class="AF">
+<div class="AB" style="min-height:auto">
+<div class="AM">
+<div class="pt">📋 签到日志</div>
+<div class="toolbar"><div class="search-box">🔍 搜索UID...</div><div class="filter-btn">📅 日期 ▾</div></div>
+<div class="stats-row" style="margin-bottom:10px">
+<div class="stat-card" style="padding:10px"><div class="sc-val" style="font-size:18px;color:var(--sidebar-active)">1,234</div><div class="sc-label">今日签到</div></div>
+<div class="stat-card" style="padding:10px"><div class="sc-val" style="font-size:18px;color:var(--g)">78.5%</div><div class="sc-label">签到率</div></div>
+<div class="stat-card" style="padding:10px"><div class="sc-val" style="font-size:18px;color:var(--o)">123.4M</div><div class="sc-label">今日发放</div></div>
+</div>
+<table class="AT2">
+<tr><th>时间</th><th>UID</th><th>昵称</th><th>签到天数</th><th>获得金币</th><th>签到后余额</th></tr>
+<tr><td style="font-size:10px">10:32:15</td><td>10023456</td><td>Player_9876</td><td>Day 3</td><td style="color:var(--g)">+100,000</td><td>150,000</td></tr>
+<tr><td style="font-size:10px">10:28:03</td><td>10023457</td><td>Lucky_Star</td><td>Day 5</td><td style="color:var(--g)">+100,000</td><td>320,000</td></tr>
+<tr><td style="font-size:10px">09:45:22</td><td>10023460</td><td>BigWin88</td><td>Day 1</td><td style="color:var(--g)">+100,000</td><td>100,000</td></tr>
+</table>
+<div class="pagi"><div class="info">共1,234条</div><div class="pgs"><span class="pg on">1</span><span class="pg">2</span><span class="pg">...</span><span class="pg">62</span></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== 金币配置 ==================== -->
+<div class="P" id="pg-coin-cfg">
+<h1>⚙️ 金币规则配置 Coin Config</h1>
+
+<div class="cfg">
+<div class="cfg-title">💰 金币规则 Coin Rules</div>
+<div class="cfg-row"><div class="cl">注册赠送 Register Bonus</div><div class="cv"><input value="50000" style="width:120px;padding:7px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:12px"> 金币<div class="hint">新用户注册成功后自动发放</div></div></div>
+<div class="cfg-row"><div class="cl">余额不足提示(EN)</div><div class="cv"><input value="Insufficient coins, check in tomorrow" style="width:100%;padding:7px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:12px"></div></div>
+<div class="cfg-row"><div class="cl">余额不足提示(HI)</div><div class="cv"><input value="सिक्के अपर्याप्त हैं, कल चेक-इन करें" style="width:100%;padding:7px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:12px"></div></div>
+<div class="cfg-row"><div class="cl">金币名称(EN)</div><div class="cv"><input value="Coins" style="width:120px;padding:7px;border:1px solid #e2e8f0;border-radius:6px;font-size:12px"><div class="hint">前台显示名</div></div></div>
+<div class="cfg-row"><div class="cl">金币图标</div><div class="cv"><input value="🪙" style="width:60px;padding:7px;border:1px solid #e2e8f0;border-radius:6px;font-size:12px"><div class="hint">emoji或图片URL</div></div></div>
+<div class="cfg-row"><div class="cl">数字格式 Format</div><div class="cv"><select style="padding:7px;border:1px solid #e2e8f0;border-radius:6px;font-size:12px"><option selected>国际 1,000,000</option><option>印度 10,00,000</option></select><div class="hint">按站点地区切换</div></div></div>
+</div>
+<div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px"><div class="btn cancel">重置</div><div class="btn primary">💾 保存配置</div></div>
+</div>
+
+<!-- ==================== 金币流水 ==================== -->
+<div class="P" id="pg-coin-log">
+<h1>📋 金币流水 Coin Transactions</h1>
+
+<div class="AF">
+<div class="AB" style="min-height:auto">
+<div class="AM">
+<div class="pt">📋 金币流水</div>
+<div class="toolbar"><div class="search-box">🔍 搜索UID...</div><div class="filter-btn">📊 类型 ▾</div><div class="filter-btn">📅 时间 ▾</div><div class="btn outline" style="margin-left:auto">📥 导出CSV</div></div>
+<div class="stats-row" style="margin-bottom:10px">
+<div class="stat-card" style="padding:10px"><div class="sc-val" style="font-size:18px;color:var(--g)">+245.6M</div><div class="sc-label">今日发放</div></div>
+<div class="stat-card" style="padding:10px"><div class="sc-val" style="font-size:18px;color:var(--r)">-180.2M</div><div class="sc-label">今日消耗</div></div>
+<div class="stat-card" style="padding:10px"><div class="sc-val" style="font-size:18px;color:var(--sidebar-active)">1.2B</div><div class="sc-label">全站余额</div></div>
+</div>
+<table class="AT2">
+<tr><th>时间</th><th>UID</th><th>类型</th><th>变动</th><th>余额</th><th>关联</th></tr>
+<tr><td style="font-size:10px">10:32:15</td><td>10023456</td><td><span style="background:#e8f5e9;padding:2px 6px;border-radius:4px;font-size:9px">📅 签到</span></td><td style="color:var(--g);font-weight:600">+100,000</td><td>150,000</td><td>Day 3</td></tr>
+<tr><td style="font-size:10px">09:15:30</td><td>10023456</td><td><span style="background:#fce4ec;padding:2px 6px;border-radius:4px;font-size:9px">🎰 投注</span></td><td style="color:var(--r);font-weight:600">-10,000</td><td>50,000</td><td>Aviator</td></tr>
+<tr><td style="font-size:10px">09:15:30</td><td>10023456</td><td><span style="background:#e3f2fd;padding:2px 6px;border-radius:4px;font-size:9px">🏆 赢取</span></td><td style="color:var(--g);font-weight:600">+25,000</td><td>75,000</td><td>Aviator x2.5</td></tr>
+<tr><td style="font-size:10px">08:00:00</td><td>10023460</td><td><span style="background:#fff3e0;padding:2px 6px;border-radius:4px;font-size:9px">🎁 注册</span></td><td style="color:var(--g);font-weight:600">+50,000</td><td>50,000</td><td>新用户</td></tr>
+</table>
+<div class="pagi"><div class="info">共12,456条</div><div class="pgs"><span class="pg on">1</span><span class="pg">2</span><span class="pg">...</span><span class="pg">623</span></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== 站点配置 ==================== -->
+<div class="P" id="pg-site-cfg">
+<h1>⚙️ 站点基础配置 Site Config</h1>
+
+<div class="cfg">
+<div class="cfg-title">🏠 站点信息 Site Info</div>
+<div class="cfg-row"><div class="cl">站点名称</div><div class="cv"><input value="BDBGAME" style="width:200px;padding:7px;border:1px solid #e2e8f0;border-radius:6px;font-size:12px"><div class="hint">前台Logo、页面标题</div></div></div>
+<div class="cfg-row"><div class="cl">站点域名</div><div class="cv"><input value="bdbgame.com" style="width:260px;padding:7px;border:1px solid #e2e8f0;border-radius:6px;font-size:12px"></div></div>
+<div class="cfg-row"><div class="cl">默认语言</div><div class="cv"><select style="padding:7px;border:1px solid #e2e8f0;border-radius:6px;font-size:12px"><option selected>English</option><option>हिन्दी</option></select></div></div>
+<div class="cfg-row"><div class="cl">时区</div><div class="cv"><select style="padding:7px;border:1px solid #e2e8f0;border-radius:6px;font-size:12px"><option selected>UTC+5:30 (India)</option><option>UTC+7 (Indonesia)</option></select><div class="hint">影响签到重置、统计等</div></div></div>
+<div class="cfg-row"><div class="cl">默认区号</div><div class="cv"><input value="+91" style="width:80px;padding:7px;border:1px solid #e2e8f0;border-radius:6px;font-size:12px"></div></div>
+</div>
+
+<div class="cfg">
+<div class="cfg-title">🔧 功能开关 Feature Toggles</div>
+<div class="cfg-row"><div class="cl">客服浮动按钮</div><div class="cv"><div class="ff-toggle"><div class="toggle on"><div class="dot"></div></div><div class="tl">首页右下角💬按钮</div></div></div></div>
+<div class="cfg-row"><div class="cl">客服链接</div><div class="cv"><input value="https://t.me/bdbgame_support" style="width:300px;padding:7px;border:1px solid #e2e8f0;border-radius:6px;font-size:12px"></div></div>
+<div class="cfg-row"><div class="cl">Banner轮播间隔</div><div class="cv"><input value="3" style="width:60px;padding:7px;border:1px solid #e2e8f0;border-radius:6px;font-size:12px"> 秒 <span style="font-size:10px;color:#94a3b8">(1-10)</span></div></div>
+<div class="cfg-row"><div class="cl">跑马灯速度</div><div class="cv"><input value="50" style="width:60px;padding:7px;border:1px solid #e2e8f0;border-radius:6px;font-size:12px"> px/s <span style="font-size:10px;color:#94a3b8">(20-100)</span></div></div>
+<div class="cfg-row"><div class="cl">Google登录</div><div class="cv"><div class="ff-toggle"><div class="toggle on"><div class="dot"></div></div><div class="tl">允许Google账号登录</div></div></div></div>
+<div class="cfg-row"><div class="cl">OTP登录</div><div class="cv"><div class="ff-toggle"><div class="toggle on"><div class="dot"></div></div><div class="tl">允许短信验证码登录</div></div></div></div>
+<div class="cfg-row"><div class="cl">密码登录</div><div class="cv"><div class="ff-toggle"><div class="toggle on"><div class="dot"></div></div><div class="tl">允许密码登录</div></div></div></div>
+<div class="cfg-row"><div class="cl">注册开关</div><div class="cv"><div class="ff-toggle"><div class="toggle on"><div class="dot"></div></div><div class="tl">关闭=禁止新用户注册</div></div></div></div>
+</div>
+
+<div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px"><div class="btn cancel">重置</div><div class="btn primary">💾 保存配置</div></div>
+
+<div class="IB r"><strong>⚠️ 高风险配置：</strong>关闭注册或登录方式会影响所有用户。修改前请与团队确认。所有配置变更记录操作日志。</div>
+</div>
+
+<!-- ==================== 社区链接 ==================== -->
+<div class="P" id="pg-community">
+<h1>🔗 社区链接管理 Community Links</h1>
+
+<div class="cfg">
+<div class="cfg-title">🌐 社区链接配置（拖拽排序 = 前台展示顺序）</div>
+<table class="AT2">
+<tr><th>↕️</th><th>图标</th><th>平台</th><th>链接URL</th><th>显示</th><th>操作</th></tr>
+<tr><td class="drag">⠿</td><td>📱</td><td style="font-weight:600">Telegram</td><td><input value="https://t.me/bdbgame_official" style="width:250px;padding:5px 8px;border:1px solid #e2e8f0;border-radius:5px;font-size:11px"></td><td><div class="toggle on" style="width:32px;height:18px"><div class="dot" style="width:14px;height:14px;left:16px"></div></div></td><td><div class="acts"><span class="view">测试</span></div></td></tr>
+<tr><td class="drag">⠿</td><td>📘</td><td style="font-weight:600">Facebook</td><td><input value="https://facebook.com/bdbgame" style="width:250px;padding:5px 8px;border:1px solid #e2e8f0;border-radius:5px;font-size:11px"></td><td><div class="toggle on" style="width:32px;height:18px"><div class="dot" style="width:14px;height:14px;left:16px"></div></div></td><td><div class="acts"><span class="view">测试</span></div></td></tr>
+<tr><td class="drag">⠿</td><td>📷</td><td style="font-weight:600">Instagram</td><td><input value="https://instagram.com/bdbgame" style="width:250px;padding:5px 8px;border:1px solid #e2e8f0;border-radius:5px;font-size:11px"></td><td><div class="toggle on" style="width:32px;height:18px"><div class="dot" style="width:14px;height:14px;left:16px"></div></div></td><td><div class="acts"><span class="view">测试</span></div></td></tr>
+<tr><td class="drag">⠿</td><td>📞</td><td style="font-weight:600">WhatsApp</td><td><input value="https://wa.me/919876543210" style="width:250px;padding:5px 8px;border:1px solid #e2e8f0;border-radius:5px;font-size:11px"></td><td><div class="toggle on" style="width:32px;height:18px"><div class="dot" style="width:14px;height:14px;left:16px"></div></div></td><td><div class="acts"><span class="view">测试</span></div></td></tr>
+<tr><td class="drag">⠿</td><td>▶️</td><td style="font-weight:600">YouTube</td><td><input value="https://youtube.com/@bdbgame" style="width:250px;padding:5px 8px;border:1px solid #e2e8f0;border-radius:5px;font-size:11px"></td><td><div class="toggle on" style="width:32px;height:18px"><div class="dot" style="width:14px;height:14px;left:16px"></div></div></td><td><div class="acts"><span class="view">测试</span></div></td></tr>
+<tr style="opacity:.5"><td class="drag">⠿</td><td>🐦</td><td>Twitter/X</td><td><input value="" placeholder="留空不显示" style="width:250px;padding:5px 8px;border:1px solid #e2e8f0;border-radius:5px;font-size:11px;color:#94a3b8"></td><td><div class="toggle" style="width:32px;height:18px"><div class="dot" style="width:14px;height:14px"></div></div></td><td><div class="acts"><span class="view">测试</span></div></td></tr>
+</table>
+</div>
+<div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px"><div class="btn primary">💾 保存配置</div></div>
+<div class="IB b"><strong>展示规则：</strong>开关开启且URL非空的链接显示在前台首页底部Community区域。点击"测试"可在新窗口验证链接有效性。</div>
+</div>
+
+<!-- ==================== 多语言 ==================== -->
+<div class="P" id="pg-lang">
+<h1>🌏 多语言管理 Language Management</h1>
+
+<div class="cfg">
+<div class="cfg-title">🌐 语言开关 Language Toggle</div>
+<div class="cfg-row"><div class="cl">🇬🇧 English</div><div class="cv"><div class="ff-toggle"><div class="toggle on"><div class="dot"></div></div><div class="tl">默认语言 (不可关闭)</div></div></div></div>
+<div class="cfg-row"><div class="cl">🇮🇳 हिन्दी Hindi</div><div class="cv"><div class="ff-toggle"><div class="toggle on"><div class="dot"></div></div><div class="tl">V1已启用</div></div></div></div>
+<div class="cfg-row"><div class="cl">🇧🇷 Português</div><div class="cv"><div class="ff-toggle"><div class="toggle"><div class="dot"></div></div><div class="tl" style="color:#94a3b8">V2 · 翻译进度 0%</div></div></div></div>
+<div class="cfg-row"><div class="cl">🇵🇭 Filipino</div><div class="cv"><div class="ff-toggle"><div class="toggle"><div class="dot"></div></div><div class="tl" style="color:#94a3b8">V2 · 翻译进度 0%</div></div></div></div>
+</div>
+
+<h2>V1多语言管理方案 Language Strategy</h2>
+<table>
+<tr><th>内容类型</th><th>V1管理方式</th><th>V2升级</th></tr>
+<tr><td>UI固定文案(按钮/标签/提示)</td><td>前端i18n JSON文件，开发维护</td><td>后台CMS在线编辑</td></tr>
+<tr><td>Banner文案</td><td>✅ 后台：每条Banner设语言标签</td><td>同V1</td></tr>
+<tr><td>公告文案</td><td>✅ 后台：每条公告多语言字段</td><td>同V1</td></tr>
+<tr><td>余额不足等Toast</td><td>✅ 金币配置中多语言字段</td><td>后台CMS</td></tr>
+<tr><td>错误提示</td><td>前端i18n</td><td>后台CMS</td></tr>
+</table>
+</div>
+
+<!-- ==================== Toast规范 ==================== -->
+<div class="P" id="pg-toast-spec">
+<h1>💬 Toast+操作反馈规范 Toast & Feedback Specs</h1>
+
+<h2>Toast样式规范 Toast Styles</h2>
+<div style="display:flex;flex-direction:column;gap:8px;margin:12px 0">
+<div class="toast-demo success">✅ 操作成功 Operation successful</div>
+<div class="toast-demo error">❌ 操作失败，请重试 Operation failed, please retry</div>
+<div class="toast-demo warning">⚠️ 请注意：此操作不可撤回 Warning: This action cannot be undone</div>
+</div>
+
+<table>
+<tr><th>属性</th><th>值</th></tr>
+<tr><td>位置</td><td>页面右上角，距顶部20px，距右侧20px</td></tr>
+<tr><td>宽度</td><td>auto，最大400px</td></tr>
+<tr><td>动画</td><td>从右滑入 translateX(100%→0) 300ms ease-out</td></tr>
+<tr><td>停留</td><td>成功3s / 错误5s / 警告5s 后自动消失</td></tr>
+<tr><td>可关闭</td><td>右侧✕按钮手动关闭</td></tr>
+<tr><td>堆叠</td><td>多个Toast垂直堆叠，间距8px</td></tr>
+</table>
+
+<h2>各模块操作反馈汇总 Feedback Summary</h2>
+<table>
+<tr><th>模块</th><th>操作</th><th>成功反馈</th><th>失败反馈</th></tr>
+<tr><td>Banner</td><td>新增</td><td>✅ Banner已创建</td><td>❌ 创建失败</td></tr>
+<tr><td>Banner</td><td>编辑</td><td>✅ Banner已保存</td><td>❌ 保存失败</td></tr>
+<tr><td>Banner</td><td>上架</td><td>✅ Banner已上架</td><td>⚠️ 超过8个(警告但允许)</td></tr>
+<tr><td>Banner</td><td>下架</td><td>✅ Banner已下架</td><td>❌ 下架失败</td></tr>
+<tr><td>Banner</td><td>删除</td><td>✅ Banner已删除</td><td>❌ 删除失败</td></tr>
+<tr><td>Banner</td><td>排序</td><td>✅ 排序已保存</td><td>❌ 排序冲突，已刷新</td></tr>
+<tr><td>游戏</td><td>新增</td><td>✅ 游戏已添加</td><td>❌ 游戏代码已存在</td></tr>
+<tr><td>用户</td><td>封禁</td><td>✅ 用户已封禁</td><td>❌ 封禁失败</td></tr>
+<tr><td>用户</td><td>解封</td><td>✅ 用户已解封</td><td>❌ 解封失败</td></tr>
+<tr><td>配置</td><td>保存</td><td>✅ 配置已保存</td><td>❌ 保存失败</td></tr>
+</table>
+
+<h2>确认弹窗使用规则 Confirm Dialog Rules</h2>
+<table>
+<tr><th>场景</th><th>是否需要确认弹窗</th><th>说明</th></tr>
+<tr><td>新增/编辑保存</td><td>❌ 不需要</td><td>直接提交，成功Toast</td></tr>
+<tr><td>删除</td><td>✅ 需要</td><td>红色警告弹窗</td></tr>
+<tr><td>上架/下架</td><td>✅ 需要</td><td>状态变更弹窗</td></tr>
+<tr><td>封禁用户</td><td>✅ 需要（二次确认）</td><td>第一次填原因→第二次确认</td></tr>
+<tr><td>修改配置</td><td>✅ 需要</td><td>显示变更diff</td></tr>
+<tr><td>批量操作</td><td>✅ 需要</td><td>显示影响数量</td></tr>
+</table>
+</div>
+
+<!-- ==================== API规范 ==================== -->
+<div class="P" id="pg-api-spec">
+<h1>🔌 API设计规范 API Specs</h1>
+
+<h2>RESTful API规范 API Convention</h2>
+<table>
+<tr><th>操作</th><th>Method</th><th>URL Pattern</th><th>示例</th></tr>
+<tr><td>列表(分页)</td><td>GET</td><td>/api/admin/{resource}</td><td>GET /api/admin/banners?page=1&size=20</td></tr>
+<tr><td>详情</td><td>GET</td><td>/api/admin/{resource}/{id}</td><td>GET /api/admin/banners/123</td></tr>
+<tr><td>创建</td><td>POST</td><td>/api/admin/{resource}</td><td>POST /api/admin/banners</td></tr>
+<tr><td>更新</td><td>PUT</td><td>/api/admin/{resource}/{id}</td><td>PUT /api/admin/banners/123</td></tr>
+<tr><td>删除</td><td>DELETE</td><td>/api/admin/{resource}/{id}</td><td>DELETE /api/admin/banners/123</td></tr>
+<tr><td>批量操作</td><td>POST</td><td>/api/admin/{resource}/batch</td><td>POST /api/admin/banners/batch {action:"delete",ids:[1,2]}</td></tr>
+<tr><td>排序</td><td>PUT</td><td>/api/admin/{resource}/sort</td><td>PUT /api/admin/banners/sort {ids:[3,1,2]}</td></tr>
+</table>
+
+<h2>通用分页参数 Pagination</h2>
+<table>
+<tr><th>参数</th><th>类型</th><th>默认</th><th>说明</th></tr>
+<tr><td>page</td><td>int</td><td>1</td><td>当前页</td></tr>
+<tr><td>pageSize</td><td>int</td><td>20</td><td>每页条数(max:100)</td></tr>
+<tr><td>sort</td><td>string</td><td>created_at</td><td>排序字段</td></tr>
+<tr><td>order</td><td>enum</td><td>desc</td><td>asc/desc</td></tr>
+<tr><td>search</td><td>string</td><td>—</td><td>搜索关键词</td></tr>
+<tr><td>status</td><td>enum</td><td>—</td><td>状态筛选</td></tr>
+</table>
+
+<h2>通用响应格式 Response Format</h2>
+<div style="background:#1e293b;border-radius:8px;padding:14px;color:#e2e8f0;font-family:monospace;font-size:11px;margin:10px 0;white-space:pre;overflow-x:auto">// 成功 Success
+{
+  "code": 0,
+  "message": "success",
+  "data": { ... },
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "total": 58,
+    "totalPages": 3
+  }
+}
+
+// 失败 Error
+{
+  "code": 40001,
+  "message": "Title is required",
+  "errors": [
+    { "field": "title", "message": "不能为空" }
+  ]
+}</div>
+
+<h2>操作日志记录 Audit Log</h2>
+<table>
+<tr><th>字段</th><th>说明</th></tr>
+<tr><td>operator_id</td><td>操作人ID</td></tr>
+<tr><td>action</td><td>create/update/delete/publish/unpublish/ban/unban</td></tr>
+<tr><td>resource</td><td>banner/announcement/game/user/config</td></tr>
+<tr><td>resource_id</td><td>被操作资源ID</td></tr>
+<tr><td>changes</td><td>JSON: 变更前后对比 {field: {old, new}}</td></tr>
+<tr><td>ip</td><td>操作人IP</td></tr>
+<tr><td>created_at</td><td>操作时间</td></tr>
+</table>
+
+<div class="IB g"><strong>安全要点：</strong>所有Admin API需JWT鉴权 + 角色权限校验。敏感操作(封禁/删除/配置修改)自动记录操作日志。API Key等敏感字段返回时脱敏(sk_live_*****)。</div>
+</div>
+
+</div><!-- end .M -->
+
+<script>
+function G(id){
+document.querySelectorAll('.P').forEach(p=>p.classList.remove('on'));
+document.querySelectorAll('.S a').forEach(a=>a.classList.remove('on'));
+var pg=document.getElementById('pg-'+id);
+if(pg){pg.classList.add('on');window.scrollTo(0,0)}
+if(event&&event.target)event.target.classList.add('on');
+}
+</script>
+</body></html>

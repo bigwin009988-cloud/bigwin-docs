@@ -3,48 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BIGWIN - 策划文档中心</title>
+<title>BDBGAME - Product Documents</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: #0f0f23; font-family: 'PingFang SC', sans-serif; color: #fff; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-.container { max-width: 600px; padding: 40px; }
-h1 { font-size: 28px; margin-bottom: 8px; }
-.sub { color: #8892b0; margin-bottom: 32px; }
-.card { display: block; background: #16213e; border-radius: 12px; padding: 20px; margin-bottom: 16px; text-decoration: none; color: #fff; border: 1px solid rgba(255,255,255,0.1); transition: all 0.2s; }
-.card:hover { border-color: #e94560; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(233,69,96,0.2); }
-.card-title { font-size: 17px; font-weight: 600; margin-bottom: 4px; }
-.card-desc { color: #8892b0; font-size: 13px; }
-.tag { display: inline-block; background: rgba(233,69,96,0.15); color: #e94560; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-top: 8px; }
+body { font-family: -apple-system, sans-serif; background: #0d1117; color: #fff; margin: 0; padding: 40px 20px; }
+.container { max-width: 600px; margin: 0 auto; }
+h1 { color: #24EE89; font-size: 24px; }
+h2 { color: #ccc; font-size: 16px; margin-top: 32px; }
+a.doc { color: #24EE89; text-decoration: none; display: block; padding: 12px 16px; margin: 8px 0; background: rgba(255,255,255,0.05); border-radius: 8px; }
+a.doc:hover { background: rgba(36,238,137,0.1); }
+.badge { font-size: 11px; background: #24EE89; color: #000; padding: 2px 8px; border-radius: 4px; margin-left: 8px; }
+.desc { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 4px; }
 </style>
 </head>
 <body>
 <div class="container">
-<h1>🎰 BIGWIN 策划文档</h1>
-<div class="sub">产品策划文档 · 可视化原型 · 在线预览</div>
+<h1>🎮 BDBGAME Documents</h1>
 
-<a class="card" href="spin-wheel-v2.html">
-  <div class="card-title">🎰 转盘游戏完整策划</div>
-  <div class="card-desc">原型 · 赔率表 · 游戏流程 · 动效规范 · 安全防作弊</div>
-  <span class="tag">100x JACKPOT · 幸运加倍 · RTP 97%</span>
-</a>
+<h2>Game Lobby V1</h2>
+<a class="doc" href="frontEnd-latest.html">📱 前台产品文档 <span class="badge">v1.6</span>
+<div class="desc">6模块全状态原型 + 1goplus高清截图 + Design System + 安全逻辑 + 风控体系 + V1差距修复</div></a>
 
-<a class="card" href="spin-wheel-proto.html">
-  <div class="card-title">🏆 转盘市场调研报告</div>
-  <div class="card-desc">5款爆款竞品分析 · 5条黄金规律 · 推荐方案</div>
-  <span class="tag">Crazy Time · Dream Catcher · 东南亚市场</span>
-</a>
+<a class="doc" href="admin.html">🖥️ 后台管理系统文档 <span class="badge">v1.0</span>
+<div class="desc">9模块后台UI原型 + CRUD弹窗 + 表单状态 + API规范</div></a>
 
-<a class="card" href="login-screens.html">
-  <div class="card-title">📱 登录系统原型</div>
-  <div class="card-desc">12个页面状态 · 三种登录方式 · 异常态全覆盖</div>
-  <span class="tag">账密 · 手机 · Google · 游戏大厅</span>
-</a>
+<h2>Prototypes</h2>
+<a class="doc" href="spin-wheel-v2.html">🎰 Spin Wheel Prototype
+<div class="desc">转盘游戏交互原型</div></a>
 
-<a class="card" href="flow-diagram.html">
-  <div class="card-title">📋 登录系统流程图</div>
-  <div class="card-desc">从App启动到进入大厅的完整路径</div>
-  <span class="tag">静默登录 · Token刷新 · 风控检测</span>
-</a>
+<a class="doc" href="login-screens.html">🔑 Login Screens
+<div class="desc">登录页面原型</div></a>
+
+<a class="doc" href="flow-diagram.html">📊 Flow Diagram
+<div class="desc">流程图</div></a>
 </div>
 </body>
 </html>
