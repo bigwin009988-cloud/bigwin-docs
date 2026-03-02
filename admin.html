@@ -255,6 +255,9 @@ tr:hover td{background:#f0f7ff}
 <a onclick="G('coin-cfg')">⚙️ 金币规则</a>
 <a onclick="G('coin-log')">📋 金币流水</a>
 
+<h2>📜 内容页管理</h2>
+<a onclick="G('agreement-cfg')">📜 User Agreement配置</a>
+
 <h2>🌐 运营配置</h2>
 <a onclick="G('site-cfg')">⚙️ 站点配置</a>
 <a onclick="G('community')">🔗 社区链接</a>
@@ -285,7 +288,8 @@ tr:hover td{background:#f0f7ff}
 <tr><td>5</td><td>👤 用户管理</td><td>列表/详情/封禁/解封</td><td>3</td><td><span class="tag v1">P0</span></td></tr>
 <tr><td>6</td><td>📅 签到配置</td><td>签到规则+签到日志+统计</td><td>2</td><td><span class="tag v1">P1</span></td></tr>
 <tr><td>7</td><td>💰 金币配置</td><td>金币规则+流水日志+统计</td><td>2</td><td><span class="tag v1">P1</span></td></tr>
-<tr><td>8</td><td>🌐 运营配置</td><td>站点信息/社区链接/多语言/功能开关</td><td>3</td><td><span class="tag v1">P1</span></td></tr>
+<tr><td>8</td><td>📜 内容页管理</td><td>User Agreement富文本编辑+启用/禁用</td><td>1</td><td><span class="tag v1">P1</span></td></tr>
+<tr><td>9</td><td>🌐 运营配置</td><td>站点信息/社区链接/多语言/功能开关</td><td>3</td><td><span class="tag v1">P1</span></td></tr>
 </table>
 
 <h2>后台页面结构原型 Layout Prototype</h2>
@@ -315,6 +319,7 @@ tr:hover td{background:#f0f7ff}
 <div class="grp">配置 Config</div>
 <div class="it"><span class="ic">📅</span>签到配置</div>
 <div class="it"><span class="ic">💰</span>金币配置</div>
+<div class="it"><span class="ic">📜</span>内容页管理</div>
 <div class="it"><span class="ic">🌐</span>运营配置</div>
 <div class="grp">系统 System</div>
 <div class="it"><span class="ic">🔐</span>权限管理</div>
@@ -371,6 +376,8 @@ tr:hover td{background:#f0f7ff}
 <tr><td rowspan="2">📅💰 签到/金币</td><td>查看日志</td><td>✅</td><td>✅</td><td>✅(只读)</td></tr>
 <tr><td>修改配置</td><td>✅</td><td>✅</td><td>❌</td></tr>
 <tr><td>📈 数据看板</td><td>查看</td><td>✅</td><td>✅</td><td>❌</td></tr>
+<tr><td rowspan="2">📜 内容页</td><td>编辑/预览</td><td>✅</td><td>✅</td><td>❌</td></tr>
+<tr><td>启用/禁用</td><td>✅</td><td>❌</td><td>❌</td></tr>
 <tr><td>🌐 运营配置</td><td>修改</td><td>✅</td><td>✅</td><td>❌</td></tr>
 <tr><td rowspan="2">🔐 系统</td><td>权限管理</td><td>✅</td><td>❌</td><td>❌</td></tr>
 <tr><td>操作日志</td><td>✅</td><td>❌</td><td>❌</td></tr>
@@ -403,14 +410,14 @@ tr:hover td{background:#f0f7ff}
 <div style="text-align:center;padding:16px">
 <div class="ff"><div class="ff-label">📧 邮箱</div><div class="ff-input err">admin@bdbgame.com</div><div class="ff-err">❌ 邮箱或密码错误 Invalid email or password</div></div>
 <div class="btn primary disabled" style="width:100%;justify-content:center">登录 Login</div>
-<div style="font-size:10px;color:var(--r);margin-top:8px">连续错误5次将锁定账户30分钟</div>
+<div style="font-size:10px;color:var(--r);margin-top:8px">连续错误5次将封禁账户，需管理员审核解封</div>
 </div>
 </div>
 <div class="modal-wrap" style="flex:1;min-width:280px">
 <div style="text-align:center;padding:16px">
 <div style="font-size:32px;margin-bottom:8px">🔒</div>
 <div style="font-size:14px;font-weight:700;color:var(--r);margin-bottom:4px">账户已锁定 Account Locked</div>
-<div style="font-size:11px;color:#64748b;margin-bottom:12px">连续登录失败5次<br>请30分钟后重试或联系超级管理员</div>
+<div style="font-size:11px;color:#64748b;margin-bottom:12px">连续登录失败5次<br>账户已封禁，请联系管理员解封</div>
 <div style="font-size:20px;font-weight:800;color:var(--r)">28:45</div>
 <div style="font-size:10px;color:#94a3b8">剩余锁定时间</div>
 </div>
@@ -421,7 +428,7 @@ tr:hover td{background:#f0f7ff}
 <table>
 <tr><th>规则</th><th>值</th></tr>
 <tr><td>密码要求</td><td>8-32位，必须包含字母+数字</td></tr>
-<tr><td>登录失败锁定</td><td>连续5次错误 → 锁定30分钟</td></tr>
+<tr><td>登录失败锁定</td><td>连续5次错误 → 账户封禁，管理员审核后解封</td></tr>
 <tr><td>Session超时</td><td>无操作2小时自动登出</td></tr>
 <tr><td>Token有效期</td><td>24小时（勾选"记住"延长至7天）</td></tr>
 <tr><td>超管2FA</td><td>V2增加Google Authenticator</td></tr>
@@ -1500,6 +1507,90 @@ tr:hover td{background:#f0f7ff}
 </div>
 </div>
 </div>
+</div>
+
+<!-- ==================== User Agreement配置 ==================== -->
+<div class="P" id="pg-agreement-cfg">
+<h1>📜 User Agreement 配置 Content Page Management</h1>
+<div class="IB b"><strong>说明：</strong>管理前端注册页"User Agreement"弹窗内容。点击注册页"User Agreement"文字 → 底部弹窗展示此处配置的内容。支持富文本HTML编辑。</div>
+
+<div class="AF">
+<div class="AT"><div style="display:flex;align-items:center;gap:12px"><div class="logo"><span>BDB</span>GAME Admin</div><div class="breadcrumb">/ 内容页管理 / User Agreement</div></div><div class="user"><span>🔔</span><div class="av">A</div><span>Admin</span></div></div>
+<div class="AB">
+<div class="AS">
+<div class="grp">配置 Config</div>
+<div class="it"><span class="ic">📅</span>签到配置</div>
+<div class="it"><span class="ic">💰</span>金币配置</div>
+<div class="it on"><span class="ic">📜</span>内容页管理</div>
+<div class="it"><span class="ic">🌐</span>运营配置</div>
+</div>
+<div class="AM">
+<div class="pt">📜 User Agreement 配置</div>
+<div class="ps">管理注册页用户协议弹窗内容</div>
+
+<div class="cfg">
+<div class="cfg-section">
+<h3>基本设置 Basic Settings</h3>
+<div class="cfg-row"><label>Status 启用状态</label><div style="display:flex;align-items:center;gap:8px"><div style="width:36px;height:20px;background:var(--g);border-radius:10px;position:relative"><div style="width:16px;height:16px;background:#fff;border-radius:50%;position:absolute;right:2px;top:2px"></div></div><span style="color:var(--g);font-size:11px">Enabled</span></div></div>
+<div class="cfg-row"><label>Title 弹窗标题</label><div class="input" style="width:300px">User Agreement</div></div>
+<div class="cfg-row"><label>Last Updated 更新日期</label><div class="input" style="width:200px">2026-01-01</div></div>
+</div>
+
+<div class="cfg-section" style="margin-top:16px">
+<h3>Agreement Content 协议内容</h3>
+<div style="border:1px solid var(--bd);border-radius:8px;overflow:hidden">
+<div style="background:#f8f9fa;padding:6px 10px;border-bottom:1px solid var(--bd);display:flex;gap:8px;font-size:11px">
+<span style="padding:2px 8px;background:var(--card);border-radius:4px;border:1px solid var(--bd);cursor:pointer"><strong>B</strong></span>
+<span style="padding:2px 8px;background:var(--card);border-radius:4px;border:1px solid var(--bd);cursor:pointer"><em>I</em></span>
+<span style="padding:2px 8px;background:var(--card);border-radius:4px;border:1px solid var(--bd);cursor:pointer"><u>U</u></span>
+<span style="padding:2px 8px;background:var(--card);border-radius:4px;border:1px solid var(--bd);cursor:pointer">H1</span>
+<span style="padding:2px 8px;background:var(--card);border-radius:4px;border:1px solid var(--bd);cursor:pointer">H2</span>
+<span style="padding:2px 8px;background:var(--card);border-radius:4px;border:1px solid var(--bd);cursor:pointer">• List</span>
+<span style="padding:2px 8px;background:var(--card);border-radius:4px;border:1px solid var(--bd);cursor:pointer">🔗 Link</span>
+<span style="padding:2px 8px;background:var(--card);border-radius:4px;border:1px solid var(--bd);cursor:pointer">&lt;/&gt; HTML</span>
+</div>
+<div style="padding:12px;min-height:300px;font-size:11px;line-height:1.8;color:var(--t)">
+<div style="font-weight:700;font-size:13px;margin-bottom:6px">1. Acceptance of Terms</div>
+<div style="margin-bottom:8px">By accessing or using 1GO.PLUS ("the Platform"), you acknowledge that you have read, understood, and agree to be bound by these Terms of Use. If you do not agree with any part of these terms, you must not access or use the Platform.</div>
+<div style="font-weight:700;font-size:13px;margin-bottom:6px">2. Eligibility</div>
+<div style="margin-bottom:8px">You must be at least 18 years of age (or the legal age of majority in your jurisdiction, whichever is greater) to use this Platform.</div>
+<div style="font-weight:700;font-size:13px;margin-bottom:6px">3. Account Registration</div>
+<div style="margin-bottom:8px">You agree to provide accurate and complete information during registration. You are responsible for maintaining the confidentiality of your account credentials.</div>
+<div style="font-weight:700;font-size:13px;margin-bottom:6px">4. Virtual Currency</div>
+<div style="margin-bottom:8px">The Platform uses virtual coins for entertainment purposes only. Virtual coins have no real monetary value and cannot be exchanged for real currency.</div>
+<div style="color:#94a3b8;font-size:10px">... (共10条条款，可在编辑器中修改) ...</div>
+</div>
+</div>
+</div>
+
+<div style="margin-top:16px;display:flex;gap:8px;justify-content:flex-end">
+<div class="btn" style="background:var(--bg);color:var(--t);border:1px solid var(--bd)">Preview 预览</div>
+<div class="btn" style="background:var(--c);color:#fff">Save 保存</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<h3>字段规格 Field Spec</h3>
+<table>
+<tr><th>字段 Field</th><th>类型 Type</th><th>必填</th><th>说明 Description</th></tr>
+<tr><td>Status</td><td>Toggle</td><td>✅</td><td>启用/禁用。禁用时前端"User Agreement"文字不可点击，显示灰色</td></tr>
+<tr><td>Title</td><td>Text</td><td>✅</td><td>弹窗顶部标题，默认"User Agreement"，最长50字符</td></tr>
+<tr><td>Content</td><td>Rich Text (HTML)</td><td>✅</td><td>协议正文，支持标题/段落/列表/加粗/链接。富文本编辑器（推荐TinyMCE/Quill）</td></tr>
+<tr><td>Last Updated</td><td>Date</td><td>✅</td><td>弹窗底部显示"Last updated: YYYY-MM-DD"</td></tr>
+</table>
+
+<h3>操作规格 Operation Spec</h3>
+<table>
+<tr><th>操作 Action</th><th>权限 Role</th><th>确认 Confirm</th><th>反馈 Feedback</th></tr>
+<tr><td>编辑内容 Edit</td><td>Super Admin / Operator</td><td>无</td><td>✅ "Agreement content updated" Toast</td></tr>
+<tr><td>预览 Preview</td><td>All</td><td>无</td><td>新标签页打开前端预览效果</td></tr>
+<tr><td>启用/禁用 Toggle</td><td>Super Admin</td><td>二次确认弹窗</td><td>✅ "Agreement {enabled/disabled}" Toast</td></tr>
+</table>
+
+<div class="IB o"><strong>V2扩展：</strong>可增加Privacy Policy、About Us等更多内容页，统一在"内容页管理"模块下管理。</div>
 </div>
 
 <!-- ==================== 站点配置 ==================== -->
