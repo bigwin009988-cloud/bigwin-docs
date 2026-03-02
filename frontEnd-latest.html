@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>游戏大厅 V1 — 全模块产品文档（优化版）</title>
+<title>Game Lobby V1 — Product Document</title>
 <style>
 :root{--c:#2196F3;--bg:#f5f6fa;--sw:250px;--t:#333;--bd:#e0e0e0;--g:#00c853;--r:#ff5252;--o:#ff9800;--dark:#1A2C1A;--card:#232626;--accent:#24EE89;--nav:#0D1117}
 *{margin:0;padding:0;box-sizing:border-box}
@@ -203,8 +203,8 @@ tr:hover td{background:#f0f7ff}
 <a onclick="G('login-flow')">登录完整流程</a>
 <a onclick="G('reg-empty')">注册页（Empty标注）</a>
 <a onclick="G('reg-fill')">注册填写过程</a>
-<a onclick="G('reg-otp')">OTP验证状态</a>
-<a onclick="G('reg-success')">注册成功→跳转</a>
+<a onclick="G('reg-otp')">OTPVerify状态</a>
+<a onclick="G('reg-success')">Registered→跳转</a>
 <a onclick="G('reg-flow')">注册完整流程</a>
 <a onclick="G('auth-err')">错误状态合集</a>
 <a onclick="G('auth-spec')">字段表+校验+交互</a>
@@ -220,7 +220,7 @@ tr:hover td{background:#f0f7ff}
 
 <h2>📅 模块3: Daily Check-in</h2>
 <a onclick="G('checkin-ov')">模块概述</a>
-<a onclick="G('checkin-popup')">签到弹窗全状态</a>
+<a onclick="G('checkin-popup')">Check-in popup全状态</a>
 <a onclick="G('checkin-flow')">签到完整流程</a>
 <a onclick="G('checkin-spec')">规则+交互规范</a>
 
@@ -256,8 +256,8 @@ tr:hover td{background:#f0f7ff}
 <h2>🛡️ 风控体系</h2>
 <a onclick="G('risk-control')">🛡️ 登录风控体系</a>
 
-<h2>📐 逻辑验证</h2>
-<a onclick="G('logic-rules')">📐 输入验证与业务逻辑</a>
+<h2>📐 逻辑Verify</h2>
+<a onclick="G('logic-rules')">📐 输入Verify与业务逻辑</a>
 
 <h2>📸 参考截图</h2>
 <a onclick="G('all-screenshots')">📸 1goplus 全部截图</a>
@@ -397,7 +397,7 @@ tr:hover td{background:#f0f7ff}
 
 <div class="phone-row">
 <div class="phone">
-<div class="phone-label">状态1：Empty（初始弹出）Empty State</div>
+<div class="phone-label">State 1: Empty (Initial)</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="modal-bg">
 <div class="modal-sheet" style="padding-top:12px">
@@ -410,7 +410,7 @@ tr:hover td{background:#f0f7ff}
 <div class="form-title">Sign In</div>
 <div class="input-row" style="position:relative"><span class="code">+91 ▾</span><span class="divider"></span><span class="placeholder">Phone Number</span>
 <div class="dot b" style="right:-24px;top:2px">1</div></div>
-<div class="input-row" style="position:relative"><span class="placeholder">Password (6-16 digits) 密码</span><span class="eye">👁</span>
+<div class="input-row" style="position:relative"><span class="placeholder">Password (6-16 characters)</span><span class="eye">👁</span>
 <div class="dot r" style="right:-24px;top:2px">2</div></div>
 <div class="switch-link" style="position:relative">Sign In by OTP · OTP Login →
 <div class="dot b" style="right:-24px;top:-2px">3</div></div>
@@ -422,7 +422,7 @@ tr:hover td{background:#f0f7ff}
 </div></div></div>
 
 <div class="phone">
-<div class="phone-label">状态2：填写完成 → 可提交 Filled → Submit</div>
+<div class="phone-label">State 2: Filled → Ready to Submit</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="modal-bg">
 <div class="modal-sheet" style="padding-top:12px">
@@ -443,7 +443,7 @@ tr:hover td{background:#f0f7ff}
 </div></div></div>
 
 <div class="phone">
-<div class="phone-label">状态3：Loading中 Submitting</div>
+<div class="phone-label">State 3: Submitting</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="modal-bg">
 <div class="modal-sheet" style="padding-top:12px">
@@ -465,7 +465,7 @@ tr:hover td{background:#f0f7ff}
 <h3>标注说明 Annotations</h3>
 <table class="ann">
 <tr><td><span class="num">1</span></td><td><strong>区号选择器 Country Code +91 ▾</strong></td><td>点击展开区号列表，支持Search。默认按site_code配置(印度=+91)。Click to expand country code list with search.</td></tr>
-<tr><td><span class="num r">2</span></td><td><strong>密码输入框 Password Field 🔴新增</strong></td><td>placeholder: "Password (6-16 digits) 密码"。右侧👁切换明文/密文，默认密文。<strong>原文档无此字段 Not in original doc</strong></td></tr>
+<tr><td><span class="num r">2</span></td><td><strong>密码输入框 Password Field 🔴新增</strong></td><td>placeholder: "Password (6-16 characters)"。右侧👁切换明文/密文，默认密文。<strong>原文档无此字段 Not in original doc</strong></td></tr>
 <tr><td><span class="num">3</span></td><td><strong>OTP切换链接 OTP Toggle</strong></td><td>点击→输入框动态切换到OTP模式（fadeOut→fadeIn 200ms），无页面跳转。Click to switch to OTP mode.</td></tr>
 <tr><td><span class="num">4</span></td><td><strong>登录按钮 Sign In Button</strong></td><td>Empty=灰色disabled。Phone+密码都填→绿色可点。Gray when empty, green when filled.</td></tr>
 </table>
@@ -486,8 +486,8 @@ tr:hover td{background:#f0f7ff}
 <div class="promo-banner"><div class="logo"><span>BDB</span>GAME</div><div class="safe">Secure and Fast</div><div class="gift">Register & Get 50,000 Free Coins</div></div>
 <div class="form-title">Sign In</div>
 <div class="input-row"><span class="code">+91 ▾</span><span class="divider"></span><span class="placeholder">Phone Number</span></div>
-<div class="input-row"><span class="placeholder">OTP 验证码</span><span class="action disabled">Send OTP 发送</span></div>
-<div class="switch-link">Sign In by Password · 密码登录 →</div>
+<div class="input-row"><span class="placeholder">OTP Code</span><span class="action disabled">Send OTP</span></div>
+<div class="switch-link">Sign In by Password →</div>
 <div class="btn-primary disabled">Sign In</div>
 <div class="btn-google"><div class="g-icon">G</div>Sign in with Google</div>
 <div class="form-footer">New to BDBGAME？<a>Create Account</a></div>
@@ -495,7 +495,7 @@ tr:hover td{background:#f0f7ff}
 </div></div></div>
 
 <div class="phone">
-<div class="phone-label">OTPSent 60s倒计时 Countdown</div>
+<div class="phone-label">OTP Sent — 60s Countdown</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="modal-bg">
 <div class="modal-sheet" style="padding-top:12px">
@@ -512,7 +512,7 @@ tr:hover td{background:#f0f7ff}
 </div></div></div>
 
 <div class="phone">
-<div class="phone-label">OTP已填 → 可登录 Ready</div>
+<div class="phone-label">OTP Entered — Ready to Login</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="modal-bg">
 <div class="modal-sheet" style="padding-top:12px">
@@ -547,54 +547,54 @@ tr:hover td{background:#f0f7ff}
 
 <h2>Password Login</h2>
 <div class="flow">
-<div class="flow-node start">点击Sign In<br>Click login</div><div class="flow-arrow">→</div>
-<div class="flow-node action">弹窗滑出<br>Sheet 300ms</div><div class="flow-arrow">→</div>
-<div class="flow-node page">输入Phone<br>Phone + Code</div><div class="flow-arrow">→</div>
-<div class="flow-node page">输入密码<br>6-16位</div><div class="flow-arrow">→</div>
-<div class="flow-node action">点击Sign In<br>Loading</div><div class="flow-arrow">→</div>
+<div class="flow-node start">Click Sign In</div><div class="flow-arrow">→</div>
+<div class="flow-node action">Sheet slides up<br>300ms</div><div class="flow-arrow">→</div>
+<div class="flow-node page">Enter Phone<br>+ Country Code</div><div class="flow-arrow">→</div>
+<div class="flow-node page">Enter Password<br>6-16 chars</div><div class="flow-arrow">→</div>
+<div class="flow-node action">Click Sign In<br>Loading</div><div class="flow-arrow">→</div>
 <div class="flow-branch">
-<div class="flow-node check">后端验证<br>Verify</div>
+<div class="flow-node check">Backend<br>Verify</div>
 <div style="display:flex;gap:6px;margin-top:4px">
-<div style="text-align:center"><div class="flow-label">✅成功</div><div class="flow-node success">关闭弹窗<br>→大厅</div></div>
-<div style="text-align:center"><div class="flow-label">❌失败</div><div class="flow-node error">红色提示<br>可Retry</div></div>
+<div style="text-align:center"><div class="flow-label">✅ Success</div><div class="flow-node success">Close sheet<br>→ Lobby</div></div>
+<div style="text-align:center"><div class="flow-label">❌ Failed</div><div class="flow-node error">Error toast<br>Can retry</div></div>
 </div></div>
 </div>
 
 <h2>OTP Login OTP Login</h2>
 <div class="flow">
-<div class="flow-node start">切换OTP<br>Toggle</div><div class="flow-arrow">→</div>
-<div class="flow-node page">输入Phone<br>Phone</div><div class="flow-arrow">→</div>
-<div class="flow-node action">Send OTP<br>60s倒计时</div><div class="flow-arrow">→</div>
-<div class="flow-node page">输入OTP<br>6位</div><div class="flow-arrow">→</div>
+<div class="flow-node start">Switch to OTP</div><div class="flow-arrow">→</div>
+<div class="flow-node page">Enter Phone</div><div class="flow-arrow">→</div>
+<div class="flow-node action">Send OTP<br>60s countdown</div><div class="flow-arrow">→</div>
+<div class="flow-node page">Enter OTP<br>6 digits</div><div class="flow-arrow">→</div>
 <div class="flow-node action">Sign In<br>Loading</div><div class="flow-arrow">→</div>
 <div class="flow-branch">
-<div class="flow-node check">验证</div>
+<div class="flow-node check">Verify</div>
 <div style="display:flex;gap:6px;margin-top:4px">
-<div style="text-align:center"><div class="flow-label">✅</div><div class="flow-node success">→大厅</div></div>
+<div style="text-align:center"><div class="flow-label">✅</div><div class="flow-node success">→ Lobby</div></div>
 <div style="text-align:center"><div class="flow-label">❌</div><div class="flow-node error">Retry</div></div>
 </div></div>
 </div>
 
 <h2>Google登录 Google OAuth</h2>
 <div class="flow">
-<div class="flow-node start">点击Google</div><div class="flow-arrow">→</div>
-<div class="flow-node action">跳转OAuth<br>授权页</div><div class="flow-arrow">→</div>
-<div class="flow-node page">选Google账号<br>Confirm授权</div><div class="flow-arrow">→</div>
-<div class="flow-node action">回调<br>Loading</div><div class="flow-arrow">→</div>
+<div class="flow-node start">Click Google</div><div class="flow-arrow">→</div>
+<div class="flow-node action">Redirect to<br>OAuth page</div><div class="flow-arrow">→</div>
+<div class="flow-node page">Select Google<br>account</div><div class="flow-arrow">→</div>
+<div class="flow-node action">Callback<br>Loading</div><div class="flow-arrow">→</div>
 <div class="flow-branch">
-<div class="flow-node check">已注册？</div>
+<div class="flow-node check">Registered?</div>
 <div style="display:flex;gap:6px;margin-top:4px">
-<div style="text-align:center"><div class="flow-label">已注册</div><div class="flow-node success">直接登录<br>→大厅</div></div>
-<div style="text-align:center"><div class="flow-label">未注册</div><div class="flow-node success">自动注册<br>+5万→大厅</div></div>
+<div style="text-align:center"><div class="flow-label">Yes</div><div class="flow-node success">Direct login<br>→ Lobby</div></div>
+<div style="text-align:center"><div class="flow-label">No</div><div class="flow-node success">Auto register<br>+50K → Lobby</div></div>
 </div></div>
 </div>
 
 <h2>登录成功跳转 After Login</h2>
 <div class="phone-row">
 <div class="phone">
-<div class="phone-label">登录成功 → Home已Logged In Logged-in Home</div>
+<div class="phone-label">Login Success → Home</div>
 <div class="phone-frame"><div class="phone-content">
-<div class="toast">✅ 登录成功 Welcome back!</div>
+<div class="toast">✅ Welcome back!</div>
 <div class="header-bar">
 <div class="logo-area"><div class="logo-text"><span>BDB</span>GAME</div></div>
 <div class="right-area">
@@ -605,7 +605,7 @@ tr:hover td{background:#f0f7ff}
 <div class="avatar">👤</div>
 </div></div>
 <div style="padding:8px">
-<div class="banner-placeholder">Banner Carousel区</div>
+<div class="banner-placeholder">Banner Carousel</div>
 <div class="section-title">🔥 Trending Games <span class="more">More ></span></div>
 <div class="game-grid">
 <div class="game-card">🎰</div><div class="game-card">✈️</div>
@@ -629,7 +629,7 @@ tr:hover td{background:#f0f7ff}
 
 <div class="phone-row">
 <div class="phone">
-<div class="phone-label">注册Empty · 标注版 Annotated</div>
+<div class="phone-label">Registration Empty — Annotated</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="modal-bg">
 <div class="modal-sheet" style="padding-top:12px">
@@ -639,20 +639,20 @@ tr:hover td{background:#f0f7ff}
 <div class="safe">Secure and Fast · Secure & Fast</div>
 <div class="gift" style="font-size:11px">Register & Get 50,000 Free Coins 🪙</div>
 </div>
-<div class="form-title" style="position:relative">Sign Up · 注册 <div class="dot b" style="right:-22px;top:0">1</div></div>
+<div class="form-title" style="position:relative">Sign Up <div class="dot b" style="right:-22px;top:0">1</div></div>
 <div class="input-row" style="position:relative"><span class="code">+91 ▾</span><span class="divider"></span><span class="placeholder">Phone Number</span><div class="dot b" style="right:-22px;top:2px">2</div></div>
-<div class="input-row" style="position:relative"><span class="placeholder">Password (6-16 digits) 密码</span><span class="eye">👁</span><div class="dot r" style="right:-22px;top:2px">3</div></div>
-<div class="input-row" style="position:relative"><span class="placeholder">OTP 验证码</span><span class="action disabled">Send OTP</span><div class="dot b" style="right:-22px;top:2px">4</div></div>
+<div class="input-row" style="position:relative"><span class="placeholder">Password (6-16 characters)</span><span class="eye">👁</span><div class="dot r" style="right:-22px;top:2px">3</div></div>
+<div class="input-row" style="position:relative"><span class="placeholder">OTP Code</span><span class="action disabled">Send OTP</span><div class="dot b" style="right:-22px;top:2px">4</div></div>
 <div class="checkbox-row" style="position:relative"><div class="checkbox">✓</div><span>I agree to the <strong style="color:#fff">User Agreement</strong> & confirm 18+<br>我同意用户协议并Confirm已满18岁</span><div class="dot g" style="right:-18px;top:0">5</div></div>
-<div class="checkbox-row" style="position:relative"><div class="checkbox">✓</div><span>I agree to receive marketing promotions<br>我同意接收营销推广</span><div class="dot g" style="right:-18px;top:0">6</div></div>
-<div class="btn-primary disabled" style="position:relative">Sign Up · 注册<div class="dot b" style="right:-22px;top:2px">7</div></div>
+<div class="checkbox-row" style="position:relative"><div class="checkbox">✓</div><span>I agree to receive marketing promotions<br>I agree to receive marketing promotions</span><div class="dot g" style="right:-18px;top:0">6</div></div>
+<div class="btn-primary disabled" style="position:relative">Sign Up<div class="dot b" style="right:-22px;top:2px">7</div></div>
 <div class="btn-google"><div class="g-icon">G</div>Sign in with Google</div>
 <div class="form-footer">Already have an account? <a>Sign In</a></div>
 </div></div>
 </div></div></div>
 
 <div class="phone">
-<div class="phone-label">1goplus竞品参考 Reference</div>
+<div class="phone-label">1goplus Reference</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="modal-bg">
 <div class="modal-sheet" style="padding-top:12px">
@@ -678,7 +678,7 @@ tr:hover td{background:#f0f7ff}
 
 <h3>标注说明 Annotations</h3>
 <table class="ann">
-<tr><td><span class="num">1</span></td><td><strong>标题 Title</strong></td><td>"Sign Up · 注册" 15px白色加粗左对齐</td></tr>
+<tr><td><span class="num">1</span></td><td><strong>标题 Title</strong></td><td>"Sign Up" 15px白色加粗左对齐</td></tr>
 <tr><td><span class="num">2</span></td><td><strong>Phone</strong></td><td>+区号下拉 | type=tel 只允许数字</td></tr>
 <tr><td><span class="num r">3</span></td><td><strong>Password 🔴新增</strong></td><td>"Password (6-16 digits)"。👁切换。<strong>原文档无 Not in original</strong></td></tr>
 <tr><td><span class="num">4</span></td><td><strong>OTP</strong></td><td>"Send OTP"在输入框内部右侧（非独立按钮）。需先填Phone</td></tr>
@@ -694,7 +694,7 @@ tr:hover td{background:#f0f7ff}
 
 <div class="phone-row">
 <div class="phone">
-<div class="phone-label">步骤1：输入Phone Enter Phone</div>
+<div class="phone-label">Step 1: Enter Phone</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="modal-bg"><div class="modal-sheet" style="padding-top:12px">
 <div class="modal-close">✕</div>
@@ -710,7 +710,7 @@ tr:hover td{background:#f0f7ff}
 </div></div></div>
 
 <div class="phone">
-<div class="phone-label">步骤2：输入密码 Enter Password</div>
+<div class="phone-label">Step 2: Enter Password</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="modal-bg"><div class="modal-sheet" style="padding-top:12px">
 <div class="modal-close">✕</div>
@@ -726,7 +726,7 @@ tr:hover td{background:#f0f7ff}
 </div></div></div>
 
 <div class="phone">
-<div class="phone-label">步骤3：发OTP+输入 Send & Enter OTP</div>
+<div class="phone-label">Step 3: Send & Enter OTP</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="modal-bg"><div class="modal-sheet" style="padding-top:12px">
 <div class="modal-close">✕</div>
@@ -737,19 +737,19 @@ tr:hover td{background:#f0f7ff}
 <div class="input-row focus"><span class="value">836291</span><span class="action disabled"><span class="countdown">45s</span></span></div>
 <div class="checkbox-row"><div class="checkbox">✓</div><span style="font-size:8px">Agreement & 18+</span></div>
 <div class="checkbox-row"><div class="checkbox">✓</div><span style="font-size:8px">Marketing</span></div>
-<div class="btn-primary">Sign Up · 注册</div>
+<div class="btn-primary">Sign Up</div>
 </div></div>
 </div></div></div>
 </div>
 </div>
 
-<!-- ==================== OTP验证状态 ==================== -->
+<!-- ==================== OTPVerify状态 ==================== -->
 <div class="P" id="pg-reg-otp">
-<h1>📱 OTP验证状态详解 OTP States</h1>
+<h1>📱 OTPVerify状态详解 OTP States</h1>
 
 <div class="phone-row">
 <div class="phone">
-<div class="phone-label">Send OTP 不可点 Disabled</div>
+<div class="phone-label">Send OTP — Disabled</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="modal-bg"><div class="modal-sheet" style="padding-top:12px">
 <div class="promo-banner" style="padding:6px"><div class="logo" style="font-size:12px"><span>BDB</span>GAME</div></div>
@@ -762,7 +762,7 @@ tr:hover td{background:#f0f7ff}
 </div></div></div>
 
 <div class="phone">
-<div class="phone-label">Send OTP 可点 Enabled</div>
+<div class="phone-label">Send OTP — Enabled</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="modal-bg"><div class="modal-sheet" style="padding-top:12px">
 <div class="promo-banner" style="padding:6px"><div class="logo" style="font-size:12px"><span>BDB</span>GAME</div></div>
@@ -775,7 +775,7 @@ tr:hover td{background:#f0f7ff}
 </div></div></div>
 
 <div class="phone">
-<div class="phone-label">60s倒计时 Countdown</div>
+<div class="phone-label">60s Countdown</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="modal-bg"><div class="modal-sheet" style="padding-top:12px">
 <div class="promo-banner" style="padding:6px"><div class="logo" style="font-size:12px"><span>BDB</span>GAME</div></div>
@@ -789,13 +789,13 @@ tr:hover td{background:#f0f7ff}
 </div>
 </div>
 
-<!-- ==================== 注册成功 ==================== -->
+<!-- ==================== Registered ==================== -->
 <div class="P" id="pg-reg-success">
-<h1>📱 注册成功 → 跳转大厅 Register Success</h1>
+<h1>📱 Registered → 跳转大厅 Register Success</h1>
 
 <div class="phone-row">
 <div class="phone">
-<div class="phone-label">①点击注册 Loading</div>
+<div class="phone-label">① Click Register — Loading</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="modal-bg"><div class="modal-sheet" style="padding-top:12px">
 <div class="modal-close" style="opacity:.3">✕</div>
@@ -810,7 +810,7 @@ tr:hover td{background:#f0f7ff}
 </div></div></div>
 
 <div class="phone">
-<div class="phone-label">②成功动画 1.5s Success</div>
+<div class="phone-label">② Success Animation 1.5s</div>
 <div class="phone-frame"><div class="phone-content" style="display:flex;align-items:center;justify-content:center">
 <div class="success-anim">
 <div class="check-circle">✓</div>
@@ -823,7 +823,7 @@ tr:hover td{background:#f0f7ff}
 </div></div></div>
 
 <div class="phone">
-<div class="phone-label">③进入大厅 + 签到引导 Home + Guide</div>
+<div class="phone-label">③ Enter Lobby + Check-in Guide</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="toast">🎉 Welcome BDBGAME！Welcome!</div>
 <div class="header-bar">
@@ -836,7 +836,7 @@ tr:hover td{background:#f0f7ff}
 <div class="avatar">👤</div>
 </div></div>
 <div style="padding:8px">
-<div class="banner-placeholder">Banner Carousel区</div>
+<div class="banner-placeholder">Banner Carousel</div>
 <div class="section-title">🔥 Trending <span class="more">More ></span></div>
 <div class="game-grid"><div class="game-card">🎰</div><div class="game-card">🃏</div></div>
 </div>
@@ -873,37 +873,37 @@ tr:hover td{background:#f0f7ff}
 
 <h2>Phone注册主流程 Phone Registration</h2>
 <div class="flow">
-<div class="flow-node start">Sign Up<br>注册入口</div><div class="flow-arrow">→</div>
-<div class="flow-node action">弹窗滑出<br>300ms</div><div class="flow-arrow">→</div>
-<div class="flow-node page">Phone<br>+区号</div><div class="flow-arrow">→</div>
-<div class="flow-node page">密码<br>6-16位</div><div class="flow-arrow">→</div>
+<div class="flow-node start">Sign Up<br>Entry</div><div class="flow-arrow">→</div>
+<div class="flow-node action">Sheet slides up<br>300ms</div><div class="flow-arrow">→</div>
+<div class="flow-node page">Phone<br>+ Code</div><div class="flow-arrow">→</div>
+<div class="flow-node page">Password<br>6-16 chars</div><div class="flow-arrow">→</div>
 <div class="flow-node action">Send OTP<br>60s</div><div class="flow-arrow">→</div>
-<div class="flow-node page">输入OTP<br>6位</div><div class="flow-arrow">→</div>
+<div class="flow-node page">Enter OTP<br>6 digits</div><div class="flow-arrow">→</div>
 <div class="flow-node action">Sign Up<br>Loading</div><div class="flow-arrow">→</div>
 <div class="flow-branch">
-<div class="flow-node check">验证</div>
+<div class="flow-node check">Verify</div>
 <div style="display:flex;gap:6px;margin-top:4px">
-<div style="text-align:center"><div class="flow-label">✅</div><div class="flow-node success">成功动画<br>+5万🪙<br>→大厅</div></div>
-<div style="text-align:center"><div class="flow-label">❌</div><div class="flow-node error">错误提示<br>可Retry</div></div>
+<div style="text-align:center"><div class="flow-label">✅</div><div class="flow-node success">Success<br>+50K🪙<br>→ Lobby</div></div>
+<div style="text-align:center"><div class="flow-label">❌</div><div class="flow-node error">Error toast<br>Can retry</div></div>
 </div></div>
 </div>
 
 <h2>注册后自动触发 After Registration</h2>
 <div class="flow">
-<div class="flow-node success">注册成功</div><div class="flow-arrow">→</div>
-<div class="flow-node action">发50,000🪙<br>飞入动画</div><div class="flow-arrow">→</div>
-<div class="flow-node action">自动登录<br>Session</div><div class="flow-arrow">→</div>
-<div class="flow-node page">跳转Home<br>已登录</div><div class="flow-arrow">→</div>
-<div class="flow-node action">签到引导条<br>首次注册</div>
+<div class="flow-node success">Registered</div><div class="flow-arrow">→</div>
+<div class="flow-node action">+50,000🪙<br>Coin fly</div><div class="flow-arrow">→</div>
+<div class="flow-node action">Auto login<br>Session</div><div class="flow-arrow">→</div>
+<div class="flow-node page">Redirect to<br>Home</div><div class="flow-arrow">→</div>
+<div class="flow-node action">Check-in guide<br>First time</div>
 </div>
 
 <h2>Google注册 Google Registration</h2>
 <div class="flow">
 <div class="flow-node start">Google</div><div class="flow-arrow">→</div>
 <div class="flow-node action">OAuth</div><div class="flow-arrow">→</div>
-<div class="flow-node page">选账号</div><div class="flow-arrow">→</div>
-<div class="flow-node action">回调</div><div class="flow-arrow">→</div>
-<div class="flow-node success">自动注册+登录<br>+5万→大厅</div>
+<div class="flow-node page">Select account</div><div class="flow-arrow">→</div>
+<div class="flow-node action">Callback</div><div class="flow-arrow">→</div>
+<div class="flow-node success">Auto register+login<br>+50K → Lobby</div>
 </div>
 <div class="IB o"><strong>注意 Note：</strong>Google注册用户没有密码。可在个人中心→Change Password中设置。Google users have no password, can set one in Profile → Change Password.</div>
 </div>
@@ -914,41 +914,41 @@ tr:hover td{background:#f0f7ff}
 
 <div class="phone-row">
 <div class="phone">
-<div class="phone-label">密码错误 Wrong Password</div>
+<div class="phone-label">Wrong Password</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="modal-bg"><div class="modal-sheet" style="padding-top:12px">
 <div class="promo-banner" style="padding:6px"><div class="logo" style="font-size:12px"><span>BDB</span>GAME</div></div>
 <div class="form-title" style="font-size:13px">Sign In</div>
 <div class="input-row"><span class="code">+91</span><span class="divider"></span><span class="value">9876543210</span></div>
 <div class="input-row error"><span class="value">••••••</span><span class="eye">👁</span></div>
-<div class="err-text">❌ Incorrect password 密码错误</div>
+<div class="err-text">❌ Incorrect password</div>
 <div class="switch-link">Sign In by OTP →</div>
 <div class="btn-primary">Sign In · Retry</div>
 </div></div>
 </div></div></div>
 
 <div class="phone">
-<div class="phone-label">账号不存在 Not Found</div>
+<div class="phone-label">Account Not Found</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="modal-bg"><div class="modal-sheet" style="padding-top:12px">
 <div class="promo-banner" style="padding:6px"><div class="logo" style="font-size:12px"><span>BDB</span>GAME</div></div>
 <div class="form-title" style="font-size:13px">Sign In</div>
 <div class="input-row error"><span class="code">+91</span><span class="divider"></span><span class="value">1111111111</span></div>
-<div class="err-text">❌ Account not found 账号不存在 <a style="color:var(--accent);font-size:9px">Create Account →</a></div>
+<div class="err-text">❌ Account not found <a style="color:var(--accent);font-size:9px">Create Account →</a></div>
 <div class="input-row"><span class="value">••••••</span><span class="eye">👁</span></div>
 <div class="btn-primary">Sign In</div>
 </div></div>
 </div></div></div>
 
 <div class="phone">
-<div class="phone-label">OTP错误 Invalid OTP</div>
+<div class="phone-label">Invalid OTP</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="modal-bg"><div class="modal-sheet" style="padding-top:12px">
 <div class="promo-banner" style="padding:6px"><div class="logo" style="font-size:12px"><span>BDB</span>GAME</div></div>
 <div class="form-title" style="font-size:13px">Sign In</div>
 <div class="input-row"><span class="code">+91</span><span class="divider"></span><span class="value">9876543210</span></div>
 <div class="input-row error"><span class="value" style="color:var(--r)">123456</span><span class="action disabled"><span class="countdown">38s</span></span></div>
-<div class="err-text">❌ Invalid OTP 验证码错误</div>
+<div class="err-text">❌ Invalid OTP</div>
 <div class="btn-primary">Sign In</div>
 </div></div>
 </div></div></div>
@@ -956,13 +956,13 @@ tr:hover td{background:#f0f7ff}
 
 <div class="phone-row">
 <div class="phone">
-<div class="phone-label">Phone已注册 Already Registered</div>
+<div class="phone-label">Already Registered</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="modal-bg"><div class="modal-sheet" style="padding-top:12px">
 <div class="promo-banner" style="padding:6px"><div class="logo" style="font-size:12px"><span>BDB</span>GAME</div></div>
 <div class="form-title" style="font-size:13px">Sign Up</div>
 <div class="input-row error"><span class="code">+91</span><span class="divider"></span><span class="value">9876543210</span></div>
-<div class="err-text">❌ Already registered 已注册 <a style="color:var(--accent);font-size:9px">Sign In →</a></div>
+<div class="err-text">❌ Already registered <a style="color:var(--accent);font-size:9px">Sign In →</a></div>
 <div class="input-row"><span class="value">••••••</span><span class="eye">👁</span></div>
 <div class="input-row"><span class="value">836291</span></div>
 <div class="btn-primary disabled">Sign Up</div>
@@ -970,27 +970,27 @@ tr:hover td{background:#f0f7ff}
 </div></div></div>
 
 <div class="phone">
-<div class="phone-label">密码不符规则 Invalid Password</div>
+<div class="phone-label">Invalid Password</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="modal-bg"><div class="modal-sheet" style="padding-top:12px">
 <div class="promo-banner" style="padding:6px"><div class="logo" style="font-size:12px"><span>BDB</span>GAME</div></div>
 <div class="form-title" style="font-size:13px">Sign Up</div>
 <div class="input-row"><span class="code">+91</span><span class="divider"></span><span class="value">9876543210</span></div>
 <div class="input-row error"><span class="value">•••</span><span class="eye">👁</span></div>
-<div class="err-text">❌ Password must be 6-16 chars 密码需6-16位</div>
+<div class="err-text">❌ Password must be 6-16 characters</div>
 <div class="input-row"><span class="placeholder">OTP</span><span class="action">Send OTP</span></div>
 <div class="btn-primary disabled">Sign Up</div>
 </div></div>
 </div></div></div>
 
 <div class="phone">
-<div class="phone-label">网络异常 Network Error</div>
+<div class="phone-label">Network Error</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="modal-bg"><div class="modal-sheet" style="padding-top:12px;text-align:center">
 <div style="padding:30px 16px">
 <div style="font-size:32px;margin-bottom:10px">📡</div>
 <div style="color:#fff;font-size:13px;font-weight:600;margin-bottom:3px">Network Error</div>
-<div style="color:rgba(255,255,255,.35);font-size:10px;margin-bottom:14px">Please check connection<br>Please check your network连接</div>
+<div style="color:rgba(255,255,255,.35);font-size:10px;margin-bottom:14px">Please check connection<br>Please check your network</div>
 <div class="btn-primary" style="max-width:140px;margin:0 auto;font-size:12px">Retry · Retry</div>
 </div>
 </div></div>
@@ -1002,9 +1002,9 @@ tr:hover td{background:#f0f7ff}
 <tr><th>错误码 Code</th><th>场景 Scenario</th><th>提示文案 Message</th><th>UI行为 Behavior</th></tr>
 <tr><td>AUTH_001</td><td>密码错误 Wrong password</td><td>Incorrect password 密码错误</td><td>密码框红色+shake 300ms</td></tr>
 <tr><td>AUTH_002</td><td>账号不存在 Not found</td><td>Account not found 不存在</td><td>Phone红色+"Create Account"链接</td></tr>
-<tr><td>AUTH_003</td><td>OTP错误 Invalid OTP</td><td>Invalid OTP 验证码错误</td><td>OTP框红色+数字变红+清空</td></tr>
+<tr><td>AUTH_003</td><td>Invalid OTP</td><td>Invalid OTP Code错误</td><td>OTP框红色+数字变红+清空</td></tr>
 <tr><td>AUTH_004</td><td>OTP过期 Expired</td><td>OTP expired 过期</td><td>OTP红色+Resend高亮</td></tr>
-<tr><td>AUTH_005</td><td>已Registered</td><td>Already registered 已注册</td><td>Phone红色+"Sign In"链接</td></tr>
+<tr><td>AUTH_005</td><td>已Registered</td><td>Already registered Yes</td><td>Phone红色+"Sign In"链接</td></tr>
 <tr><td>AUTH_006</td><td>密码规则 Invalid pwd</td><td>6-16 characters 6-16位</td><td>密码框红色（失焦触发）</td></tr>
 <tr><td>AUTH_007</td><td>协议未勾 Agreement</td><td>Accept Agreement 请同意</td><td>checkbox震动+红边框</td></tr>
 <tr><td>AUTH_008</td><td>OTP频率 Rate limit</td><td>Too many requests 频繁</td><td>Toast+禁用120s</td></tr>
@@ -1086,7 +1086,7 @@ tr:hover td{background:#f0f7ff}
 <tr><td>输入框错误 Error</td><td>border→red + shake</td><td>shake 300ms ±4px×2</td></tr>
 <tr><td>按钮激活 Enable</td><td>opacity 0.35→1</td><td>200ms ease</td></tr>
 <tr><td>按钮Loading</td><td>文字out + spinner in</td><td>spinner 1s linear infinite</td></tr>
-<tr><td>注册成功✅ Success</td><td>scale(0→1.2→1) +  coins飞入</td><td>✅400ms + coins 800ms ease-out</td></tr>
+<tr><td>Registered✅ Success</td><td>scale(0→1.2→1) +  coins飞入</td><td>✅400ms + coins 800ms ease-out</td></tr>
 <tr><td>Toast</td><td>translateY(-100%→0)</td><td>300ms ease-out 停留2s</td></tr>
 <tr><td>按钮按压 Press</td><td>scale(0.98) + brightness(0.9)</td><td>50ms</td></tr>
 </table>
@@ -1330,7 +1330,7 @@ tr:hover td{background:#f0f7ff}
 </div></div></div>
 
 <div class="phone">
-<div class="phone-label">V1功能Toast V1 Feature Toast</div>
+<div class="phone-label">V1 Feature Toast</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="toast">Coming Soon</div>
 <div class="header-bar">
@@ -1340,9 +1340,9 @@ tr:hover td{background:#f0f7ff}
 <div style="padding:8px">
 <div class="banner-placeholder">Banner</div>
 <div style="color:rgba(255,255,255,.3);font-size:9px;text-align:center;margin-top:20px">
-点击以下V1未开放功能触发此Toast:<br>
-"+"充值 / Raffle / VIP / Affiliate / Hot Event...<br>
-Toast样式: rgba(36,238,137,0.95) 顶部滑入2s消失
+Clicking these V1 locked features triggers this Toast:<br>
+"+" Deposit / Raffle / VIP / Affiliate / Hot Event...<br>
+Toast: rgba(36,238,137,0.95) slide in from top, 2s dismiss
 </div>
 </div>
 <div class="bottom-nav">
@@ -1396,7 +1396,7 @@ Toast样式: rgba(36,238,137,0.95) 顶部滑入2s消失
 
 <div class="phone-row">
 <div class="phone">
-<div class="phone-label">区域: 分类横向列表 Categories</div>
+<div class="phone-label">Categories Horizontal Scroll</div>
 <div class="phone-frame"><div class="phone-content">
 <div style="padding:8px">
 <div class="section-title">🃏 Table Game <span class="more">All ></span></div>
@@ -1417,7 +1417,7 @@ Toast样式: rgba(36,238,137,0.95) 顶部滑入2s消失
 <table>
 <tr><th>规则 Rule</th><th>值 Value</th></tr>
 <tr><td>奖励 Reward</td><td>每日固定 100,000  coins Fixed 100K/day</td></tr>
-<tr><td>触发方式 Trigger</td><td>每日首次打开App自动弹出签到弹窗 Auto popup on daily first open</td></tr>
+<tr><td>触发方式 Trigger</td><td>每日首次打开App自动弹出Check-in popup Auto popup on daily first open</td></tr>
 <tr><td>签到周期 Cycle</td><td>7天一轮，循环 7-day cycle, repeating</td></tr>
 <tr><td>Streak Streak</td><td>展示连续天数，V1无额外奖励 Show streak, no bonus in V1</td></tr>
 <tr><td>补签 Catch-up</td><td>V1不支持补签 No catch-up in V1</td></tr>
@@ -1428,13 +1428,13 @@ Toast样式: rgba(36,238,137,0.95) 顶部滑入2s消失
 </div>
 
 
-<!-- ==================== 签到弹窗 ==================== -->
+<!-- ==================== Check-in popup ==================== -->
 <div class="P" id="pg-checkin-popup">
-<h1>📱 签到弹窗全状态 Check-in Popup States</h1>
+<h1>📱 Check-in popup全状态 Check-in Popup States</h1>
 
 <div class="phone-row">
 <div class="phone">
-<div class="phone-label">未签到（今日可签）Can Claim</div>
+<div class="phone-label">Unclaimed — Can Claim Today</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="header-bar">
 <div class="logo-area"><div class="logo-text"><span>BDB</span>GAME</div></div>
@@ -1469,7 +1469,7 @@ Toast样式: rgba(36,238,137,0.95) 顶部滑入2s消失
 </div></div></div>
 
 <div class="phone">
-<div class="phone-label">Check-in done动画 Claimed Animation</div>
+<div class="phone-label">Claimed Animation</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="toast">✅ ✅ Check-in done! +100,000 coins!</div>
 <div class="header-bar">
@@ -1503,7 +1503,7 @@ Toast样式: rgba(36,238,137,0.95) 顶部滑入2s消失
 </div></div></div>
 
 <div class="phone">
-<div class="phone-label">第7天（满签）Day 7 Complete Cycle</div>
+<div class="phone-label">Day 7 — Cycle Complete</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="header-bar">
 <div class="logo-area"><div class="logo-text"><span>BDB</span>GAME</div></div>
@@ -1545,21 +1545,21 @@ Toast样式: rgba(36,238,137,0.95) 顶部滑入2s消失
 
 <h2>签到主流程 Main Flow</h2>
 <div class="flow">
-<div class="flow-node start">首次打开App<br>Daily first open</div><div class="flow-arrow">→</div>
-<div class="flow-node check">今日已签？<br>Already claimed?</div><div class="flow-arrow">→</div>
+<div class="flow-node start">App opens<br>(daily first)</div><div class="flow-arrow">→</div>
+<div class="flow-node check">Claimed today?</div><div class="flow-arrow">→</div>
 <div class="flow-branch">
 <div style="display:flex;gap:6px">
-<div style="text-align:center"><div class="flow-label">未签</div><div class="flow-node action">弹出签到弹窗<br>Auto popup</div></div>
-<div style="text-align:center"><div class="flow-label">已签</div><div class="flow-node page">正常进入<br>No popup</div></div>
+<div style="text-align:center"><div class="flow-label">No</div><div class="flow-node action">Show check-in<br>popup</div></div>
+<div style="text-align:center"><div class="flow-label">Yes</div><div class="flow-node page">Normal entry<br>No popup</div></div>
 </div></div>
 </div>
 
 <div class="flow">
-<div class="flow-node action">签到弹窗</div><div class="flow-arrow">→</div>
-<div class="flow-node page">查看7日历<br>View 7-day</div><div class="flow-arrow">→</div>
-<div class="flow-node action">点击签到<br>Claim</div><div class="flow-arrow">→</div>
-<div class="flow-node success">+100,000🪙<br> coins飞入<br>余额更新</div><div class="flow-arrow">→</div>
-<div class="flow-node page">按钮变灰<br>"Claimed"<br>2s后auto close</div>
+<div class="flow-node action">Check-in popup</div><div class="flow-arrow">→</div>
+<div class="flow-node page">View 7-day<br>calendar</div><div class="flow-arrow">→</div>
+<div class="flow-node action">Click Claim</div><div class="flow-arrow">→</div>
+<div class="flow-node success">+100,000🪙<br> Coin fly<br>Balance update</div><div class="flow-arrow">→</div>
+<div class="flow-node page">Button grey<br>"Claimed"<br>2s auto close</div>
 </div>
 
 <h2>Check-in done时序 Timeline</h2>
@@ -1585,7 +1585,7 @@ Toast样式: rgba(36,238,137,0.95) 顶部滑入2s消失
 <tr><td>弹窗背景</td><td>var(--card) #232626 圆角14px</td></tr>
 <tr><td>遮罩</td><td>rgba(0,0,0,0.6) 点击遮罩=关闭弹窗</td></tr>
 <tr><td>日历格</td><td>7格等宽flex 圆角6px 间距3px</td></tr>
-<tr><td>已签日 Done</td><td>background:rgba(36,238,137,0.15) 绿色✅</td></tr>
+<tr><td>Yes日 Done</td><td>background:rgba(36,238,137,0.15) 绿色✅</td></tr>
 <tr><td>今日 Today</td><td>border:1px solid var(--accent) 脉冲glow</td></tr>
 <tr><td>未来日 Future</td><td>background:rgba(255,255,255,0.05) 灰色</td></tr>
 <tr><td>签到按钮</td><td>绿色渐变全宽 → 签到后灰色"Claimed"</td></tr>
@@ -1627,7 +1627,7 @@ Toast样式: rgba(36,238,137,0.95) 顶部滑入2s消失
 
 <div class="phone-row">
 <div class="phone">
-<div class="phone-label">Header余额展示 Balance</div>
+<div class="phone-label">Header Balance Display</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="header-bar">
 <div class="logo-area"><div class="logo-text"><span>BDB</span>GAME</div></div>
@@ -1638,13 +1638,13 @@ Toast样式: rgba(36,238,137,0.95) 顶部滑入2s消失
 </div></div>
 <div style="padding:16px;text-align:center">
 <div style="color:rgba(255,255,255,.3);font-size:10px;margin-top:40px">
-余额pill样式：<br>
+Balance pill style:<br>
 background: rgba(255,255,255,0.1)<br>
 border-radius: 7px<br>
 padding: 3px 8px<br>
 font: 10px weight:700<br>
-color: #FFD700 (金色)<br>
-🪙 emoji + 千分位数字
+color: #FFD700 (gold)<br>
+🪙 emoji + comma-separated number
 </div>
 </div>
 <div class="bottom-nav">
@@ -1657,7 +1657,7 @@ color: #FFD700 (金色)<br>
 </div></div></div>
 
 <div class="phone">
-<div class="phone-label">余额增加动画 Balance Increase</div>
+<div class="phone-label">Balance Increase Animation</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="header-bar">
 <div class="logo-area"><div class="logo-text"><span>BDB</span>GAME</div></div>
@@ -1667,11 +1667,11 @@ color: #FFD700 (金色)<br>
 </div></div>
 <div style="padding:16px;text-align:center;color:rgba(255,255,255,.3);font-size:10px">
 <div style="margin-top:20px">
-增加: 数字countUp 600ms ease-out<br>
-颜色: 绿色闪烁2次后恢复金色<br>
+Increase: countUp 600ms ease-out<br>
+Color: green blink 2× → back to gold<br>
 <br>
-减少: 数字countDown 400ms<br>
-颜色: 红色闪烁+轻shake后恢复
+Decrease: countDown 400ms<br>
+Color: red blink + shake → back to gold
 </div>
 </div>
 <div class="bottom-nav">
@@ -1749,7 +1749,7 @@ color: #FFD700 (金色)<br>
 
 <div class="phone-row">
 <div class="phone">
-<div class="phone-label">进入游戏时余额=0 Enter game with 0</div>
+<div class="phone-label">Enter Game with Balance = 0</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="toast err">Insufficient coins, check in tomorrow</div>
 <div class="header-bar">
@@ -1757,10 +1757,10 @@ color: #FFD700 (金色)<br>
 <div class="right-area"><div class="balance" style="color:var(--r)">🪙 0</div><div class="avatar">👤</div></div>
 </div>
 <div style="padding:16px;text-align:center;color:rgba(255,255,255,.3);font-size:10px;margin-top:30px">
-用户点击游戏→检查余额→余额=0<br>
-不进入游戏，Toast提示后留在Home<br><br>
-Toast样式：红色背景 rgba(255,82,82,0.95)<br>
-文案：" coins不足，请明日Claim Now"<br>
+User clicks game → check balance → balance = 0<br>
+Don't enter game, Toast then stay on home<br><br>
+Toast: red bg rgba(255,82,82,0.95)<br>
+Text: "Insufficient coins, check in tomorrow"<br>
 "Insufficient coins, check in tomorrow"
 </div>
 <div class="bottom-nav">
@@ -1773,7 +1773,7 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 </div></div></div>
 
 <div class="phone">
-<div class="phone-label">In-Game余额归零 In-game balance 0</div>
+<div class="phone-label">In-Game Balance Hits 0</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="game-topbar">
 <div class="back-btn">← Back</div>
@@ -1842,7 +1842,7 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 
 <div class="phone-row">
 <div class="phone">
-<div class="phone-label">①点击游戏卡片 Click Game</div>
+<div class="phone-label">① Click Game Card</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="header-bar">
 <div class="logo-area"><div class="logo-text"><span>BDB</span>GAME</div></div>
@@ -1865,7 +1865,7 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 </div></div></div>
 
 <div class="phone">
-<div class="phone-label">②Loading品牌页 Branded Loading</div>
+<div class="phone-label">② Branded Loading Screen</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="game-topbar">
 <div class="back-btn">← Back</div>
@@ -1885,7 +1885,7 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 </div></div></div>
 
 <div class="phone">
-<div class="phone-label">③游戏加载完成 Game Loaded</div>
+<div class="phone-label">③ Game Loaded</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="game-topbar">
 <div class="back-btn">← Back</div>
@@ -1905,21 +1905,21 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 
 <h2>启动流程 Launch Flow</h2>
 <div class="flow">
-<div class="flow-node start">点击游戏卡片<br>Click game</div><div class="flow-arrow">→</div>
-<div class="flow-node check">余额检查<br>Balance≥0?</div><div class="flow-arrow">→</div>
+<div class="flow-node start">Click game card</div><div class="flow-arrow">→</div>
+<div class="flow-node check">Balance check<br>≥ 0?</div><div class="flow-arrow">→</div>
 <div class="flow-branch">
 <div style="display:flex;gap:6px">
-<div style="text-align:center"><div class="flow-label">余额>0</div>
-<div class="flow-node action">品牌Loading<br>Logo+进度条</div></div>
-<div style="text-align:center"><div class="flow-label">余额=0</div>
-<div class="flow-node error">Toast不足<br>留在Home</div></div>
+<div style="text-align:center"><div class="flow-label">Balance > 0</div>
+<div class="flow-node action">Branded loading<br>Logo + progress</div></div>
+<div style="text-align:center"><div class="flow-label">Balance = 0</div>
+<div class="flow-node error">Toast: Insufficient<br>Stay on home</div></div>
 </div></div>
 </div>
 <div class="flow">
 <div class="flow-node action">Loading</div><div class="flow-arrow">→</div>
-<div class="flow-node action">请求游戏URL<br>API call</div><div class="flow-arrow">→</div>
-<div class="flow-node action">加载iframe<br>嵌入游戏</div><div class="flow-arrow">→</div>
-<div class="flow-node success">游戏就绪<br>可以游玩</div>
+<div class="flow-node action">Get game URL<br>API call</div><div class="flow-arrow">→</div>
+<div class="flow-node action">Load iframe<br>Embed game</div><div class="flow-arrow">→</div>
+<div class="flow-node success">Game ready<br>Start playing</div>
 </div>
 </div>
 
@@ -1929,7 +1929,7 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 
 <div class="phone-row">
 <div class="phone">
-<div class="phone-label">In-Game（顶栏常驻）Playing</div>
+<div class="phone-label">In-Game (Topbar Always Visible)</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="game-topbar" style="position:relative">
 <div class="back-btn" style="position:relative">← Back<div class="dot b" style="right:-20px;top:-4px">1</div></div>
@@ -1967,7 +1967,7 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 
 <div class="phone-row">
 <div class="phone">
-<div class="phone-label">ExitConfirm弹窗 Exit Confirm</div>
+<div class="phone-label">Exit Confirm Dialog</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="game-topbar"><div class="back-btn">←</div><div class="game-name">Aviator</div><div class="game-balance">🪙 142,500</div></div>
 <div class="game-container" style="background:#2d0a0a;position:relative">
@@ -1985,7 +1985,7 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 </div></div></div>
 
 <div class="phone">
-<div class="phone-label">网络断线 Disconnected</div>
+<div class="phone-label">Disconnected</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="game-topbar"><div class="back-btn">←</div><div class="game-name">Aviator</div><div class="game-balance">🪙 142,500</div></div>
 <div class="game-container">
@@ -1994,13 +1994,13 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 <div style="color:#fff;font-size:12px;font-weight:600">Connection Lost</div>
 <div style="color:rgba(255,255,255,.3);font-size:9px;margin:4px 0">Reconnecting... (2/3)</div>
 <div style="width:80px;height:3px;background:rgba(255,255,255,.1);border-radius:2px;margin:8px auto;overflow:hidden"><div style="width:66%;height:100%;background:var(--o)"></div></div>
-<div style="color:rgba(255,255,255,.2);font-size:8px;margin-top:8px">Retry策略: 2s → 4s → 8s<br>3次失败后显示Retry按钮</div>
+<div style="color:rgba(255,255,255,.2);font-size:8px;margin-top:8px">Retry: 2s → 4s → 8s<br>Show Retry button after 3 fails</div>
 </div>
 </div>
 </div></div></div>
 
 <div class="phone">
-<div class="phone-label">重连失败 Reconnect Failed</div>
+<div class="phone-label">Reconnect Failed</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="game-topbar"><div class="back-btn">←</div><div class="game-name">Aviator</div><div class="game-balance">🪙 142,500</div></div>
 <div class="game-container">
@@ -2067,7 +2067,7 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 <tr style="background:#fce4ec"><td>6</td><td>🔒 Change Password <span class="tag new">新增</span></td><td>🔴</td><td>旧密码+New Password+Confirm</td></tr>
 <tr><td>7</td><td>🌐 Language Language</td><td>✅</td><td>EN/HI</td></tr>
 <tr><td>8</td><td>📄 About About</td><td>✅</td><td>版本号+条款</td></tr>
-<tr><td>9</td><td>🚪 Exit登录 Logout</td><td>✅</td><td>Confirm弹窗后Exit</td></tr>
+<tr><td>9</td><td>🚪 Logout</td><td>✅</td><td>Confirm弹窗后Exit</td></tr>
 </table>
 </div>
 
@@ -2078,7 +2078,7 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 
 <div class="phone-row">
 <div class="phone">
-<div class="phone-label">个人中心（标注版）Annotated</div>
+<div class="phone-label">Profile (Annotated)</div>
 <div class="phone-frame"><div class="phone-content">
 <div style="padding:8px 10px">
 <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
@@ -2100,7 +2100,7 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 <div class="profile-item" style="border-left:2px solid var(--r)"><span class="pi-icon">🔒</span>Change Password <span style="font-size:8px;color:var(--r);font-weight:700">NEW</span><span class="pi-arrow">›</span></div>
 <div class="profile-item"><span class="pi-icon">🌐</span>Language <span style="margin-left:auto;margin-right:8px;color:rgba(255,255,255,.3);font-size:9px">English</span><span class="pi-arrow">›</span></div>
 <div class="profile-item"><span class="pi-icon">📄</span>About<span class="pi-arrow">›</span></div>
-<div class="profile-item" style="color:var(--r)"><span class="pi-icon">🚪</span>Exit登录 Logout</div>
+<div class="profile-item" style="color:var(--r)"><span class="pi-icon">🚪</span>Logout</div>
 </div>
 <div class="bottom-nav">
 <div class="item"><span class="icon">☰</span>Menu</div>
@@ -2119,7 +2119,7 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 
 <div class="phone-row">
 <div class="phone">
-<div class="phone-label">Edit Profile页 Edit Profile</div>
+<div class="phone-label">Edit Profile</div>
 <div class="phone-frame"><div class="phone-content">
 <div style="padding:10px">
 <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px">
@@ -2148,7 +2148,7 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 </div></div></div>
 
 <div class="phone">
-<div class="phone-label">Avatar选择器 Avatar Picker</div>
+<div class="phone-label">Avatar Picker</div>
 <div class="phone-frame"><div class="phone-content">
 <div style="padding:10px">
 <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px">
@@ -2169,7 +2169,7 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#fdcbf1,#e6dee9);display:flex;align-items:center;justify-content:center;font-size:22px">🦄</div>
 <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4fc79,#96e6a1);display:flex;align-items:center;justify-content:center;font-size:22px">🐲</div>
 </div>
-<div style="color:rgba(255,255,255,.25);font-size:8px;text-align:center;margin-top:10px">12个预设Avatar 12 preset avatars<br>V2支持自定义上传</div>
+<div style="color:rgba(255,255,255,.25);font-size:8px;text-align:center;margin-top:10px">12 preset avatars<br>V2: custom upload</div>
 </div>
 </div></div></div>
 </div>
@@ -2205,7 +2205,7 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 </div></div></div>
 
 <div class="phone">
-<div class="phone-label">填写完成 Filled</div>
+<div class="phone-label">Filled</div>
 <div class="phone-frame"><div class="phone-content">
 <div style="padding:10px">
 <div style="display:flex;align-items:center;gap:6px;margin-bottom:16px">
@@ -2229,7 +2229,7 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 </div></div></div>
 
 <div class="phone">
-<div class="phone-label">修改成功 Success</div>
+<div class="phone-label">Password Changed</div>
 <div class="phone-frame"><div class="phone-content">
 <div class="toast">✅ Password changed!!</div>
 <div style="padding:10px">
@@ -2262,7 +2262,7 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 <tr><td>Current Password</td><td>不能为空</td><td>"请输入Current Password Enter current password"</td></tr>
 <tr><td>New Password</td><td>6-16位 + 不能与Current Password相同</td><td>"New Password需6-16位" / "New Password不能与旧密码相同"</td></tr>
 <tr><td>Confirm Password</td><td>与New Password一致</td><td>"两次密码不一致 Passwords don't match"</td></tr>
-<tr><td>Current Password验证</td><td>后端验证</td><td>"Current Password错误 Wrong current password"</td></tr>
+<tr><td>Current PasswordVerify</td><td>后端Verify</td><td>"Current Password错误 Wrong current password"</td></tr>
 </table>
 
 <div class="IB o"><strong>Google注册用户：</strong>无Current Password。Change Password页变为"Set Password"页面，只显示New Password+Confirm Password。Google users: show "Set Password" instead, no current password field.</div>
@@ -2274,7 +2274,7 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 
 <div class="phone-row">
 <div class="phone">
-<div class="phone-label">Game History页 Game History</div>
+<div class="phone-label">Game History</div>
 <div class="phone-frame"><div class="phone-content">
 <div style="padding:10px">
 <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px">
@@ -2313,7 +2313,7 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 
 <div class="phone-row">
 <div class="phone">
-<div class="phone-label">favourite列表 Favourite List</div>
+<div class="phone-label">Favourites List</div>
 <div class="phone-frame"><div class="phone-content">
 <div style="padding:10px">
 <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px">
@@ -2337,7 +2337,7 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 <div style="color:rgba(255,255,255,.3);font-size:7px">JILI</div>
 </div>
 </div>
-<div style="color:rgba(255,255,255,.2);font-size:8px;text-align:center;margin-top:16px">长按游戏卡片→Cancelfavourite<br>Long press → remove from favourite</div>
+<div style="color:rgba(255,255,255,.2);font-size:8px;text-align:center;margin-top:16px">Long press → remove from favourites</div>
 </div>
 <div class="bottom-nav">
 <div class="item"><span class="icon">☰</span>Menu</div>
@@ -2349,7 +2349,7 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 </div></div></div>
 
 <div class="phone">
-<div class="phone-label">favourite为空 Empty Favourite</div>
+<div class="phone-label">Empty Favourites</div>
 <div class="phone-frame"><div class="phone-content">
 <div style="padding:10px">
 <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px">
@@ -2389,12 +2389,12 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 
 <h2>Exit登录流程 Logout Flow</h2>
 <div class="flow">
-<div class="flow-node start">点击Exit</div><div class="flow-arrow">→</div>
-<div class="flow-node check">Confirm弹窗<br>"确定Exit？"</div><div class="flow-arrow">→</div>
+<div class="flow-node start">Click Logout</div><div class="flow-arrow">→</div>
+<div class="flow-node check">Confirm dialog<br>"Are you sure?"</div><div class="flow-arrow">→</div>
 <div class="flow-branch">
 <div style="display:flex;gap:6px">
-<div style="text-align:center"><div class="flow-label">确定</div><div class="flow-node action">清除Token<br>→登录页</div></div>
-<div style="text-align:center"><div class="flow-label">Cancel</div><div class="flow-node page">留在<br>个人中心</div></div>
+<div style="text-align:center"><div class="flow-label">Confirm</div><div class="flow-node action">Clear token<br>→ Login page</div></div>
+<div style="text-align:center"><div class="flow-label">Cancel</div><div class="flow-node page">Stay on<br>Profile</div></div>
 </div></div>
 </div>
 </div>
@@ -2427,7 +2427,7 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 <h3>登录页Banner原型</h3>
 <pre style="background:#1a2c1a;color:#fff;padding:16px;border-radius:12px;font-size:11px;line-height:1.6">
 ┌─────────────────────────┐
-│                       ✕ │ ← 右上角X关闭按钮（28px圆，rgba白底）
+│                       ✕ │ ← Close button (28px circle, rgba white bg)
 │                         │
 │    ✨  🪙    ✨  🪙      │
 │       BDBGAME           │
@@ -2439,7 +2439,7 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 │     ✨     🪙    ✨      │
 ├─────────────────────────┤
 │                         │
-│  Sign In                │ ← 以下是登录表单
+│  Sign In                │ ← Login form below
 │  ┌─────────────────────┐│
 │  │ +91 │ Phone Number  ││
 │  └─────────────────────┘│
@@ -2509,41 +2509,41 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 ┌─────────────────────────┐
 │ BDBGAME 🇬🇧EN  🪙150K 👤│ ← Header
 ├─────────────────────────┤
-│ [====== Banner ========] │ ← 轮播Banner
+│ [====== Banner ========] │ ← Banner carousel
 ├─────────────────────────┤
-│ 🔔 公告跑马灯            │ ← 滚动公告
+│ 🔔 Announcement marquee            │ ← Scrolling announcement
 ├─────────────────────────┤
 │ 🔥 Featured Game         │
 │                          │
 │ ┌───────────────────────┐│
 │ │                       ││
-│ │   🎰 转盘游戏大图      ││ ← 单个大卡片，占满宽度
+│ │   🎰 Spin Wheel (large)      ││ ← Single large card, full width
 │ │   Fortune Spin         ││
 │ │                       ││
 │ │   ⭐ 4.8  🔥 HOT       ││
 │ │                       ││
-│ │  [==== Play Now ====]  ││ ← 绿色大按钮
+│ │  [==== Play Now ====]  ││ ← Green CTA button
 │ │                       ││
 │ └───────────────────────┘│
 ├─────────────────────────┤
 │ 🎮 More Games            │
 │ Coming Soon...           │
-│ ┌─────┐┌─────┐┌─────┐  │ ← 3个灰色占位卡片
+│ ┌─────┐┌─────┐┌─────┐  │ ← 3 grey placeholder cards
 │ │ 🔒  ││ 🔒  ││ 🔒  │  │
 │ │Soon ││Soon ││Soon │  │
 │ └─────┘└─────┘└─────┘  │
 ├─────────────────────────┤
-│ 🏢 Providers             │ ← 厂商墙（V1只1个也展示）
+│ 🏢 Providers             │ ← Provider wall (show even with 1)
 │ ┌──┐                    │
 │ │P1│                    │
 │ └──┘                    │
 ├─────────────────────────┤
-│ 🌐 Community             │ ← 社交链接
+│ 🌐 Community             │ ← Social links
 │ [TG] [FB] [IG] [WA] [YT]│
 ├─────────────────────────┤
 │ Privacy | Terms | © 2026 │
 └─────────────────────────┘
-│ ☰  │ 🏠 │ 📅 │ 🔍 │ 👤 │ ← 底部导航
+│ ☰  │ 🏠 │ 📅 │ 🔍 │ 👤 │ ← Bottom navigation
 └─────────────────────────┘
 </pre>
 
@@ -2587,7 +2587,7 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 <h3>抽屉原型</h3>
 <pre style="background:#1a2c1a;color:#fff;padding:16px;border-radius:12px;font-size:11px;line-height:1.6">
 ┌────────────────┬────────┐
-│                │░░░░░░░░│ ← 右侧遮罩（点击关闭）
+│                │░░░░░░░░│ ← Overlay (tap to close)
 │  👤 Player_9876│░░░░░░░░│
 │  UID: 10023456 │░░░░░░░░│
 │  🪙 150,000    │░░░░░░░░│
@@ -2607,8 +2607,8 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 │  🎁 Raffle   → │░░░░░░░░│ ← Toast
 │  📢 Affiliate→ │░░░░░░░░│ ← Toast
 │────────────────│░░░░░░░░│
-│  📅 Check-in   │░░░░░░░░│ ← 打开签到弹窗
-│  🌐 Language   │░░░░░░░░│ ← 语言切换
+│  📅 Check-in   │░░░░░░░░│ ← Open check-in popup
+│  🌐 Language   │░░░░░░░░│ ← Language switch
 │  📄 About      │░░░░░░░░│
 │  🚪 Logout     │░░░░░░░░│
 │                │░░░░░░░░│
@@ -2639,7 +2639,7 @@ Toast样式：红色背景 rgba(255,82,82,0.95)<br>
 <tr><td>🏆 VIP Club</td><td>⏳ Toast "Coming Soon"</td></tr>
 <tr><td>🎁 Raffle</td><td>⏳ Toast "Coming Soon"</td></tr>
 <tr><td>📢 Affiliate</td><td>⏳ Toast "Coming Soon"</td></tr>
-<tr><td>📅 Check-in</td><td>✅ 关闭抽屉 → 打开签到弹窗</td></tr>
+<tr><td>📅 Check-in</td><td>✅ 关闭抽屉 → 打开Check-in popup</td></tr>
 <tr><td>🌐 Language</td><td>✅ 展开子菜单：EN ✓ / HI</td></tr>
 <tr><td>📄 About</td><td>✅ 跳转About页</td></tr>
 <tr><td>🚪 Logout</td><td>✅ 确认弹窗 → 退出</td></tr>
@@ -2715,7 +2715,7 @@ V1只有1个游戏时，这些分类在Menu抽屉中展示（点击Toast），�
 <tr><th>Tab</th><th>行为</th></tr>
 <tr><td>☰ Menu</td><td>打开左侧抽屉（不跳转页面）</td></tr>
 <tr><td>🏠 Home</td><td>首页（默认选中）</td></tr>
-<tr><td>📅 Check-in</td><td>弹出签到弹窗（不跳转页面）</td></tr>
+<tr><td>📅 Check-in</td><td>弹出Check-in popup（不跳转页面）</td></tr>
 <tr><td>🔍 Explore</td><td>跳转Explore/搜索页</td></tr>
 <tr><td>👤 My</td><td>跳转个人中心页</td></tr>
 </table>
@@ -2859,7 +2859,7 @@ V1只有1个游戏时，这些分类在Menu抽屉中展示（点击Toast），�
 <tr><th>规则</th><th>说明</th></tr>
 <tr><td>沙箱</td><td>iframe sandbox="allow-scripts allow-same-origin allow-popups allow-forms"</td></tr>
 <tr><td>来源白名单</td><td>Only allow iframe src from registered game provider domains (configured in backend)</td></tr>
-<tr><td>postMessage验证</td><td>On every message event: check event.origin against provider whitelist. Reject unknown origins</td></tr>
+<tr><td>postMessageVerify</td><td>On every message event: check event.origin against provider whitelist. Reject unknown origins</td></tr>
 <tr><td>消息格式</td><td>All postMessage must be JSON with { type, data, timestamp }. Reject malformed messages</td></tr>
 <tr><td>允许的消息类型</td><td>"balance_update", "game_end", "game_error", "resize". Reject all other types</td></tr>
 <tr><td>禁止eval</td><td>NEVER eval() or innerHTML any data from postMessage. Always parse as typed data</td></tr>
@@ -2962,7 +2962,7 @@ V1只有1个游戏时，这些分类在Menu抽屉中展示（点击Toast），�
 <!-- ==================== Risk Control ==================== -->
 <div class="P" id="pg-risk-control">
 <h1>🛡️ 登录风控体系 — V1</h1>
-<div class="IB r"><strong>核心原则：</strong>正常用户零摩擦，仅对可疑行为触发验证。</div>
+<div class="IB r"><strong>核心原则：</strong>正常用户零摩擦，仅对可疑行为触发Verify。</div>
 
 <h2>三级风控体系</h2>
 
@@ -2975,15 +2975,15 @@ V1只有1个游戏时，这些分类在Menu抽屉中展示（点击Toast），�
 <tr><td>登录频次</td><td>Record login attempts per IP and per device_id per time window</td><td>无</td></tr>
 </table>
 
-<h3>🟡 Level 1 — 轻验证（偶尔触发）</h3>
+<h3>🟡 Level 1 — 轻Verify（偶尔触发）</h3>
 <table>
-<tr><th>触发条件</th><th>验证方式</th><th>体验细节</th></tr>
-<tr><td>连续3次密码错误</td><td>滑块验证</td><td>Slide puzzle piece to gap position. Auto-generated, 2s to complete. Pass → allow 2 more attempts before Level 2</td></tr>
-<tr><td>同IP每日注册超3个账号</td><td>滑块验证</td><td>Same slider. After passing, allow 1 more registration today</td></tr>
-<tr><td>VPN/Proxy IP detected (risk score ≥30)</td><td>滑块验证</td><td>One-time pass, valid 24h for this device+IP combo</td></tr>
+<tr><th>触发条件</th><th>Verify方式</th><th>体验细节</th></tr>
+<tr><td>连续3次密码错误</td><td>滑块Verify</td><td>Slide puzzle piece to gap position. Auto-generated, 2s to complete. Pass → allow 2 more attempts before Level 2</td></tr>
+<tr><td>同IP每日注册超3个账号</td><td>滑块Verify</td><td>Same slider. After passing, allow 1 more registration today</td></tr>
+<tr><td>VPN/Proxy IP detected (risk score ≥30)</td><td>滑块Verify</td><td>One-time pass, valid 24h for this device+IP combo</td></tr>
 </table>
 
-<h4>滑块验证规格</h4>
+<h4>滑块Verify规格</h4>
 <table>
 <tr><th>属性</th><th>值</th></tr>
 <tr><td>位置</td><td>Modal overlay, centered, above login form</td></tr>
@@ -3001,8 +3001,8 @@ V1只有1个游戏时，这些分类在Menu抽屉中展示（点击Toast），�
 <h3>🔴 Level 2 — 封号（极少触发，仅高风险）</h3>
 <table>
 <tr><th>触发条件</th><th>操作</th><th>详情</th></tr>
-<tr><td>连续5次密码错误（无论是否通过验证码）</td><td>🚫 封号</td><td>Account status set to "banned". Cannot login. Must be reviewed and unbanned by admin in backend</td></tr>
-<tr><td>滑块验证失败5次</td><td>🚫 封号</td><td>Same as above</td></tr>
+<tr><td>连续5次密码错误（无论是否通过Verify码）</td><td>🚫 封号</td><td>Account status set to "banned". Cannot login. Must be reviewed and unbanned by admin in backend</td></tr>
+<tr><td>滑块Verify失败5次</td><td>🚫 封号</td><td>Same as above</td></tr>
 <tr><td>Datacenter IP (risk score ≥80)</td><td>Reject login</td><td>"Service unavailable in your region" — no account ban, just block</td></tr>
 </table>
 
@@ -3100,7 +3100,7 @@ Wrong password ×3 → ⚠️ Slider CAPTCHA triggered
 <tr><td>设备指纹</td><td>服务端数据库（user_devices表）</td><td>永久</td></tr>
 <tr><td>登录尝试计数器</td><td>Redis</td><td>登录成功后重置</td></tr>
 <tr><td>IP风险评分缓存</td><td>Redis</td><td>24小时</td></tr>
-<tr><td>验证码通过记录</td><td>Redis</td><td>24 hours (per device+IP)</td></tr>
+<tr><td>Verify码通过记录</td><td>Redis</td><td>24 hours (per device+IP)</td></tr>
 <tr><td>每IP注册计数器</td><td>Redis</td><td>Reset daily (UTC+5:30 00:00)</td></tr>
 <tr><td>封号记录</td><td>服务端数据库（user_bans表）</td><td>永久（直到管理员处理）</td></tr>
 <tr><td>审计日志</td><td>服务端数据库（admin_audit_log表）</td><td>永久</td></tr>
@@ -3119,10 +3119,10 @@ Wrong password ×3 → ⚠️ Slider CAPTCHA triggered
 
 <!-- ==================== Input Validation & Business Logic ==================== -->
 <div class="P" id="pg-logic-rules">
-<h1>📐 输入验证与业务逻辑规则</h1>
-<div class="IB r"><strong>开发者必读：</strong>本章定义了所有输入验证规则、格式要求、边界场景和业务逻辑。所有规则为强制要求，不得跳过任何验证。</div>
+<h1>📐 输入Verify与业务逻辑规则</h1>
+<div class="IB r"><strong>开发者必读：</strong>本章定义了所有输入Verify规则、格式要求、边界场景和业务逻辑。所有规则为强制要求，不得跳过任何Verify。</div>
 
-<h2>📱 手机号验证 — 印度 (+91)</h2>
+<h2>📱 手机号Verify — 印度 (+91)</h2>
 <table>
 <tr><th>规则</th><th>说明</th></tr>
 <tr><td>区号</td><td>+91（V1固定，后续按站点可配置）</td></tr>
@@ -3132,8 +3132,8 @@ Wrong password ×3 → ⚠️ Slider CAPTCHA triggered
 <tr><td>输入过滤</td><td>输入时实时过滤非数字字符</td></tr>
 <tr><td>最大输入长度</td><td>10个字符（防溢出）</td></tr>
 <tr><td>正则</td><td><code>^[6-9]\d{9}$</code></td></tr>
-<tr><td>验证时机</td><td>输入时实时检查（首位立即校验）+ 失焦时 + 提交时</td></tr>
-<tr><td>粘贴处理</td><td>去除所有非数字后验证。粘贴含+91前缀时自动移除</td></tr>
+<tr><td>Verify时机</td><td>输入时实时检查（首位立即校验）+ 失焦时 + 提交时</td></tr>
+<tr><td>粘贴处理</td><td>去除所有非数字后Verify。粘贴含+91前缀时自动移除</td></tr>
 <tr><td>前导零</td><td>用户输入"0"作为首位（中继前缀）时自动去除</td></tr>
 </table>
 
@@ -3144,7 +3144,7 @@ Wrong password ×3 → ⚠️ Slider CAPTCHA triggered
 <tr><td>不足10位</td><td>"Phone number must be 10 digits"（手机号须为10位）</td><td>失焦时 / 提交时</td></tr>
 <tr><td>First digit not 6-9</td><td>"Please enter a valid Indian mobile number"（请输入有效的印度手机号）</td><td>首位输入时 / 失焦时</td></tr>
 <tr><td>包含非数字字符</td><td>静默过滤——不报错，直接移除无效字符</td><td>实时输入时</td></tr>
-<tr><td>手机号已注册</td><td>"This phone number is already registered"（该手机号已注册）</td><td>API返回（仅注册）</td></tr>
+<tr><td>手机号Yes</td><td>"This phone number is already registered"（该手机号Yes）</td><td>API返回（仅注册）</td></tr>
 <tr><td>账号不存在</td><td>"Account not found"（账号不存在）</td><td>API返回（仅登录）</td></tr>
 </table>
 
@@ -3175,7 +3175,7 @@ Wrong password ×3 → ⚠️ Slider CAPTCHA triggered
 <tr><td>包含emoji/unicode</td><td>"Password can only contain letters, numbers, and symbols"（密码只能含字母、数字和符号）</td><td>失焦时 / 提交时</td></tr>
 <tr><td>全相同字符</td><td>"Password is too simple"（密码过于简单）</td><td>失焦时 / 提交时</td></tr>
 <tr><td>纯顺序字符</td><td>"Password is too simple"（密码过于简单）</td><td>失焦时 / 提交时</td></tr>
-<tr><td>密码错误（登录）</td><td>"Incorrect password"（密码错误）——不显示"手机号或密码错误"，因为手机号已验证通过</td><td>API返回</td></tr>
+<tr><td>密码错误（登录）</td><td>"Incorrect password"（密码错误）——不显示"手机号或密码错误"，因为手机号已Verify通过</td><td>API返回</td></tr>
 </table>
 
 <h3>密码 — 修改密码额外规则</h3>
@@ -3198,7 +3198,7 @@ Wrong password ×3 → ⚠️ Slider CAPTCHA triggered
 <tr><td>匹配</td><td>绿色边框 + ✓ 图标（短暂闪烁500ms）</td></tr>
 </table>
 
-<h2>🔢 OTP 验证码</h2>
+<h2>🔢 OTP Code</h2>
 <table>
 <tr><th>规则</th><th>说明</th></tr>
 <tr><td>长度</td><td>6位数字</td></tr>
@@ -3208,19 +3208,19 @@ Wrong password ×3 → ⚠️ Slider CAPTCHA triggered
 <tr><td>有效期</td><td>发送后300秒（5分钟）</td></tr>
 <tr><td>重发冷却</td><td>60秒倒计时</td></tr>
 <tr><td>最大重发次数</td><td>每个手机号每小时5次</td></tr>
-<tr><td>最大验证次数</td><td>错误5次→锁定当前OTP，必须重新发送</td></tr>
-<tr><td>自动提交</td><td>输入第6位后自动触发验证（无需点击按钮）</td></tr>
+<tr><td>最大Verify次数</td><td>错误5次→锁定当前OTP，必须重新发送</td></tr>
+<tr><td>自动提交</td><td>输入第6位后自动触发Verify（无需点击按钮）</td></tr>
 <tr><td>自动填充</td><td>支持短信自动读取（Android）/ 剪贴板粘贴</td></tr>
 </table>
 
 <h3>OTP 错误提示</h3>
 <table>
 <tr><th>条件</th><th>错误提示</th><th>触发条件</th></tr>
-<tr><td>为空</td><td>"OTP is required"（验证码为必填项）</td><td>提交时</td></tr>
-<tr><td>不足6位</td><td>"OTP must be 6 digits"（验证码须为6位）</td><td>提交时</td></tr>
-<tr><td>验证码错误</td><td>"Invalid OTP code"（验证码错误）</td><td>API返回</td></tr>
-<tr><td>验证码过期</td><td>"OTP has expired, please resend"（验证码已过期，请重新发送）</td><td>API返回</td></tr>
-<tr><td>达到最大尝试次数</td><td>"Too many attempts, please resend OTP"（尝试次数过多，请重发验证码）</td><td>API返回</td></tr>
+<tr><td>为空</td><td>"OTP is required"（Verify码为必填项）</td><td>提交时</td></tr>
+<tr><td>不足6位</td><td>"OTP must be 6 digits"（Verify码须为6位）</td><td>提交时</td></tr>
+<tr><td>Verify码错误</td><td>"Invalid OTP code"（Verify码错误）</td><td>API返回</td></tr>
+<tr><td>Verify码过期</td><td>"OTP has expired, please resend"（Verify码已过期，请重新发送）</td><td>API返回</td></tr>
+<tr><td>达到最大尝试次数</td><td>"Too many attempts, please resend OTP"（尝试次数过多，请重发Verify码）</td><td>API返回</td></tr>
 <tr><td>被限流</td><td>"Too many OTP requests, try again in X minutes"（请求过于频繁，X分钟后重试）</td><td>API返回</td></tr>
 </table>
 
@@ -3484,7 +3484,7 @@ Wrong password ×3 → ⚠️ Slider CAPTCHA triggered
 <tr><td>Gap between cards</td><td>8px horizontal, 10px vertical</td></tr>
 </table>
 
-<h2>组件规格 — 签到弹窗</h2>
+<h2>组件规格 — Check-in popup</h2>
 <table>
 <tr><th>属性</th><th>值</th></tr>
 <tr><td>Overlay</td><td>rgba(0,0,0,0.6) full screen</td></tr>
