@@ -208,6 +208,7 @@ tr:hover td{background:#f0f7ff}
 <a onclick="G('reg-flow')">注册完整流程</a>
 <a onclick="G('auth-err')">错误状态合集</a>
 <a onclick="G('auth-spec')">字段表+校验+交互</a>
+<a onclick="G('user-agreement')">User Agreement弹窗</a>
 
 <h2>🎰 模块2: 游戏大厅Home</h2>
 <a onclick="G('home-ov')">模块概述+优化清单</a>
@@ -643,8 +644,8 @@ tr:hover td{background:#f0f7ff}
 <div class="input-row" style="position:relative"><span class="code">+91 ▾</span><span class="divider"></span><span class="placeholder">Phone Number</span><div class="dot b" style="right:-22px;top:2px">2</div></div>
 <div class="input-row" style="position:relative"><span class="placeholder">Password (6-16 characters)</span><span class="eye">👁</span><div class="dot r" style="right:-22px;top:2px">3</div></div>
 <div class="input-row" style="position:relative"><span class="placeholder">OTP Code</span><span class="action disabled">Send OTP</span><div class="dot b" style="right:-22px;top:2px">4</div></div>
-<div class="checkbox-row" style="position:relative"><div class="checkbox">✓</div><span>I agree to the <strong style="color:#fff">User Agreement</strong> & confirm 18+<br>我同意用户协议并Confirm已满18岁</span><div class="dot g" style="right:-18px;top:0">5</div></div>
-<div class="checkbox-row" style="position:relative"><div class="checkbox">✓</div><span>I agree to receive marketing promotions<br>I agree to receive marketing promotions</span><div class="dot g" style="right:-18px;top:0">6</div></div>
+<div class="checkbox-row" style="position:relative"><div class="checkbox">✓</div><span>I agree to the <strong style="color:#fff">User Agreement</strong> & confirm I am at least 18 years old</span><div class="dot g" style="right:-18px;top:0">5</div></div>
+<div class="checkbox-row" style="position:relative"><div class="checkbox">✓</div><span>I agree to receive marketing promotions from BDBGAME</span><div class="dot g" style="right:-18px;top:0">6</div></div>
 <div class="btn-primary disabled" style="position:relative">Sign Up<div class="dot b" style="right:-22px;top:2px">7</div></div>
 <div class="btn-google"><div class="g-icon">G</div>Sign in with Google</div>
 <div class="form-footer">Already have an account? <a>Sign In</a></div>
@@ -1089,6 +1090,88 @@ tr:hover td{background:#f0f7ff}
 <tr><td>Registered✅ Success</td><td>scale(0→1.2→1) +  coins飞入</td><td>✅400ms + coins 800ms ease-out</td></tr>
 <tr><td>Toast</td><td>translateY(-100%→0)</td><td>300ms ease-out 停留2s</td></tr>
 <tr><td>按钮按压 Press</td><td>scale(0.98) + brightness(0.9)</td><td>50ms</td></tr>
+</table>
+</div>
+
+<!-- ==================== User Agreement弹窗 ==================== -->
+<div class="P" id="pg-user-agreement">
+<h1>📜 User Agreement Popup</h1>
+<div class="IB b"><strong>入口 Entry：</strong>注册页勾选行 "User Agreement" 文字可点击 → 打开底部弹窗展示协议全文。内容后续由运营在Admin后台维护（富文本）。</div>
+
+<div class="phone-row">
+<div class="phone">
+<div class="phone-label">User Agreement Popup</div>
+<div class="phone-frame"><div class="phone-content">
+<div class="modal-bg">
+<div class="modal-sheet" style="padding-top:8px;max-height:85%;overflow-y:auto">
+<div class="modal-close">✕</div>
+<div style="font-size:14px;font-weight:700;color:#fff;text-align:center;margin:8px 0 12px">User Agreement</div>
+<div style="font-size:8px;color:rgba(255,255,255,.6);line-height:1.6;padding:0 4px">
+<div style="font-weight:700;color:#fff;margin:6px 0 3px">1. Acceptance of Terms</div>
+<div>By accessing or using 1GO.PLUS ("the Platform"), you acknowledge that you have read, understood, and agree to be bound by these Terms of Use. If you do not agree with any part of these terms, you must not access or use the Platform.</div>
+
+<div style="font-weight:700;color:#fff;margin:6px 0 3px">2. Eligibility</div>
+<div>You must be at least 18 years of age (or the legal age of majority in your jurisdiction, whichever is greater) to use this Platform. By using the Platform, you represent and warrant that you meet this age requirement.</div>
+
+<div style="font-weight:700;color:#fff;margin:6px 0 3px">3. Account Registration</div>
+<div>You agree to provide accurate and complete information during registration. You are responsible for maintaining the confidentiality of your account credentials. You must not share your account with others or allow unauthorized access.</div>
+
+<div style="font-weight:700;color:#fff;margin:6px 0 3px">4. Virtual Currency</div>
+<div>The Platform uses virtual coins for entertainment purposes only. Virtual coins have no real monetary value and cannot be exchanged for real currency. The Platform reserves the right to modify virtual coin values, distribution methods, and usage rules at any time.</div>
+
+<div style="font-weight:700;color:#fff;margin:6px 0 3px">5. Prohibited Activities</div>
+<div>You agree not to: use any automated system to access the Platform; exploit bugs or vulnerabilities; create multiple accounts; engage in any form of fraud or abuse; attempt to reverse-engineer or modify the Platform.</div>
+
+<div style="font-weight:700;color:#fff;margin:6px 0 3px">6. Intellectual Property</div>
+<div>All content, graphics, user interface, trademarks, and logos on the Platform are owned by or licensed to the Platform operator. You may not reproduce, distribute, or create derivative works without prior written consent.</div>
+
+<div style="font-weight:700;color:#fff;margin:6px 0 3px">7. Privacy</div>
+<div>Your use of the Platform is also governed by our Privacy Policy. By using the Platform, you consent to the collection and use of your information as described therein.</div>
+
+<div style="font-weight:700;color:#fff;margin:6px 0 3px">8. Disclaimer</div>
+<div>The Platform is provided "as is" without warranties of any kind. We do not guarantee uninterrupted or error-free service. We shall not be liable for any indirect, incidental, or consequential damages.</div>
+
+<div style="font-weight:700;color:#fff;margin:6px 0 3px">9. Modifications</div>
+<div>We reserve the right to modify these terms at any time. Continued use of the Platform after changes constitutes acceptance of the modified terms.</div>
+
+<div style="font-weight:700;color:#fff;margin:6px 0 3px">10. Governing Law</div>
+<div>These terms shall be governed by and construed in accordance with applicable laws. Any disputes shall be resolved through binding arbitration.</div>
+
+<div style="margin-top:8px;padding-top:6px;border-top:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.3);font-size:7px">Last updated: 2026-01-01</div>
+</div>
+</div>
+</div>
+</div></div></div>
+
+<div class="phone">
+<div class="phone-label">1goplus Reference</div>
+<div class="phone-frame"><div class="phone-content">
+<div style="background:#1a2c1a;padding:12px;text-align:center;height:100%">
+<div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:40%">1goplus "User Agreement" link<br>has class="inactive"<br><br>No actual agreement page found.<br>Text label only, not clickable.<br><br>Our version adds a real popup<br>with editable content from Admin.</div>
+</div>
+</div></div></div>
+</div>
+
+<h3>交互规格 Interaction Spec</h3>
+<table>
+<tr><th>属性 Property</th><th>规格 Spec</th></tr>
+<tr><td>触发 Trigger</td><td>点击注册页 "User Agreement" 文字（绿色/白色高亮）</td></tr>
+<tr><td>弹窗类型 Type</td><td>Bottom Sheet（从底部滑出），同登录/注册弹窗样式</td></tr>
+<tr><td>弹窗高度 Height</td><td>max-height: 85vh，内容可滚动</td></tr>
+<tr><td>动画 Animation</td><td>translateY(100% → 0) 300ms ease-out</td></tr>
+<tr><td>关闭方式 Close</td><td>✕ 按钮 / 点击灰色遮罩 / 向下滑动</td></tr>
+<tr><td>内容来源 Content Source</td><td>Admin后台 → 富文本编辑器配置，支持HTML</td></tr>
+<tr><td>默认内容 Default</td><td>参考左侧原型中的10条条款（基于1goplus同类平台标准文案）</td></tr>
+<tr><td>返回行为 Return</td><td>关闭弹窗回到注册页，勾选状态保持不变</td></tr>
+</table>
+
+<h3>Admin后台配置 Admin Config</h3>
+<table>
+<tr><th>字段 Field</th><th>类型 Type</th><th>说明 Description</th></tr>
+<tr><td>Agreement Title</td><td>text</td><td>弹窗标题，默认 "User Agreement"</td></tr>
+<tr><td>Agreement Content</td><td>Rich Text (HTML)</td><td>协议正文，支持标题/段落/列表/加粗</td></tr>
+<tr><td>Last Updated Date</td><td>date</td><td>底部显示更新日期</td></tr>
+<tr><td>Status</td><td>toggle</td><td>启用/禁用。禁用时"User Agreement"文字不可点击</td></tr>
 </table>
 </div>
 
