@@ -1,281 +1,341 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>游戏大厅 V1 精简版（对标 1goplus）</title>
+  <title>游戏大厅 V1 简化版（对标 1goplus）</title>
   <style>
     :root {
-      --bg: #f5f6fa;
-      --card: #ffffff;
-      --text: #1f2937;
-      --muted: #6b7280;
+      --bg: #f6f7fb;
+      --card: #fff;
       --line: #e5e7eb;
-      --brand: #1d4ed8;
+      --text: #111827;
+      --sub: #6b7280;
       --ok: #065f46;
       --ok-bg: #ecfdf5;
-      --warn: #92400e;
-      --warn-bg: #fffbeb;
-      --danger: #991b1b;
-      --danger-bg: #fef2f2;
+      --bad: #991b1b;
+      --bad-bg: #fef2f2;
     }
-
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
-        "Microsoft YaHei", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
       color: var(--text);
-      background: linear-gradient(160deg, #f8fafc 0%, #eef2ff 100%);
       line-height: 1.6;
     }
-
     .wrap {
-      max-width: 1040px;
+      max-width: 1020px;
       margin: 0 auto;
-      padding: 28px 18px 40px;
+      padding: 22px 14px 32px;
     }
-
-    .hero {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 20px;
-      margin-bottom: 14px;
-    }
-
-    h1 {
-      margin: 0 0 8px;
-      font-size: 28px;
-      line-height: 1.25;
-    }
-
-    h2 {
-      margin: 0 0 10px;
-      font-size: 20px;
-      color: #111827;
-    }
-
-    h3 {
-      margin: 0 0 8px;
-      font-size: 16px;
-      color: #111827;
-    }
-
-    p {
-      margin: 0 0 8px;
-    }
-
-    .meta {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
     .card {
       background: var(--card);
       border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 18px;
-      margin-top: 14px;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
     }
-
-    .tips {
-      border-left: 4px solid var(--brand);
-      background: #eff6ff;
+    h1 { margin: 0 0 8px; font-size: 28px; line-height: 1.3; }
+    h2 { margin: 0 0 8px; font-size: 20px; }
+    h3 { margin: 12px 0 8px; font-size: 17px; }
+    p { margin: 0 0 6px; }
+    .meta { color: var(--sub); font-size: 14px; }
+    .tip {
+      margin-top: 10px;
       padding: 10px 12px;
+      border-left: 4px solid #2563eb;
+      background: #eff6ff;
       border-radius: 8px;
       font-size: 14px;
-      margin-top: 8px;
     }
-
     .tag {
       display: inline-block;
-      margin-left: 8px;
-      padding: 1px 8px;
+      padding: 2px 8px;
       border-radius: 999px;
       font-size: 12px;
-      vertical-align: middle;
-      border: 1px solid var(--line);
-      background: #f9fafb;
+      font-weight: 600;
+      border: 1px solid transparent;
     }
-
-    .tag.ok {
-      color: var(--ok);
-      background: var(--ok-bg);
-      border-color: #a7f3d0;
-    }
-
-    .tag.warn {
-      color: var(--warn);
-      background: var(--warn-bg);
-      border-color: #fde68a;
-    }
-
-    .tag.danger {
-      color: var(--danger);
-      background: var(--danger-bg);
-      border-color: #fecaca;
-    }
-
+    .ok { color: var(--ok); background: var(--ok-bg); border-color: #a7f3d0; }
+    .bad { color: var(--bad); background: var(--bad-bg); border-color: #fecaca; }
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 10px;
       font-size: 14px;
     }
-
-    th,
-    td {
+    th, td {
       border: 1px solid var(--line);
-      padding: 10px;
+      padding: 9px;
       text-align: left;
       vertical-align: top;
     }
-
     th {
       background: #f9fafb;
       font-weight: 700;
     }
-
-    ol,
-    ul {
-      margin: 8px 0 0 18px;
-      padding: 0;
-    }
-
-    .foot {
-      margin-top: 16px;
-      color: var(--muted);
+    pre {
+      margin: 10px 0 0;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fafafa;
+      overflow: auto;
       font-size: 13px;
+      line-height: 1.5;
     }
-
+    a { color: #1d4ed8; text-decoration: none; }
+    a:hover { text-decoration: underline; }
     @media (max-width: 820px) {
-      h1 {
-        font-size: 24px;
-      }
+      h1 { font-size: 24px; }
     }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <section class="hero">
-      <h1>游戏大厅 V1 精简版（对标 1goplus）</h1>
+    <section class="card">
+      <h1>游戏大厅 V1 简化版（对标 1goplus）</h1>
       <p class="meta">更新日期：2026-03-04</p>
-      <p class="meta">来源基线：D:\codex_config\project\frontEnd-latest.html</p>
       <p class="meta">竞品网址：<a href="https://1goplus.com" target="_blank" rel="noopener noreferrer">https://1goplus.com</a></p>
-      <div class="tips">
-        已实现功能要求：视觉、交互、状态反馈与 1goplus 保持 1:1 对齐。
-      </div>
+      <p class="meta">来源基线：D:\codex_config\project\frontEnd-latest.html</p>
+      <div class="tip">总要求：在做模块必须 1:1 还原 1goplus；本文件仅保留范围与最终执行口径，不保留过程性拍板记录。</div>
     </section>
 
     <section class="card">
-      <h2>1. V1 模块范围 <span class="tag ok">共 6 个模块</span></h2>
-      <ol>
-        <li>登录/注册（M1）</li>
-        <li>Home 首页（M2）</li>
-        <li>Daily Check-in 签到（M3）</li>
-        <li>coins 系统（M4）</li>
-        <li>游戏接入（M5）</li>
-        <li>个人中心（M6）</li>
-      </ol>
-    </section>
-
-    <section class="card">
-      <h2>2. 与 1goplus 的差异（V1 精简）</h2>
-      <p>说明：差异主要是 V1 范围裁剪，不代表视觉或交互标准降低。</p>
-
-      <h3>2.1 模块级差异</h3>
+      <h2>1. V1 模块范围（6 个）</h2>
       <table>
         <thead>
           <tr>
             <th>模块</th>
-            <th>与 1goplus 的差异点</th>
-            <th>V1 处理</th>
+            <th>是否做</th>
+            <th>执行口径</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>M1 登录/注册</td>
-            <td>邮箱登录不保留；邀请码不做</td>
-            <td>移除/延后</td>
+            <td><span class="tag ok">做</span></td>
+            <td>Phone+Password / Phone+OTP / Google。OTP 临时 Mock：000000 成功，其他 6 位失败（本期不接短信平台）。</td>
           </tr>
           <tr>
             <td>M2 Home</td>
-            <td>Jackpot 三卡区不做</td>
-            <td>整块隐藏</td>
+            <td><span class="tag ok">做</span></td>
+            <td>语言切换全站；Search 与下拉刷新策略按 1goplus；未开放入口统一 Coming Soon。</td>
           </tr>
           <tr>
-            <td>M3 签到</td>
-            <td>Quest 页面不做</td>
-            <td>仅保留签到弹窗</td>
+            <td>M3 Daily Check-in</td>
+            <td><span class="tag ok">做</span></td>
+            <td>仅保留签到弹窗主链路（Quest 页不做）。</td>
           </tr>
           <tr>
             <td>M4 coins</td>
-            <td>coin 消耗仅保留 Betting</td>
-            <td>其余不做</td>
+            <td><span class="tag ok">做</span></td>
+            <td>回调未到账期间显示原先余额（不提前展示新余额）。</td>
           </tr>
           <tr>
             <td>M5 游戏接入</td>
-            <td>Demo、Recent Play 不做；多分类里仅 Slots 可玩</td>
-            <td>入口可见，点击 Toast 提示</td>
+            <td><span class="tag ok">做</span></td>
+            <td>点击全部展示 Coming Soon；允许多开游戏。</td>
           </tr>
           <tr>
             <td>M6 个人中心</td>
-            <td>Gift Code、帮助中心、通知设置不做</td>
-            <td>仅保留核心项与 Change Password</td>
+            <td><span class="tag ok">做</span></td>
+            <td>仅允许修改昵称；改密后当前设备保留登录并轮换 token，其他设备会话失效并要求重新登录。</td>
           </tr>
         </tbody>
       </table>
-
-      <h3>2.2 全局 V1 不做（V2+）</h3>
-      <ul>
-        <li>Deposit / Withdraw（V2）</li>
-        <li>VIP System（V3）</li>
-        <li>Lucky Spin（V2）</li>
-        <li>Leaderboard（V2）</li>
-        <li>Affiliate（V3）</li>
-        <li>Multi-game Types（V2）</li>
-        <li>Gift Code 兑换（V2）</li>
-        <li>Email Login（V2）</li>
-        <li>Invite Code（V2）</li>
-      </ul>
-
-      <h3>2.3 品牌差异</h3>
-      <ul>
-        <li>品牌文案可使用业务方品牌（如 BDBGAME），不强制显示 1goplus 文案。</li>
-        <li>除品牌文案外，页面结构、视觉层级、交互表现按 1goplus 对齐。</li>
-      </ul>
     </section>
 
     <section class="card">
-      <h2>3. 产品表现硬性要求（必须与 1goplus 一模一样）</h2>
-
-      <h3>3.1 错误反馈基线</h3>
-      <ul>
-        <li>错误反馈优先使用顶部 Toast + 输入框错误态。</li>
-        <li>未开放功能入口统一 Toast：Coming Soon。</li>
-      </ul>
-
-      <h3>3.2 一致性验收标准</h3>
-      <ul>
-        <li>同功能页面的布局、层级、色彩、间距与 1goplus 对齐。</li>
-        <li>关键路径（登录/注册/首页/签到/游戏/个人中心）交互顺序与反馈一致。</li>
-        <li>成功态、失败态、空态、加载态视觉语言一致。</li>
-        <li>若文档与线上冲突，以 1goplus 实际页面行为为准修正。</li>
-      </ul>
+      <h2>2. V1 不做</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>功能项</th>
+            <th>是否做</th>
+            <th>处理方式</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Email Login、Invite Code</td><td><span class="tag bad">不做</span></td><td>V2+</td></tr>
+          <tr><td>Jackpot 卡片区</td><td><span class="tag bad">不做</span></td><td>V1 隐藏</td></tr>
+          <tr><td>Quest 页面</td><td><span class="tag bad">不做</span></td><td>仅保留签到弹窗</td></tr>
+          <tr><td>Demo、Recent Play</td><td><span class="tag bad">不做</span></td><td>入口可见时统一 Coming Soon</td></tr>
+          <tr><td>Gift Code、帮助中心、通知设置</td><td><span class="tag bad">不做</span></td><td>V2+</td></tr>
+          <tr><td>Deposit/Withdraw、Lucky Spin、Leaderboard、Affiliate、Multi-game Types、VIP</td><td><span class="tag bad">不做</span></td><td>V2/V3</td></tr>
+        </tbody>
+      </table>
     </section>
 
     <section class="card">
-      <h2>4. 执行原则</h2>
-      <ul>
-        <li><strong>原则 1：</strong>范围可裁剪，表现不可打折。</li>
-        <li><strong>原则 2：</strong>所有“V1不做”入口要可见，并给明确 Toast 反馈。</li>
-        <li><strong>原则 3：</strong>先完成对标一致，再做业务差异。</li>
-      </ul>
-      <p class="foot">注：本页为评审和对齐用精简版，不替代完整 PRD。</p>
+      <h2>3. AI 执行约束（技术/美术/测试）</h2>
+      <pre>project_mode: "versioned benchmark copy"
+benchmark_url: "https://1goplus.com"
+parity_requirement: "all in-scope behavior must be 1:1"
+doc_type: "simplified"
+
+in_scope_modules:
+  - M1 Login/Register
+  - M2 Home
+  - M3 Daily Check-in
+  - M4 coins
+  - M5 Game Integration
+  - M6 Profile
+
+out_of_scope_items:
+  - Email Login
+  - Invite Code
+  - Jackpot cards section
+  - Quest page
+  - Demo mode
+  - Recent Play
+  - Gift Code
+  - Help Center
+  - Notification Settings
+  - Deposit/Withdraw
+  - Lucky Spin
+  - Leaderboard
+  - Affiliate
+  - Multi-game types
+  - VIP system
+
+execution_requirements:
+  language_scope: "global"
+  search_scope: "game_name + provider_name (match benchmark)"
+  pull_to_refresh:
+    min_interval_seconds: 3
+    per_minute_limit: 10
+    exceed_behavior: "silent_ignore"
+  otp_mock_rule:
+    enabled: true
+    success_code: "000000"
+    success_condition: "exactly 6 zeros"
+    failure_condition: "any other 6-digit number"
+    sms_platform_integration: "not required in this phase"
+    purpose:
+      - "unblock engineering before SMS provider integration"
+      - "allow QA full auth-path testing with deterministic OTP behavior"
+  checkin_reset_timezone: "UTC+5:30 00:00 (India), configurable per site"
+  checkin_missed_day_rule: "no catch-up; miss day resets to Day1 on next claim"
+  balance_pending_behavior: "show_last_known_balance"
+  game_entry_behavior: "all game entries show Coming Soon"
+  multi_game_opening: "allowed"
+  profile_editable_fields:
+    - nickname
+  password_change_session_policy:
+    current_device: "keep login + rotate token"
+    other_devices: "invalidate sessions + force re-login"
+
+global_rules:
+  - "Do not add features outside this document."
+  - "If out-of-scope entry is visible in flow, keep it visible."
+  - "Clicking blocked entry must show Toast: Coming Soon."
+  - "If benchmark behavior conflicts with old docs, benchmark wins."
+
+deliverables:
+  engineering:
+    - "Implement only in-scope modules and execution requirements."
+    - "Output module-by-module change list."
+    - "Attach before/after benchmark mapping screenshots."
+  art:
+    - "Output only in-scope pages/states."
+    - "No style innovation beyond benchmark parity."
+  qa:
+    - "Pass/fail checklist per module."
+    - "Verify OTP mock: 000000 pass; other 6-digit fail."
+    - "Verify all blocked entries return Coming Soon."
+    - "Verify parity on key flows M1-M6."
+
+definition_of_done:
+  - "All in-scope items complete."
+  - "All blocked items correctly handled."
+  - "No scope creep."
+  - "PM review pass."</pre>
+      <div class="tip"><strong>说明：</strong>以下模块仅给策划自己看，其他人（包括 AI）不需要阅读。技术/美术/测试执行时只以上方原始 AI 执行约束为准。</div>
+      <h3>3.1 AI 执行约束翻译（仅策划阅读）</h3>
+      <pre>project_mode: "按版本做竞品对标复制"
+benchmark_url: "竞品网址 https://1goplus.com"
+parity_requirement: "所有在做范围内功能必须 1:1 对齐"
+doc_type: "简化版文档"
+
+in_scope_modules:
+  - M1 登录/注册
+  - M2 Home
+  - M3 Daily Check-in
+  - M4 coins
+  - M5 游戏接入
+  - M6 个人中心
+
+out_of_scope_items:
+  - 邮箱登录
+  - 邀请码
+  - Jackpot 卡片区
+  - Quest 页面
+  - Demo 模式
+  - Recent Play
+  - Gift Code
+  - 帮助中心
+  - 通知设置
+  - 充值/提现
+  - Lucky Spin
+  - Leaderboard
+  - Affiliate
+  - 多游戏类型
+  - VIP 系统
+
+execution_requirements:
+  language_scope: "全站"
+  search_scope: "游戏名 + 厂商名（与竞品一致）"
+  pull_to_refresh:
+    min_interval_seconds: 3
+    per_minute_limit: 10
+    exceed_behavior: "超限静默忽略"
+  otp_mock_rule:
+    enabled: true
+    success_code: "000000"
+    success_condition: "必须是 6 个 0"
+    failure_condition: "任意其他 6 位数字均失败"
+    sms_platform_integration: "本期不要求接短信平台"
+    purpose:
+      - "短信平台接入前先打通研发流程"
+      - "让 QA 可用固定 OTP 规则完整测试登录链路"
+  checkin_reset_timezone: "UTC+5:30 00:00（India），并保留站点可配置"
+  checkin_missed_day_rule: "不支持补签；漏签后下次从 Day1 重新开始"
+  balance_pending_behavior: "回调未到账时显示原先余额"
+  game_entry_behavior: "所有入口点击后统一 Coming Soon"
+  multi_game_opening: "允许多开游戏"
+  profile_editable_fields:
+    - 昵称
+  password_change_session_policy:
+    current_device: "当前设备保持登录并轮换 token"
+    other_devices: "其他设备会话失效并要求重新登录"
+
+global_rules:
+  - "不要新增本文档范围外功能"
+  - "范围外入口如在流程中可见，则保持可见"
+  - "点击受限入口必须 Toast 提示 Coming Soon"
+  - "若旧文档与竞品冲突，以竞品为准"
+
+deliverables:
+  engineering:
+    - "只实现范围内模块与执行口径"
+    - "输出按模块的改动清单"
+    - "附竞品映射前后对照截图"
+  art:
+    - "只输出范围内页面与状态"
+    - "不做超出竞品一致性的风格创新"
+  qa:
+    - "按模块输出通过/失败清单"
+    - "校验 OTP Mock：000000 成功，其他 6 位失败"
+    - "校验所有受限入口点击后返回 Coming Soon"
+    - "校验 M1-M6 关键链路与竞品一致"
+
+definition_of_done:
+  - "范围内项全部完成"
+  - "范围外项处理正确"
+  - "无范围蔓延"
+  - "PM 评审通过"</pre>
     </section>
   </div>
 </body>
