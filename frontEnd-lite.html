@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>游戏大厅 V1 简化版（对标 1goplus）</title>
+  <title>游戏大厅 V1 最终版（对标 1goplus）</title>
   <style>
     :root {
       --bg: #f6f7fb;
@@ -15,6 +15,10 @@
       --ok-bg: #ecfdf5;
       --bad: #991b1b;
       --bad-bg: #fef2f2;
+      --warn-bg: #fffbeb;
+      --warn: #92400e;
+      --tip-bg: #eff6ff;
+      --tip: #1d4ed8;
     }
     * { box-sizing: border-box; }
     body {
@@ -25,7 +29,7 @@
       line-height: 1.6;
     }
     .wrap {
-      max-width: 1020px;
+      max-width: 1120px;
       margin: 0 auto;
       padding: 22px 14px 32px;
     }
@@ -44,8 +48,16 @@
     .tip {
       margin-top: 10px;
       padding: 10px 12px;
-      border-left: 4px solid #2563eb;
-      background: #eff6ff;
+      border-left: 4px solid var(--tip);
+      background: var(--tip-bg);
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .warn {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-left: 4px solid var(--warn);
+      background: var(--warn-bg);
       border-radius: 8px;
       font-size: 14px;
     }
@@ -85,6 +97,7 @@
       font-size: 13px;
       line-height: 1.5;
     }
+    code { font-family: Consolas, "Courier New", monospace; }
     a { color: #1d4ed8; text-decoration: none; }
     a:hover { text-decoration: underline; }
     @media (max-width: 820px) {
@@ -95,11 +108,13 @@
 <body>
   <div class="wrap">
     <section class="card">
-      <h1>游戏大厅 V1 简化版（对标 1goplus）</h1>
+      <h1>游戏大厅 V1 最终版（对标 1goplus）</h1>
       <p class="meta">更新日期：2026-03-04</p>
       <p class="meta">竞品网址：<a href="https://1goplus.com" target="_blank" rel="noopener noreferrer">https://1goplus.com</a></p>
       <p class="meta">来源基线：D:\codex_config\project\frontEnd-latest.html</p>
-      <div class="tip">总要求：在做模块必须 1:1 还原 1goplus；本文件仅保留范围与最终执行口径，不保留过程性拍板记录。</div>
+      <p class="meta">本版用途：给技术 / 美术 / 测试及其 AI 执行</p>
+      <div class="tip">总要求：在做模块必须 1:1 还原 1goplus。本文档仅保留可执行口径与验收，不保留过程性拍板记录。</div>
+      <div class="warn">说明：若本文档与 1goplus 当前线上表现冲突，以 1goplus 实际行为为准，并同步回写文档。</div>
     </section>
 
     <section class="card">
@@ -108,6 +123,7 @@
         <thead>
           <tr>
             <th>模块</th>
+            <th>主要页面/入口</th>
             <th>是否做</th>
             <th>执行口径</th>
           </tr>
@@ -115,33 +131,39 @@
         <tbody>
           <tr>
             <td>M1 登录/注册</td>
+            <td><code>/SignIn</code> / <code>/SignUp</code></td>
             <td><span class="tag ok">做</span></td>
-            <td>Phone+Password / Phone+OTP / Google。OTP 临时 Mock：000000 成功，其他 6 位失败（本期不接短信平台）。</td>
+            <td>支持 Phone+Password / Phone+OTP / Google；Password 输入提示使用 <code>Password ( 6-16 digits )</code>；切换文案使用 <code>Sign In by OTP</code> / <code>Sign In by Password</code>；OTP 临时 Mock：<code>000000</code> 成功，其他 6 位失败（本期不接短信平台）。</td>
           </tr>
           <tr>
             <td>M2 Home</td>
+            <td><code>/</code>、<code>/mobileAllGame</code></td>
             <td><span class="tag ok">做</span></td>
-            <td>语言切换全站；Search 与下拉刷新策略按 1goplus；未开放入口统一 Coming Soon。</td>
+            <td>语言切换全站；Search 入口保持与竞品一致，输入框提示 <code>Game name | Provider</code>，提示文案 <code>Search requires at least 3 characters</code>；下拉刷新策略按 1goplus；未开放入口统一 Coming Soon。</td>
           </tr>
           <tr>
             <td>M3 Daily Check-in</td>
+            <td>签到弹窗主链路</td>
             <td><span class="tag ok">做</span></td>
-            <td>仅保留签到弹窗主链路（Quest 页不做）。</td>
+            <td>仅保留签到弹窗主链路（Quest 页不做）；结算时区为 <code>UTC+5:30 00:00 (India)</code> 且可配置；漏签后下次从 Day1 重新开始，不支持补签。</td>
           </tr>
           <tr>
             <td>M4 coins</td>
+            <td>余额展示/资金回调相关 UI</td>
             <td><span class="tag ok">做</span></td>
-            <td>回调未到账期间显示原先余额（不提前展示新余额）。</td>
+            <td>回调未到账期间显示原先余额（不提前展示新余额）；到账后再刷新余额显示。</td>
           </tr>
           <tr>
             <td>M5 游戏接入</td>
+            <td><code>/MobileIframe</code>、游戏卡入口</td>
             <td><span class="tag ok">做</span></td>
-            <td>点击全部展示 Coming Soon；允许多开游戏。</td>
+            <td>点击未开放入口统一提示 <code>Coming Soon</code>；允许多开游戏；打开逻辑和竞品一致。</td>
           </tr>
           <tr>
             <td>M6 个人中心</td>
+            <td><code>/AccountRight</code></td>
             <td><span class="tag ok">做</span></td>
-            <td>仅允许修改昵称；改密后当前设备保留登录并轮换 token，其他设备会话失效并要求重新登录。</td>
+            <td>仅允许修改昵称（接口 <code>/api/account/md/name</code>）；改密后当前设备保留登录并轮换 token，其他设备会话失效并要求重新登录。</td>
           </tr>
         </tbody>
       </table>
@@ -169,11 +191,93 @@
     </section>
 
     <section class="card">
-      <h2>3. AI 执行约束（技术/美术/测试）</h2>
+      <h2>3. 关键参数与状态口径</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>项</th>
+            <th>执行值</th>
+            <th>说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>搜索输入防抖</td><td><code>400ms</code></td><td>前端存在防抖处理，避免频繁请求。</td></tr>
+          <tr><td>搜索分页大小</td><td><code>20</code></td><td><code>/api/og/game/all/games</code> 使用 <code>pageSize:20</code>。</td></tr>
+          <tr><td>OTP 倒计时</td><td><code>60s</code></td><td>发送 OTP 后倒计时 60 秒。</td></tr>
+          <tr><td>手机号输入长度</td><td><code>10</code></td><td>印度区号场景，提交时拼接 <code>91</code>。</td></tr>
+          <tr><td>密码长度</td><td><code>6-16</code></td><td>输入提示和前端校验一致。</td></tr>
+          <tr><td>Search 范围</td><td>游戏名 + 厂商名</td><td>与竞品搜索表现保持一致。</td></tr>
+          <tr><td>下拉刷新策略</td><td>最小间隔 3s；每分钟上限 10；超限静默忽略</td><td>按已确认口径执行。</td></tr>
+          <tr><td>签到结算时区</td><td><code>UTC+5:30 00:00</code></td><td>默认 India，保留站点可配置。</td></tr>
+          <tr><td>断签规则</td><td>漏签后 Day1 重置</td><td>不支持补签。</td></tr>
+          <tr><td>受限入口反馈</td><td><code>Coming Soon</code></td><td>统一 Toast 文案，不做多套文案。</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>4. 固定文案字典（必须一致）</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>场景</th>
+            <th>文案</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>搜索输入提示</td><td><code>Game name | Provider</code></td></tr>
+          <tr><td>搜索最小字符提示</td><td><code>Search requires at least 3 characters</code></td></tr>
+          <tr><td>搜索历史标题</td><td><code>Search history</code></td></tr>
+          <tr><td>登录切换</td><td><code>Sign In by OTP</code> / <code>Sign In by Password</code></td></tr>
+          <tr><td>密码输入提示</td><td><code>Password ( 6-16 digits )</code></td></tr>
+          <tr><td>登录失败（错密/错号）</td><td><code>Wrong mobile or password</code></td></tr>
+          <tr><td>OTP 错误</td><td><code>Invalid OTP</code></td></tr>
+          <tr><td>OTP 发送失败（未注册）</td><td><code>Mobile number not registered</code></td></tr>
+          <tr><td>网络异常</td><td><code>Network error, please try again</code></td></tr>
+          <tr><td>未开放入口</td><td><code>Coming Soon</code></td></tr>
+          <tr><td>昵称输入提示</td><td><code>Input Nickname (3 - 16 characters)</code></td></tr>
+          <tr><td>昵称修改成功</td><td><code>Change Nickname Success</code></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>5. API 对照（V1 必需）</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>接口</th>
+            <th>Method</th>
+            <th>鉴权</th>
+            <th>用途</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>/api/account/phone/login</code></td><td>POST</td><td>否</td><td>手机号+密码登录</td></tr>
+          <tr><td><code>/api/account/phone/sms/login</code></td><td>POST</td><td>否</td><td>手机号+OTP 登录</td></tr>
+          <tr><td><code>/api/account/sendSMS</code></td><td>POST</td><td>否</td><td>发送 OTP</td></tr>
+          <tr><td><code>/api/account/info</code></td><td>POST</td><td>是</td><td>账户信息与余额</td></tr>
+          <tr><td><code>/api/account/md/name</code></td><td>POST</td><td>是</td><td>修改昵称</td></tr>
+          <tr><td><code>/api/get/game/list</code></td><td>POST</td><td>否</td><td>首页游戏列表</td></tr>
+          <tr><td><code>/api/og/game/all/games</code></td><td>POST</td><td>否</td><td>All Games + Search</td></tr>
+          <tr><td><code>/api/home/res/load/home/group/config</code></td><td>POST</td><td>否</td><td>Home 分组配置</td></tr>
+          <tr><td><code>/api/home/res/load/home/banners</code></td><td>POST</td><td>否</td><td>Home Banner</td></tr>
+          <tr><td><code>/api/home/res/latest</code></td><td>GET</td><td>否</td><td>首页滚动数据/最新战绩</td></tr>
+          <tr><td><code>/api/load/sign/up/activity</code></td><td>POST</td><td>是</td><td>签到活动信息</td></tr>
+          <tr><td><code>/api/get/fsd</code></td><td>POST</td><td>是</td><td>7 Day Gifts 状态</td></tr>
+          <tr><td><code>/api/quest/free/info</code></td><td>GET</td><td>是</td><td>Quest 数据（V1 仅用于对照，不做页面）</td></tr>
+          <tr><td><code>/api/account/logout</code></td><td>POST</td><td>是</td><td>退出登录</td></tr>
+        </tbody>
+      </table>
+      <div class="tip">鉴权口径：登录成功后使用返回 <code>acv</code> 作为请求头 <code>Token</code>。</div>
+    </section>
+
+    <section class="card">
+      <h2>6. AI 执行约束（技术/美术/测试）</h2>
       <pre>project_mode: "versioned benchmark copy"
 benchmark_url: "https://1goplus.com"
-parity_requirement: "all in-scope behavior must be 1:1"
-doc_type: "simplified"
+parity_requirement: "strict_1_to_1_for_in_scope"
+doc_type: "execution_enhanced"
 
 in_scope_modules:
   - M1 Login/Register
@@ -202,7 +306,11 @@ out_of_scope_items:
 
 execution_requirements:
   language_scope: "global"
-  search_scope: "game_name + provider_name (match benchmark)"
+  search_scope: "game_name + provider_name"
+  search:
+    debounce_ms: 400
+    page_size: 20
+    min_char_hint_text: "Search requires at least 3 characters"
   pull_to_refresh:
     min_interval_seconds: 3
     per_minute_limit: 10
@@ -219,13 +327,28 @@ execution_requirements:
   checkin_reset_timezone: "UTC+5:30 00:00 (India), configurable per site"
   checkin_missed_day_rule: "no catch-up; miss day resets to Day1 on next claim"
   balance_pending_behavior: "show_last_known_balance"
-  game_entry_behavior: "all game entries show Coming Soon"
+  game_entry_behavior: "all blocked entries show Coming Soon"
   multi_game_opening: "allowed"
   profile_editable_fields:
     - nickname
   password_change_session_policy:
     current_device: "keep login + rotate token"
     other_devices: "invalidate sessions + force re-login"
+
+fixed_copy:
+  - "Game name | Provider"
+  - "Search requires at least 3 characters"
+  - "Search history"
+  - "Sign In by OTP"
+  - "Sign In by Password"
+  - "Password ( 6-16 digits )"
+  - "Wrong mobile or password"
+  - "Invalid OTP"
+  - "Mobile number not registered"
+  - "Network error, please try again"
+  - "Coming Soon"
+  - "Input Nickname (3 - 16 characters)"
+  - "Change Nickname Success"
 
 global_rules:
   - "Do not add features outside this document."
@@ -237,7 +360,7 @@ deliverables:
   engineering:
     - "Implement only in-scope modules and execution requirements."
     - "Output module-by-module change list."
-    - "Attach before/after benchmark mapping screenshots."
+    - "Attach benchmark mapping screenshots per module."
   art:
     - "Output only in-scope pages/states."
     - "No style innovation beyond benchmark parity."
@@ -250,93 +373,188 @@ deliverables:
 definition_of_done:
   - "All in-scope items complete."
   - "All blocked items correctly handled."
+  - "Fixed copy and fixed params fully aligned."
   - "No scope creep."
   - "PM review pass."</pre>
+
       <div class="tip"><strong>说明：</strong>以下模块仅给策划自己看，其他人（包括 AI）不需要阅读。技术/美术/测试执行时只以上方原始 AI 执行约束为准。</div>
-      <h3>3.1 AI 执行约束翻译（仅策划阅读）</h3>
+      <h3>6.1 AI 执行约束翻译（仅策划阅读）</h3>
       <pre>project_mode: "按版本做竞品对标复制"
-benchmark_url: "竞品网址 https://1goplus.com"
-parity_requirement: "所有在做范围内功能必须 1:1 对齐"
-doc_type: "简化版文档"
-
-in_scope_modules:
-  - M1 登录/注册
-  - M2 Home
-  - M3 Daily Check-in
-  - M4 coins
-  - M5 游戏接入
-  - M6 个人中心
-
-out_of_scope_items:
-  - 邮箱登录
-  - 邀请码
-  - Jackpot 卡片区
-  - Quest 页面
-  - Demo 模式
-  - Recent Play
-  - Gift Code
-  - 帮助中心
-  - 通知设置
-  - 充值/提现
-  - Lucky Spin
-  - Leaderboard
-  - Affiliate
-  - 多游戏类型
-  - VIP 系统
+parity_requirement: "范围内功能严格 1:1"
 
 execution_requirements:
-  language_scope: "全站"
-  search_scope: "游戏名 + 厂商名（与竞品一致）"
-  pull_to_refresh:
-    min_interval_seconds: 3
-    per_minute_limit: 10
-    exceed_behavior: "超限静默忽略"
+  search:
+    debounce_ms: 400
+    page_size: 20
   otp_mock_rule:
-    enabled: true
-    success_code: "000000"
-    success_condition: "必须是 6 个 0"
-    failure_condition: "任意其他 6 位数字均失败"
-    sms_platform_integration: "本期不要求接短信平台"
-    purpose:
-      - "短信平台接入前先打通研发流程"
-      - "让 QA 可用固定 OTP 规则完整测试登录链路"
-  checkin_reset_timezone: "UTC+5:30 00:00（India），并保留站点可配置"
-  checkin_missed_day_rule: "不支持补签；漏签后下次从 Day1 重新开始"
-  balance_pending_behavior: "回调未到账时显示原先余额"
-  game_entry_behavior: "所有入口点击后统一 Coming Soon"
-  multi_game_opening: "允许多开游戏"
-  profile_editable_fields:
-    - 昵称
+    000000: "成功"
+    others_6_digits: "失败"
+  checkin_reset_timezone: "UTC+5:30 00:00（India）"
+  checkin_missed_day_rule: "漏签后 Day1 重置"
+  balance_pending_behavior: "回调未到账显示原余额"
+  game_entry_behavior: "受限入口统一 Coming Soon"
+  profile_editable_fields: ["昵称"]
   password_change_session_policy:
-    current_device: "当前设备保持登录并轮换 token"
-    other_devices: "其他设备会话失效并要求重新登录"
-
-global_rules:
-  - "不要新增本文档范围外功能"
-  - "范围外入口如在流程中可见，则保持可见"
-  - "点击受限入口必须 Toast 提示 Coming Soon"
-  - "若旧文档与竞品冲突，以竞品为准"
+    current_device: "保留登录并轮换 token"
+    other_devices: "会话失效并重新登录"
 
 deliverables:
-  engineering:
-    - "只实现范围内模块与执行口径"
-    - "输出按模块的改动清单"
-    - "附竞品映射前后对照截图"
-  art:
-    - "只输出范围内页面与状态"
-    - "不做超出竞品一致性的风格创新"
-  qa:
-    - "按模块输出通过/失败清单"
-    - "校验 OTP Mock：000000 成功，其他 6 位失败"
-    - "校验所有受限入口点击后返回 Coming Soon"
-    - "校验 M1-M6 关键链路与竞品一致"
+  engineering: "按模块改动清单 + 对标截图"
+  art: "只交付范围内页面状态"
+  qa: "按模块 Pass/Fail 与关键链路一致性"
 
-definition_of_done:
-  - "范围内项全部完成"
-  - "范围外项处理正确"
-  - "无范围蔓延"
-  - "PM 评审通过"</pre>
+definition_of_done: "范围完整、文案一致、参数一致、无范围蔓延"</pre>
+    </section>
+
+    <section class="card">
+      <h2>7. 验收清单（QA 直接执行）</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>编号</th>
+            <th>检查点</th>
+            <th>通过标准</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Q1</td><td>登录错误文案一致</td><td>错密与错号均返回 <code>Wrong mobile or password</code></td></tr>
+          <tr><td>Q2</td><td>OTP Mock 生效</td><td><code>000000</code> 成功；其他 6 位失败</td></tr>
+          <tr><td>Q3</td><td>Search 交互一致</td><td>显示 <code>Game name | Provider</code>、<code>Search history</code>、最小字符提示文案一致</td></tr>
+          <tr><td>Q4</td><td>Search 分页一致</td><td>滚动加载每页 20 条，行为与竞品一致</td></tr>
+          <tr><td>Q5</td><td>签到规则一致</td><td>按 <code>UTC+5:30</code> 结算；漏签重置 Day1</td></tr>
+          <tr><td>Q6</td><td>余额回调展示一致</td><td>回调未到账显示旧余额，不提前跳新值</td></tr>
+          <tr><td>Q7</td><td>受限入口反馈一致</td><td>所有受限入口点击后 Toast 为 <code>Coming Soon</code></td></tr>
+          <tr><td>Q8</td><td>资料编辑范围一致</td><td>仅昵称可编辑，其他字段只读</td></tr>
+          <tr><td>Q9</td><td>改密会话策略一致</td><td>当前设备保留登录，其他设备失效</td></tr>
+          <tr><td>Q10</td><td>M1-M6 主链路一致</td><td>关键链路截图比对通过（结构/顺序/反馈一致）</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>8. 逐页面逐状态用例（给执行 AI）</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>用例ID</th>
+            <th>模块</th>
+            <th>页面/入口</th>
+            <th>前置条件</th>
+            <th>操作</th>
+            <th>预期结果</th>
+            <th>证据输出</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>C01</td><td>M1</td><td><code>/SignIn</code></td><td>未登录</td><td>输入正确手机号+密码登录</td><td>登录成功并返回上一页；会话写入成功</td><td>登录前后页面截图 + 响应状态</td></tr>
+          <tr><td>C02</td><td>M1</td><td><code>/SignIn</code></td><td>未登录</td><td>正确手机号 + 错误密码登录</td><td>Toast 为 <code>Wrong mobile or password</code></td><td>错误 Toast 截图</td></tr>
+          <tr><td>C03</td><td>M1</td><td><code>/SignIn</code></td><td>未登录</td><td>错误手机号 + 任意密码登录</td><td>Toast 为 <code>Wrong mobile or password</code>（与 C02 一致）</td><td>两场景文案对比截图</td></tr>
+          <tr><td>C04</td><td>M1</td><td><code>/SignIn</code> OTP 模式</td><td>未登录</td><td>点击 <code>Send OTP</code></td><td>成功后倒计时 60s；按钮禁用直至倒计时结束</td><td>0s/30s/60s 三帧截图</td></tr>
+          <tr><td>C05</td><td>M1</td><td><code>/SignIn</code> OTP 模式</td><td>OTP Mock 开启</td><td>输入 <code>000000</code> 并登录</td><td>登录成功</td><td>成功路径截图</td></tr>
+          <tr><td>C06</td><td>M1</td><td><code>/SignIn</code> OTP 模式</td><td>OTP Mock 开启</td><td>输入任意其他 6 位并登录</td><td>Toast 为 <code>Invalid OTP</code></td><td>失败 Toast 截图</td></tr>
+          <tr><td>C07</td><td>M1</td><td><code>/SignIn</code></td><td>未登录</td><td>切换登录方式</td><td>按钮文本在 <code>Sign In by OTP</code> 与 <code>Sign In by Password</code> 间切换</td><td>切换前后截图</td></tr>
+          <tr><td>C08</td><td>M2</td><td>Home 搜索入口</td><td>已进入 Home</td><td>打开搜索</td><td>输入框占位为 <code>Game name | Provider</code>；显示 <code>Search history</code> 区域</td><td>搜索弹层截图</td></tr>
+          <tr><td>C09</td><td>M2</td><td>Home 搜索弹层</td><td>搜索框为空</td><td>输入 1-2 字符</td><td>出现提示 <code>Search requires at least 3 characters</code></td><td>提示截图</td></tr>
+          <tr><td>C10</td><td>M2</td><td><code>/mobileAllGame</code></td><td>有网络</td><td>输入关键词并滚动列表</td><td>结果可分页加载；每页 20 条</td><td>首屏与滚动后截图 + 条数记录</td></tr>
+          <tr><td>C11</td><td>M2</td><td>Home 各受限入口</td><td>受限入口可见</td><td>点击受限入口</td><td>统一 Toast <code>Coming Soon</code></td><td>每类入口至少 1 张截图</td></tr>
+          <tr><td>C12</td><td>M2</td><td>Home 下拉刷新</td><td>Home 已加载</td><td>连续快速下拉刷新</td><td>满足 3s 间隔与每分钟 10 次上限，超限静默忽略</td><td>刷新触发记录截图</td></tr>
+          <tr><td>C13</td><td>M3</td><td>签到弹窗</td><td>已登录</td><td>打开签到主链路</td><td>仅签到弹窗链路可见，不进入 Quest 页面</td><td>签到弹窗截图</td></tr>
+          <tr><td>C14</td><td>M3</td><td>签到弹窗</td><td>已登录且可签到</td><td>连续按天签到（模拟）</td><td>Day 按顺序推进；无补签入口</td><td>Day1/Day2/Day3 截图</td></tr>
+          <tr><td>C15</td><td>M3</td><td>签到弹窗</td><td>存在漏签（模拟）</td><td>跨日后再次签到</td><td>从 Day1 重新开始</td><td>漏签前后对比截图</td></tr>
+          <tr><td>C16</td><td>M3</td><td>签到结算边界</td><td>可调时间环境</td><td>在 UTC+5:30 00:00 前后各签到一次</td><td>按 India 时区切天</td><td>边界时间戳截图</td></tr>
+          <tr><td>C17</td><td>M4</td><td>余额展示</td><td>发起资金回调</td><td>回调处理中观察余额</td><td>显示旧余额，不提前跳新值</td><td>回调中页面截图</td></tr>
+          <tr><td>C18</td><td>M4</td><td>余额展示</td><td>回调成功</td><td>刷新账户信息</td><td>余额更新为新值</td><td>更新前后截图</td></tr>
+          <tr><td>C19</td><td>M5</td><td>游戏卡入口</td><td>已登录</td><td>点击可进入游戏卡</td><td>可正常打开游戏页</td><td>打开成功截图</td></tr>
+          <tr><td>C20</td><td>M5</td><td>游戏卡入口</td><td>已打开 1 个游戏</td><td>再打开第 2 个游戏</td><td>允许多开</td><td>多窗口/多标签截图</td></tr>
+          <tr><td>C21</td><td>M5</td><td>受限游戏入口</td><td>入口可见</td><td>点击受限入口</td><td>Toast 为 <code>Coming Soon</code></td><td>Toast 截图</td></tr>
+          <tr><td>C22</td><td>M6</td><td><code>/AccountRight</code></td><td>已登录</td><td>检查可编辑项</td><td>仅昵称可编辑，其他字段只读</td><td>字段状态截图</td></tr>
+          <tr><td>C23</td><td>M6</td><td>昵称编辑</td><td>已登录</td><td>输入 3-16 位昵称并提交</td><td>成功文案 <code>Change Nickname Success</code></td><td>提交前后截图</td></tr>
+          <tr><td>C24</td><td>M6</td><td>改密会话策略</td><td>双设备登录（A/B）</td><td>A 改密后检查 B</td><td>A 保持登录并轮换 token；B 失效并需重登</td><td>A/B 设备结果截图</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>9. 角色任务单（可直接分配）</h2>
+
+      <h3>9.1 技术任务单</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>任务ID</th>
+            <th>模块</th>
+            <th>实现项</th>
+            <th>关键口径</th>
+            <th>完成标准</th>
+            <th>关联用例</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>DEV-01</td><td>M1</td><td>手机号+密码登录</td><td>调用 <code>/api/account/phone/login</code>；错误文案固定 <code>Wrong mobile or password</code></td><td>成功写入会话；失败文案一致</td><td>C01 C02 C03</td></tr>
+          <tr><td>DEV-02</td><td>M1</td><td>OTP 登录链路</td><td><code>Send OTP</code> 60s 倒计时；调用 <code>/api/account/phone/sms/login</code></td><td>OTP 成功/失败分支正确</td><td>C04 C05 C06</td></tr>
+          <tr><td>DEV-03</td><td>M1</td><td>OTP Mock 开关</td><td><code>000000</code> 成功，其他 6 位失败</td><td>开关可控且不影响后续真短信接入</td><td>C05 C06</td></tr>
+          <tr><td>DEV-04</td><td>M2</td><td>Search 与列表加载</td><td>搜索防抖 400ms；分页 20；关键文案固定</td><td>搜索/分页行为与竞品一致</td><td>C08 C09 C10</td></tr>
+          <tr><td>DEV-05</td><td>M2</td><td>受限入口处理</td><td>范围外入口点击统一 <code>Coming Soon</code> Toast</td><td>全入口统一行为</td><td>C11</td></tr>
+          <tr><td>DEV-06</td><td>M2</td><td>下拉刷新节流</td><td>最小 3s；每分钟上限 10；超限静默</td><td>高频操作不破 UI、不重复请求</td><td>C12</td></tr>
+          <tr><td>DEV-07</td><td>M3</td><td>签到主链路</td><td>仅保留签到弹窗；不做 Quest 页</td><td>入口和链路符合范围</td><td>C13</td></tr>
+          <tr><td>DEV-08</td><td>M3</td><td>签到结算规则</td><td><code>UTC+5:30 00:00</code>；漏签 Day1 重置</td><td>时区与断签规则可验证</td><td>C14 C15 C16</td></tr>
+          <tr><td>DEV-09</td><td>M4</td><td>余额展示策略</td><td>回调未到账显示旧余额；到账后刷新新值</td><td>无提前跳值</td><td>C17 C18</td></tr>
+          <tr><td>DEV-10</td><td>M5</td><td>游戏打开策略</td><td>支持多开；受限入口 Coming Soon</td><td>打开行为与竞品一致</td><td>C19 C20 C21</td></tr>
+          <tr><td>DEV-11</td><td>M6</td><td>资料编辑范围</td><td>仅昵称可编辑；调用 <code>/api/account/md/name</code></td><td>字段权限与文案一致</td><td>C22 C23</td></tr>
+          <tr><td>DEV-12</td><td>M6</td><td>改密会话策略</td><td>当前设备保留登录并轮换 token；其他设备失效</td><td>双设备验证通过</td><td>C24</td></tr>
+        </tbody>
+      </table>
+
+      <h3>9.2 美术任务单</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>任务ID</th>
+            <th>页面/状态</th>
+            <th>产出内容</th>
+            <th>对齐标准</th>
+            <th>关联用例</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>ART-01</td><td><code>/SignIn</code> 默认态</td><td>登录页布局、输入框、切换按钮</td><td>与竞品结构与层级一致</td><td>C01 C07</td></tr>
+          <tr><td>ART-02</td><td><code>/SignIn</code> 错误态</td><td>错密/错号/OTP 错误视觉反馈</td><td>错误提示位置与样式一致</td><td>C02 C03 C06</td></tr>
+          <tr><td>ART-03</td><td><code>/SignIn</code> OTP 倒计时态</td><td><code>Send OTP</code> 倒计时按钮态</td><td>60s 倒计时视觉一致</td><td>C04</td></tr>
+          <tr><td>ART-04</td><td>Home Search 弹层</td><td>输入框、历史区、最小字符提示</td><td><code>Game name | Provider</code> 与提示文案可见</td><td>C08 C09</td></tr>
+          <tr><td>ART-05</td><td>Home 受限入口反馈</td><td>Coming Soon Toast</td><td>文案与出现位置一致</td><td>C11</td></tr>
+          <tr><td>ART-06</td><td>签到弹窗主链路</td><td>Day 进度与领奖状态视觉</td><td>仅保留签到弹窗，不扩展 Quest 页</td><td>C13 C14 C15</td></tr>
+          <tr><td>ART-07</td><td>余额展示状态</td><td>回调中/到账后两种状态视觉</td><td>旧值保持与刷新后新值一致</td><td>C17 C18</td></tr>
+          <tr><td>ART-08</td><td>个人中心编辑态</td><td>昵称可编辑，其他字段只读视觉</td><td>可编辑权限表达明确</td><td>C22 C23</td></tr>
+        </tbody>
+      </table>
+
+      <h3>9.3 测试任务单</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>任务ID</th>
+            <th>测试范围</th>
+            <th>核心检查</th>
+            <th>通过标准</th>
+            <th>关联用例</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>QA-01</td><td>登录成功失败</td><td>成功登录与错误文案一致性</td><td>错密/错号同文案</td><td>C01 C02 C03</td></tr>
+          <tr><td>QA-02</td><td>OTP 链路</td><td>发送倒计时、Mock 成败分支</td><td><code>000000</code> 成功，其余失败</td><td>C04 C05 C06</td></tr>
+          <tr><td>QA-03</td><td>登录方式切换</td><td>OTP/Password 切换文案</td><td>切换文本与竞品一致</td><td>C07</td></tr>
+          <tr><td>QA-04</td><td>Search 交互</td><td>占位、历史、最小字符提示</td><td>三项文案全部一致</td><td>C08 C09</td></tr>
+          <tr><td>QA-05</td><td>Search 列表</td><td>分页与滚动加载</td><td>每页 20 条，滚动稳定</td><td>C10</td></tr>
+          <tr><td>QA-06</td><td>受限入口</td><td>Coming Soon 统一性</td><td>任意受限入口都一致</td><td>C11 C21</td></tr>
+          <tr><td>QA-07</td><td>刷新策略</td><td>高频下拉触发控制</td><td>满足 3s/10次策略</td><td>C12</td></tr>
+          <tr><td>QA-08</td><td>签到规则</td><td>日推进、漏签重置、时区边界</td><td>Day 与时区规则正确</td><td>C13 C14 C15 C16</td></tr>
+          <tr><td>QA-09</td><td>余额展示</td><td>回调中旧值与到账后新值</td><td>不提前跳值</td><td>C17 C18</td></tr>
+          <tr><td>QA-10</td><td>个人中心</td><td>昵称编辑权限与成功文案</td><td>仅昵称可改</td><td>C22 C23</td></tr>
+          <tr><td>QA-11</td><td>会话策略</td><td>改密后多设备会话状态</td><td>A 保持，B 失效</td><td>C24</td></tr>
+        </tbody>
+      </table>
     </section>
   </div>
 </body>
 </html>
+
